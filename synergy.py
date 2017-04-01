@@ -48,8 +48,37 @@ discovery = DiscoveryV1(
 )
 
 environments = discovery.get_environments()
-print(json.dumps(environments, indent=2))
+# print(json.dumps(environments, indent=2))
+
+news_environments = [x for x in environments['environments'] if
+                     x['name'] == 'byod']
+news_environment_id = news_environments[0]['environment_id']
+# print(json.dumps(news_environment_id, indent=2))
 
 collections = discovery.list_collections(news_environment_id)
-# news_collections = [x for x in collections['collections']]
-print(json.dumps(collections, indent=2))
+news_collections = [x for x in collections['collections']]
+# print(json.dumps(collections, indent=2))
+
+configurations = discovery.list_configurations(
+    environment_id=news_environment_id)
+# print(json.dumps(configurations, indent=2))
+
+default_config_id = discovery.get_default_configuration_id(
+    environment_id=news_environment_id)
+# print(json.dumps(default_config_id, indent=2))
+
+default_config = discovery.get_configuration(
+    environment_id=news_environment_id, configuration_id=default_config_id)
+# print(json.dumps(default_config, indent=2))
+
+query_options = {}
+query_results = discovery.query(news_environment_id,
+                                news_collections[1]['collection_id'],
+                                query_options)
+print(json.dumps(query_results, indent=2))
+
+# with open(os.path.join(os.getcwd(),'..','resources','simple.html')) as fileinfo:
+#     res = discovery.add_document(environment_id=writable_environment_id,
+#                                 collection_id=collections['collections'][0]['collection_id'],
+#                                 fileinfo=fileinfo)
+#    print(res)
