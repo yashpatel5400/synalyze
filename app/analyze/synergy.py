@@ -199,19 +199,19 @@ def analyze():
 		except:
 			break
 
-	print "Transcribing Audio..."
+	print("Transcribing Audio...")
 	text_array = transcribe(audio_array)
 
-	print "Analysing Tone..."
+	print("Analysing Tone...")
 	tone_array = analyze_tone(text_array)
 
-	print "Building Personas..."
+	print("Building Personas...")
 	personality_array = personalize(text_array)
 
-	print "Writing to Discovery"
+	print("Writing to Discovery")
 	write_to_discovery(text_array)
 
-	print "Performing Cognitive Search"
+	print("Performing Cognitive Search")
 	entities = cognitive_search({'aggregation':'term(enriched_text.entities.text%2Ccount%3A5)'})
 	concepts = cognitive_search({'aggregation':'term(enriched_text.concepts.text%2Ccount%3A5)'})
 
@@ -224,7 +224,7 @@ def analyze():
 
 	parties = find_parties()
 
-	print "Writing Results..."
+	print("Writing Results...")
 
 	data = {}
 	data['transcript'] = text_array
