@@ -5,11 +5,8 @@ doing organization) for segmentation
 """
 
 # ------------------------------ Directory variables -----------------------------
-INPUT_DIR  = "audio"
-OUTPUT_DIR = "output"
+INPUT_DIR  = "app/segment/audio"
+OUTPUT_DIR = "app/segment/output"
 
 # ------------------------------ Ruby diarizer ---=-----------------------------
-INPUT_FILE   = "input_filename"
-
-# ------------------------------ Ruby diarizer ---=-----------------------------
-DIARIZER  = "diarize.rb"
+DIARIZER  = "app/segment/diarize.rb"

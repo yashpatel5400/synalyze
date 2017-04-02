@@ -158,41 +158,39 @@ def cognitive_search(query_options):
 # 	delete_doc = discovery.delete_document('56eed52e-0538-4e43-92a8-a7223844e431', 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29', doc_id)
 # ------------ Main Script ------------------
 
-audio_array = []
-i = 1
+def analyze():
+        audio_array = []
+        i = 1
 
-while True:
-	audio_filename = './testmeeting/' + str(i) + '.wav'
-	try:
-		a = open(audio_filename, 'r')
-		audio_array.append(a)
-		i += 1
-	except:
-		break
+        while True:
+	        audio_filename = './testmeeting/' + str(i) + '.wav'
+	        try:
+		        a = open(audio_filename, 'r')
+		        audio_array.append(a)
+		        i += 1
+	        except:
+		        break
 
-print "Transcribing Audio..."
-text_array = transcribe(audio_array)
+        print("Transcribing Audio...")
+        text_array = transcribe(audio_array)
 
-print "Analysing Tone..."
-tone_array = analyze_tone(text_array)
+        print("Analysing Tone...")
+        tone_array = analyze_tone(text_array)
 
-print "Building Personas..."
-personality_array = personalize(text_array)
+        print("Building Personas...")
+        personality_array = personalize(text_array)
 
-print "Writing Results..."
-with open('results.txt', 'w') as f:
-	f.write('Transcription Result:\n\n')
-	for text in text_array:
-		f.write(text)
-	f.write('\n\nTone Analysis:\n\n')
-	
-	for tone in tone_array:
-		if tone:
-			f.write(str(tone))
+        print("Writing Results...")
+        with open('results.txt', 'w') as f:
+	        f.write('Transcription Result:\n\n')
+	        for text in text_array:
+		        f.write(text)
+                        
+	        f.write('\n\nTone Analysis:\n\n')	
+	        for tone in tone_array:
+		        if tone:
+			        f.write(str(tone))
 
-	f.write('\n\nPersonality Result:\n\n')
-	
-	for persona in personality_array:
-		f.write(persona)
-
-
+	        f.write('\n\nPersonality Result:\n\n')
+	        for persona in personality_array:
+		        f.write(persona)
