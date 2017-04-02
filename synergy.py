@@ -81,22 +81,32 @@ def personalize(text_array):
 
 	return personality_array
 
+def clear_documents():
+	result = cognitive_search({'return':'id'})
+
+	while result['matching_results']:
+		result = cognitive_search({'return':'id'})
+		print result
+		for doc_id in result['results']:
+			doc_id = doc_id['id']
+			delete_doc = discovery.delete_document('56eed52e-0538-4e43-92a8-a7223844e431', 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29', doc_id)
+			
 def write_to_discovery(text_array):
 	env_id = '56eed52e-0538-4e43-92a8-a7223844e431'
 	col_id = 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29'
+
+	clear_documents()
 
 	for i, text in enumerate(text_array):
 		if text:
 			document = Document()
 			document.add_paragraph(text)
-			fname = 'transcript' + str(i) + '.docx'
+			fname = './transcripts/transcript' + str(i) + '.docx'
 			
 			if os.path.isfile(fname):
 				os.remove(fname)
 
 			document.save(fname)
-			# with open(fname, 'a+') as outfile:
-			# 	json.dump(data, outfile)
 			
 			with open(fname, 'r') as outfile:	
 				add_doc = discovery.add_document(env_id, col_id, file_info=outfile)
@@ -156,9 +166,6 @@ def cognitive_search(query_options):
 # write_to_discovery(text_array)
 # print result
 
-# for doc_id in result['results']:
-# 	doc_id = doc_id['id']
-# 	delete_doc = discovery.delete_document('56eed52e-0538-4e43-92a8-a7223844e431', 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29', doc_id)
 
 # ------------ Main Script ------------------
 
@@ -206,7 +213,7 @@ with open('results.txt', 'w') as f:
 	f.write(json.dumps(personality_array))
 
 	f.write(str(keys) + '\n')
-	
+
 	f.write(str(concepts))
 
 
