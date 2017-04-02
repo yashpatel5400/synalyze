@@ -2,6 +2,7 @@ import requests
 import json
 from watson_developer_cloud import ToneAnalyzerV3, SpeechToTextV1, \
 									PersonalityInsightsV3, DiscoveryV1
+import os
 
 API = {'S2T' : {'KEY':'6e38287f-f949-4389-a5bb-5fff4d30374e', 'PWD':'ZZfb1YQ8k7cl'}, 
 		'TA' : {'KEY':'9453ac25-7842-46de-ab9b-3c117538fdc9', 'PWD':'vrmc1sNpyT4j'},
@@ -75,12 +76,15 @@ def write_to_discovery(text_array):
 	for i, text in enumerate(text_array):
 		data = {}
 		data['transcript'] = text
-		# json_data = json.dumps(data)
+		fname = 'transcript' + str(i) + '.json'
+		
+		if os.path.isfile(fname):
+			os.remove(fname)
 
-		with open('transcript' + str(i) + '.json', 'a+') as outfile:
+		with open(fname, 'a+') as outfile:
 			json.dump(data, outfile)
 		
-		with open('transcript' + str(i) + '.json', 'r') as outfile:	
+		with open(fname, 'r') as outfile:	
 			add_doc = discovery.add_document(env_id, col_id, file_info=outfile)
 	
 	return json.dumps(add_doc, indent=2)
@@ -134,7 +138,7 @@ for line in lines:
 # personality_array = personalize([text])
 
 # print(json.dumps(personality_array[0], indent=2))
-print write_to_discovery(text)
+write_to_discovery([text])
 print cognitive_search({})
 
 # ------------ Main Script ------------------
