@@ -58,6 +58,21 @@
 			<div id="chart"></div>
 
 				<h2>People</h2>
+				<table style="border-collapse: separate;border-spacing: 10px;">
+					<tr>
+						<td>Speaker</td>
+						{{#speakers}}
+						<td>{{.}}</td>
+						{{/speakers}}
+					</tr>
+
+					<tr>
+						<td>Time Spoken</td>
+						{{#durations}}
+						<td>{{.}}</td>
+						{{/durations}}
+					</tr>
+				</table>
 
 				<h2>Transcript</h2>
 				<table style="border-collapse: separate;border-spacing: 10px;">

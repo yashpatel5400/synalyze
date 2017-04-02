@@ -10,6 +10,8 @@ import pystache
 import sys
 import json
 
+import time
+
 def generate_page(filename):
     print("Generating output...")
     templatefile = "{}/template.html".format(s.REPORT_DIR)
@@ -55,18 +57,25 @@ def generate_page(filename):
         total_dur += segment["duration"]
         comb[segment["speaker_id"]] = val
 
+    speakers = []
+    durations = []
     for k in comb:
-        comb[k] /= total_dur
+        speakers.append(k)
+        durations.append(comb[k] / total_dur)
+
+    concepts = [concept["key"] for concept in parsed["concepts"]]
 
     data = {
-        'title': 'Report from Meeting',
-        'topic': 'Daily Meeting About Saddness',
-        'date_str': '2017-04-02',
-        'dur_str': '1:23',
-        'ideas': ["First Idea", "Second Idea", "Third Idea"],
+        'title': 'Meeting Report',
+        'topic': 'The Topic of the Meeting',
+        'date_str': datetime.datetime.today().strftime('%Y-%m-%d'),
+        'dur_str':  time.strftime("%H:%M:%S", time.gmtime(total_dur)),
+        'ideas': concepts,
         'series1_str': series1,
         'series2_str': series2,
         'series3_str': series3,
+        'speakers': speakers,
+        'durations': durations,
     }
 
     report_name  = "report_{}.html".format(filename) 
