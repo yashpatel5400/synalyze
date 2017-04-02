@@ -191,14 +191,13 @@ def find_parties():
 
 # r = find_parties()
 # print json.dumps(r)
-# print find_parties()
+# p = find_parties()
+# with open('parties.json', 'w') as party:
+# 	party.write(json.dumps(p))
 
-# ------------ Main Script ------------------
+# ------------ Main --------------------------------
 def analyze(filename):
         input_dir = "{}/{}".format(s.INPUT_DIR, filename)
-        audio_array = []
-        i = 1
-
         audio_files = os.listdir(input_dir)
         audio_array = [open("{}/{}".format(input_dir, audio_name), 'r')
                 for audio_name in audio_files]

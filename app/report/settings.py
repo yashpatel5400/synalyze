@@ -5,5 +5,6 @@ doing organization) for report interface
 """
 
 # ------------------------------  outputs -----------------------------
-OUTPUT_DIR = "app/templates"
-REPORT_DIR = "app/report"
+OUTPUT_DIR  = "app/templates"
+REPORT_DIR  = "app/report"
+ANALYZE_DIR = "app/analyze"
