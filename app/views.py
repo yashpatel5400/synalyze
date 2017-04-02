@@ -4,7 +4,8 @@ __description__ = Views of pages
 """
 
 from flask import render_template
-from app import app, mic, synergy
+from app import app, mic
+from app.segment.analyze import synergy
 from app.segment.get_speaker import get_speaker
 from app.report.generate_page import generate_page
 
@@ -29,7 +30,7 @@ def index():
         # newpid = os.fork()
         # if newpid == 0:
         get_speaker(filename)        
-        synergy.analyze()
+        synergy.analyze(filename)
         
         report = generate_page(filename.split(".")[0])
         recorder = None

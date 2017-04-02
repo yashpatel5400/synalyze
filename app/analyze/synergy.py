@@ -186,7 +186,7 @@ def find_parties():
 # print find_parties()
 
 # ------------ Main Script ------------------
-def main():
+def analyze():
 	audio_array = []
 	i = 1
 
