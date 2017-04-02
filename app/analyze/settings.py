@@ -9,3 +9,4 @@ import pyaudio
 # ------------------------------  outputs -----------------------------
 INPUT_DIR  = "app/segment/output"
 OUTPUT_DIR = "app/report/results"
+TRANSCRIPT_DIR = "app/analyze/transcripts"

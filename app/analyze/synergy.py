@@ -38,13 +38,13 @@ def transcribe(audio_array):
 
 	for audio_file in audio_array:
 		try:
-		    transcript = speech_to_text.recognize(
-		        audio_file, content_type='audio/wav', timestamps=True,
-		        word_confidence=True, continuous=True)
+	                transcript = speech_to_text.recognize(
+	                        audio_file, content_type='audio/wav', timestamps=True,
+	                        word_confidence=True, continuous=True)
 
-		    results = transcript['results'][0]['alternatives']
-		    transcript = results[0]['transcript']
-		    text_array.append(str(transcript))
+	                results = transcript['results'][0]['alternatives']
+	                transcript = results[0]['transcript']
+	                text_array.append(str(transcript))
 		except:
 			text_array.append('')
 
@@ -105,12 +105,12 @@ def write_to_discovery(text_array):
 	col_id = 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29'
 
 	clear_documents()
-	add_doc = ""
+	add_doc = None
 	for i, text in enumerate(text_array):
 		if text:
 			document = Document()
 			document.add_paragraph(text)
-			fname = './transcripts/transcript' + str(i) + '.docx'
+			fname = '{}/transcript'.format(s.TRANSCRIPT_DIR) + str(i) + '.docx'
 			
 			if os.path.isfile(fname):
 				os.remove(fname)
@@ -118,7 +118,9 @@ def write_to_discovery(text_array):
 			document.save(fname)
 			
 			with open(fname, 'r') as outfile:	
-				add_doc += discovery.add_document(env_id, col_id, file_info=outfile)                                
+				add_doc = discovery.add_document(env_id, col_id, file_info=outfile)
+	if add_doc is None:
+		return json.dumps(None, indent=2)
 	return json.dumps(add_doc, indent=2)
 
 def cognitive_search(query_options):
@@ -199,13 +201,13 @@ def find_parties():
 def analyze(filename):
         input_dir = "{}/{}".format(s.INPUT_DIR, filename)
         audio_files = os.listdir(input_dir)
-        audio_array = [open("{}/{}".format(input_dir, audio_name), 'r')
+        audio_array = [open("{}/{}".format(input_dir, audio_name), 'rb')
                 for audio_name in audio_files]
 
-        print(audio_array)
         print("Transcribing Audio...")
         text_array = transcribe(audio_array)
 
+        print(text_array)        
         print("Analysing Tone...")
         tone_array = analyze_tone(text_array)
 

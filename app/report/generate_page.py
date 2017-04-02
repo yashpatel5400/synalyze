@@ -69,9 +69,9 @@ def generate_page(filename):
         'series3_str': series3,
     }
 
-    final_report = "{}/report_{}.html".format(
-        s.OUTPUT_DIR, filename)
+    report_name  = "report_{}.html".format(filename) 
+    final_report = "{}/{}".format(s.OUTPUT_DIR, report_name)
     with open(final_report, "w") as f:
         f.write(pystache.render(template, data))
 
-    return final_report
+    return report_name
