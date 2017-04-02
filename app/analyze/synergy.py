@@ -116,11 +116,11 @@ def write_to_discovery(text_array):
 				os.remove(fname)
 
 			document.save(fname)
-			
-			with open(fname, 'r') as outfile:	
-				add_doc = discovery.add_document(env_id, col_id, file_info=outfile)
+			with open(fname, 'rb') as outfile:	
+				add_doc = discovery.add_document(env_id, col_id,
+                                        file_info=outfile)
 	if add_doc is None:
-		return json.dumps(None, indent=2)
+		return json.dumps("", indent=2)
 	return json.dumps(add_doc, indent=2)
 
 def cognitive_search(query_options):
@@ -206,14 +206,17 @@ def analyze(filename):
 
         print("Transcribing Audio...")
         text_array = transcribe(audio_array)
-
+        print(text_array)
+        
         print(text_array)        
         print("Analysing Tone...")
         tone_array = analyze_tone(text_array)
-
+        print(tone_array)
+        
         print("Building Personas...")
         personality_array = personalize(text_array)
-
+        print(personality_array)
+        
         print("Writing to Discovery")
         write_to_discovery(text_array)
 

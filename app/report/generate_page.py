@@ -11,6 +11,7 @@ import sys
 import json
 
 import time
+import datetime
 
 def generate_page(filename):
     print("Generating output...")
