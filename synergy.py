@@ -125,11 +125,11 @@ def cognitive_search(query_options):
 
 # a = open('./audio.flac', 'r')
 
-f = open('./notebook.txt', 'r')
-lines = f.readlines()
-text = ''
-for line in lines:
-	text += line
+# f = open('./notebook.txt', 'r')
+# lines = f.readlines()
+# text = ''
+# for line in lines:
+# 	text += line
 
 # audio_array = [a]
 
@@ -138,30 +138,38 @@ for line in lines:
 # personality_array = personalize([text])
 
 # print(json.dumps(personality_array[0], indent=2))
-write_to_discovery([text])
-print cognitive_search({})
+# write_to_discovery([text])
+# print cognitive_search({'return': 'enrichedTitle.text, title'})
 
 # ------------ Main Script ------------------
 
-# audio_array = []
-# i = 0
+audio_array = []
+i = 0
 
-# while True:
-# 	try:
-# 		with open(str(i) + ".json") as f:
-#     		data = f.read()
-#     		audio_filename = data['audio_filename.wav']
+while True:
+	try:
+		with open(str(i) + ".json") as f:
+			data = f.read()
+    		audio_filename = data['audio.wav']
 
-#     		a = open(audio_filename, 'r')
-#     		audio_array.append(a)
-#     		i += 1
+    		a = open(audio_filename, 'r')
+    		audio_array.append(a)
+    		i += 1
+	except:
+		break
 
-#     except:
-#     	break
+a = open('audio.flac', 'r')
+audio_array = [a]
+text_array = transcribe(audio_array)
+tone_array = analyze_tone(text_array)
+personality_array = personalize(text_array)
 
-# text_array = transcribe(audio_array)
-# tone_array = analyze_tone(text_array)
-# personality_array = personalize(text_array)
-
+with open('results.txt', 'w') as f:
+	for text in text_array:
+		f.write(text)
+	for tone in tone_array:
+		f.write(tone)
+	for persona in personality_array:
+		f.write(persona)
 
 
