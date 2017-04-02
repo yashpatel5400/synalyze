@@ -199,21 +199,14 @@ for entity in entities:
 
 print "Writing Results..."
 with open('results.txt', 'w') as f:
-	f.write('Transcription Result:\n\n')
-	for text in text_array:
-		f.write(text)
-	f.write('\n\nTone Analysis:\n\n')
+	f.write(json.dumps(text_array))
 	
-	for tone in tone_array:
-		if tone:
-			f.write(str(tone))
+	f.write(json.dumps(tone_array))
 
-	f.write('\n\nPersonality Result:\n\n')
+	f.write(json.dumps(personality_array))
+
+	f.write(str(keys) + '\n')
 	
-	for persona in personality_array:
-		f.write(persona)
-
-	f.write(str(keys))
 	f.write(str(concepts))
 
 
