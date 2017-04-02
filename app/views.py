@@ -4,7 +4,7 @@ __description__ = Views of pages
 """
 
 from flask import render_template
-from app import app, mic
+from app import app, mic, synergy
 from app.segment.get_speaker import get_speaker
 
 import os
