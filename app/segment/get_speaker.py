@@ -52,7 +52,7 @@ def get_speaker(filename):
     split_audio(filename)
     
 if __name__ == "__main__":
-    test_names = ["testmelon.wav"]
+    test_names = ["testmeeting.wav"]
     for name in test_names:
         print("Processing {}".format(name))
         get_speaker(name)
