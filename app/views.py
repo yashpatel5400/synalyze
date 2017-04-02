@@ -19,22 +19,19 @@ def record():
     recorder.startrecording()
     return render_template('record.html')
 
-@app.route('/stop')
-def stop():
-    global recorder
-    filename = recorder.stoprecording()
-    get_speaker(filename)
-    
-    # if child, perform analysis on the recording and store in segmentation
-    newpid = os.fork()
-    if newpid == 0:
-        print("Analyzing...")
-        get_speaker(filename)
-        os._exit(0)
-    else:
-        # otherwise, simply return to serving the original page
-        return index()
-
 @app.route('/')
 def index():
-    return render_template('index.html')
+    global recorder
+    if recorder is not None:
+        filename = recorder.stoprecording()
+        # if child, perform analysis on the recording and store in segmentation
+        newpid = os.fork()
+        if newpid == 0:
+            print("Analyzing...")
+            get_speaker(filename)
+            os._exit(0)
+            
+        recorder = None
+        return render_template('index.html')
+    else:
+        return render_template('index.html')
