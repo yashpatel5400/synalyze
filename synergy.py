@@ -10,6 +10,12 @@ API = {'S2T' : {'KEY':'6e38287f-f949-4389-a5bb-5fff4d30374e', 'PWD':'ZZfb1YQ8k7c
 		'CS' : {'KEY':'599eec4e-297c-48cf-b538-7c287cb05ef0', 'PWD':'QXxgp6hpqRDJ'}
 	}
 
+discovery = DiscoveryV1(
+	  username = API['CS']['KEY'],
+	  password = API['CS']['PWD'],
+	  version='2016-12-01'
+	)
+
 def transcribe(audio_array):
 
 	speech_to_text = SpeechToTextV1(
@@ -67,12 +73,6 @@ def write_to_discovery(text_array):
 	env_id = '56eed52e-0538-4e43-92a8-a7223844e431'
 	col_id = 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29'
 
-	discovery = DiscoveryV1(
-	  username = API['CS']['KEY'],
-	  password = API['CS']['PWD'],
-	  version='2016-12-01'
-	)
-
 	for i, text in enumerate(text_array):
 		data = {}
 		data['transcript'] = text
@@ -90,12 +90,6 @@ def write_to_discovery(text_array):
 	return json.dumps(add_doc, indent=2)
 
 def cognitive_search(query_options):
-
-	discovery = DiscoveryV1(
-	  username = API['CS']['KEY'],
-	  password = API['CS']['PWD'],
-	  version='2016-12-01'
-	)
 
 	environments = discovery.get_environments()
 
@@ -119,7 +113,7 @@ def cognitive_search(query_options):
 	                                my_collections[0]['collection_id'],
 	                                query_options)
 	
-	return json.dumps(query_results, indent=2)
+	return query_results
 
 # ------------- Test Space ------------------
 
@@ -139,8 +133,12 @@ def cognitive_search(query_options):
 
 # print(json.dumps(personality_array[0], indent=2))
 # write_to_discovery([text])
-# print cognitive_search({'return': 'enrichedTitle.text, title'})
+result = cognitive_search({'return':'id'})
+print result
 
+for doc_id in result['results']:
+	doc_id = doc_id['id']
+	delete_doc = discovery.delete_document('56eed52e-0538-4e43-92a8-a7223844e431', 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29', doc_id)
 # ------------ Main Script ------------------
 
 # audio_array = []
