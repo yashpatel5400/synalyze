@@ -43,7 +43,7 @@ def generate_page(filename):
                     temp[0] /= 2
                     temp[1] /= 2
                     munged_tones.append(temp)
-
+    print(munged_tones)
     series1 = ", ".join(['{x: ' + str(ind) + ', y: ' + str(data[0]) + '}'
                          for ind, data in enumerate(munged_tones)])
     series2 = ", ".join(['{x: ' + str(ind) + ', y: ' + str(data[1]) + '}'
