@@ -27,13 +27,16 @@ def transcribe(audio_array):
 	text_array = []
 
 	for audio_file in audio_array:
-	    transcript = speech_to_text.recognize(
-	        audio_file, content_type='audio/flac', timestamps=True,
-	        word_confidence=True, continuous=True)
+		try:
+		    transcript = speech_to_text.recognize(
+		        audio_file, content_type='audio/wav', timestamps=True,
+		        word_confidence=True, continuous=True)
 
-	    results = transcript['results'][0]['alternatives']
-	    transcript = results[0]['transcript']
-	    text_array.append(str(transcript))
+		    results = transcript['results'][0]['alternatives']
+		    transcript = results[0]['transcript']
+		    text_array.append(str(transcript))
+		except:
+			text_array.append('')
 
 	return text_array
 
@@ -47,7 +50,10 @@ def analyze_tone(text_array):
 	tone_array = []
 
 	for text in text_array:
-		tone_array.append(json.dumps(tone_analyzer.tone(text=text)))
+		try:
+			tone_array.append(tone_analyzer.tone(text=text))
+		except:
+			tone_array.append('')
 
 	return tone_array
 
@@ -61,11 +67,14 @@ def personalize(text_array):
 	personality_array = []
 
 	for profile_text in text_array:
-	    profile = personality_insights.profile(
-	        profile_text, content_type='text/plain',
-	        raw_scores=True, consumption_preferences=True)
+		try:
+		    profile = personality_insights.profile(
+		        profile_text, content_type='text/plain',
+		        raw_scores=True, consumption_preferences=True)
 
-	    personality_array.append(json.dumps(profile, indent=2))
+		    personality_array.append(profile)
+		except:
+			personality_array.append('')
 
 	return personality_array
 
@@ -117,7 +126,7 @@ def cognitive_search(query_options):
 
 # ------------- Test Space ------------------
 
-# a = open('./audio.flac', 'r')
+# a = open('./testmeeting/9.flac', 'r')
 
 # t = open('./transcript.txt', 'r')
 # lines = t.readlines()
@@ -128,48 +137,62 @@ def cognitive_search(query_options):
 # audio_array = [a]
 
 # text_array = transcribe(audio_array)
-# tone_array = analyze_tone(['several tornadoes touch down as a line of severe thunderstorms swept through Colorado on Sunday '])
+# print text_array
+
+# tone_array = analyze_tone([text])
+# tone_categories = tone_array[0]['document_tone']['tone_categories'][0]['tones'][0]
+
+# print tone_categories
+
 # personality_array = personalize([text])
+
+# persona_categories = personality_array[0]['personality']
 
 # print(json.dumps(personality_array[0], indent=2))
 # write_to_discovery([text])
-result = cognitive_search({'return':'id'})
-print result
+# result = cognitive_search({'return':'enrichedTitle.entities'})
+# print result
 
-for doc_id in result['results']:
-	doc_id = doc_id['id']
-	delete_doc = discovery.delete_document('56eed52e-0538-4e43-92a8-a7223844e431', 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29', doc_id)
+# for doc_id in result['results']:
+# 	doc_id = doc_id['id']
+# 	delete_doc = discovery.delete_document('56eed52e-0538-4e43-92a8-a7223844e431', 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29', doc_id)
 # ------------ Main Script ------------------
 
-# audio_array = []
-# i = 0
+audio_array = []
+i = 1
 
-# while True:
-# 	try:
-# 		with open(str(i) + ".json") as f:
-# 			data = f.read()
-#     		audio_filename = data['audio.wav']
+while True:
+	audio_filename = './testmeeting/' + str(i) + '.wav'
+	try:
+		a = open(audio_filename, 'r')
+		audio_array.append(a)
+		i += 1
+	except:
+		break
 
-#     		a = open(audio_filename, 'r')
-#     		audio_array.append(a)
-#     		i += 1
-# 	except:
-# 		break
+print "Transcribing Audio..."
+text_array = transcribe(audio_array)
 
-# text_array = transcribe(audio_array)
-# text_array = [text]
-# tone_array = analyze_tone(text_array)
-# personality_array = personalize(text_array)
+print "Analysing Tone..."
+tone_array = analyze_tone(text_array)
 
-# with open('results.txt', 'w') as f:
-# 	f.write('Transcription Result:\n')
-# 	for text in text_array:
-# 		f.write(text)
-# 	f.write('Tone Analysis:\n')
-# 	for tone in tone_array:
-# 		f.write(tone)
-# 	f.write('Personality Result:\n')
-# 	for persona in personality_array:
-# 		f.write(persona)
+print "Building Personas..."
+personality_array = personalize(text_array)
+
+print "Writing Results..."
+with open('results.txt', 'w') as f:
+	f.write('Transcription Result:\n\n')
+	for text in text_array:
+		f.write(text)
+	f.write('\n\nTone Analysis:\n\n')
+	
+	for tone in tone_array:
+		if tone:
+			f.write(str(tone))
+
+	f.write('\n\nPersonality Result:\n\n')
+	
+	for persona in personality_array:
+		f.write(persona)
 
 
