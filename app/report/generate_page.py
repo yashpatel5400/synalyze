@@ -48,6 +48,16 @@ def generate_page(filename):
     series3 = ", ".join(['{x: ' + str(ind) + ', y: ' + str(data[2]) + '}'
                          for ind, data in enumerate(munged_tones)])
 
+    comb = {}
+    total_dur = 0
+    for segment in parsed["parties"]:
+        val = comb.get(segment["speaker_id"], 0.0) + segment["duration"]
+        total_dur += segment["duration"]
+        comb[segment["speaker_id"]] = val
+
+    for k in comb:
+        comb[k] /= total_dur
+
     data = {
         'title': 'Report from Meeting',
         'topic': 'Daily Meeting About Saddness',
