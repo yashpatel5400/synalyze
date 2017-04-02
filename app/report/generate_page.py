@@ -13,7 +13,7 @@ import json
 def generate_page(filename):
     print("Generating output...")
     templatefile = "{}/template.html".format(s.REPORT_DIR)
-    resultsfile  = "{}/results.txt".format(s.ANALYZE_DIR)
+    resultsfile  = "{}/{}.txt".format(s.ANALYZE_DIR, filename)
 
     with open(templatefile, 'r') as f:
         template = f.read().strip()
