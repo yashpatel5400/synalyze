@@ -86,7 +86,7 @@ def clear_documents():
 
 	while result['matching_results']:
 		result = cognitive_search({'return':'id'})
-		print result
+		print "Deleting Old Records"
 		for doc_id in result['results']:
 			doc_id = doc_id['id']
 			delete_doc = discovery.delete_document('56eed52e-0538-4e43-92a8-a7223844e431', 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29', doc_id)
@@ -181,62 +181,60 @@ def find_parties():
 # write_to_discovery(text_array)
 # print result
 
-r = find_parties()
-print json.dumps(r)
+# r = find_parties()
+# print json.dumps(r)
 
 
 # ------------ Main Script ------------------
 
-# audio_array = []
-# i = 1
+audio_array = []
+i = 1
 
-# while True:
-# 	audio_filename = './testmeeting/' + str(i) + '.wav'
-# 	try:
-# 		a = open(audio_filename, 'r')
-# 		audio_array.append(a)
-# 		i += 1
-# 	except:
-# 		break
+while True:
+	audio_filename = './testmeeting/' + str(i) + '.wav'
+	try:
+		a = open(audio_filename, 'r')
+		audio_array.append(a)
+		i += 1
+	except:
+		break
 
-# print "Transcribing Audio..."
-# text_array = transcribe(audio_array)
+print "Transcribing Audio..."
+text_array = transcribe(audio_array)
 
-# print "Analysing Tone..."
-# tone_array = analyze_tone(text_array)
+print "Analysing Tone..."
+tone_array = analyze_tone(text_array)
 
-# print "Building Personas..."
-# personality_array = personalize(text_array)
+print "Building Personas..."
+personality_array = personalize(text_array)
 
-# print "Writing to Discovery"
-# write_to_discovery(text_array)
+print "Writing to Discovery"
+write_to_discovery(text_array)
 
-# print "Performing Cognitive Search"
-# entities = cognitive_search({'aggregation':'term(enriched_text.entities.text%2Ccount%3A5)'})
-# concepts = cognitive_search({'aggregation':'term(enriched_text.concepts.text%2Ccount%3A5)'})
+print "Performing Cognitive Search"
+entities = cognitive_search({'aggregation':'term(enriched_text.entities.text%2Ccount%3A5)'})
+concepts = cognitive_search({'aggregation':'term(enriched_text.concepts.text%2Ccount%3A5)'})
 
-# concepts = concepts['aggregations'][0]['results']
-# entities = entities['aggregations'][0]['results']
+concepts = concepts['aggregations'][0]['results']
+entities = entities['aggregations'][0]['results']
 
-# keys = []
-# for entity in entities:
-# 	keys.append(entity['key'])
+keys = []
+for entity in entities:
+	keys.append(entity['key'])
 
-# parties = find_parties()
+parties = find_parties()
 
-# print "Writing Results..."
+print "Writing Results..."
 
-# with open('results.txt', 'w') as f:
-# 	f.write(json.dumps(text_array))
-	
-# 	f.write(json.dumps(tone_array))
+data = {}
+data['transcript'] = text_array
+data['tone'] = tone_array
+data['personality'] = personality_array
+data['keys'] = keys
+data['concepts'] = concepts
+data['parties'] = parties
 
-# 	f.write(json.dumps(personality_array))
-
-# 	f.write(str(keys) + '\n')
-
-# 	f.write(str(concepts) + '\n')
-
-# 	f.write(json.dumps(parties))
+with open('results.txt', 'w') as f:
+	f.write(json.dumps(data))
 
 
