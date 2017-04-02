@@ -73,11 +73,17 @@ def write_to_discovery(text_array):
 	)
 
 	for i, text in enumerate(text_array):
-		f = open('transcript' + str(i) + '.json', 'w+')
-		f.write(text)
-		add_doc = discovery.add_document(env_id, col_id, file_info=f)
+		data = {}
+		data['transcript'] = text
+		# json_data = json.dumps(data)
+
+		with open('transcript' + str(i) + '.json', 'a+') as outfile:
+			json.dump(data, outfile)
+		
+		with open('transcript' + str(i) + '.json', 'r') as outfile:	
+			add_doc = discovery.add_document(env_id, col_id, file_info=outfile)
 	
-	print(json.dumps(add_doc, indent=2))
+	return json.dumps(add_doc, indent=2)
 
 def cognitive_search(query_options):
 
@@ -114,18 +120,21 @@ def cognitive_search(query_options):
 # ------------- Test Space ------------------
 
 # a = open('./audio.flac', 'r')
-# f = open('./transcript.txt', 'r')
-# lines = f.readlines()
-# text = ''
-# for line in lines:
-# 	text += line
+
+f = open('./notebook.txt', 'r')
+lines = f.readlines()
+text = ''
+for line in lines:
+	text += line
+
 # audio_array = [a]
+
 # text_array = transcribe(audio_array)
 # tone_array = analyze_tone(['several tornadoes touch down as a line of severe thunderstorms swept through Colorado on Sunday '])
 # personality_array = personalize([text])
 
 # print(json.dumps(personality_array[0], indent=2))
-write_to_discovery(['several tornadoes touch down as a line of severe thunderstorms swept through Colorado on Sunday '])
+print write_to_discovery(text)
 print cognitive_search({})
 
 # ------------ Main Script ------------------
