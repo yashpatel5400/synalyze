@@ -1,0 +1,96 @@
+v.1.0.1
+
+1:Fix iPhone5s off sceen nav(only black background)
+  less/app.layout.less
+2:Add more datatables example
+  add jquery csv plugin to convert csv file to datatables array data.
+3:Add boxed layout
+  layout-boxed.html
+4:Add fluid layout
+  layout-fluid.html
+
+v.1.0.2
+
+1:add project
+  project.html
+2:add media
+  media.html
+3:add .row-sm class
+  10px gutter
+3:fix email page menu on mobile
+  email.html
+4:fix hbox collapse menu
+  layout-hbox.html
+5:fix fluid layout min-height
+  js/app.js, need add .app-fluid class on html tag.
+
+v.1.0.3
+
+1:add chat page
+  chat.html
+2:add contacts page
+  contacts.html
+3:add note page
+  note.html "js/libs", "js/apps/notes.js"
+4:fix menu issue on Android ICS stock browser (no-chrome)
+  "less/app.nav.less"
+
+v.1.1.0
+
+1:add psd file
+  "psd/"
+2:add landing page
+  landing.html, add "js/appear", "js/landing.js", "css/landing.css"
+
+v.1.1.1
+
+1: Disable bjax on ie
+   app.js
+2: upgrade datatables to v1.10
+   js/datatables/
+3: upgrade bootstrap-slider to v.3.0
+   js/slider
+4: add touchspin
+   js/spinner
+5: add typehead
+   js/typehead
+6: add search result page
+   search.html
+7: add profile page 2
+   profile-2.html
+
+v.1.2.0
+ 
+1: upgrade Bootstrap to 3.2.0
+   js/bootstrap.js
+   css/bootstrap.css
+
+2: fix ipad landscape body height issue
+   less/app.layout.less
+   js/app.js
+
+3: fix off screen nav toogle back issue on iphone
+   remove '.open' class from html tag when close off screen nav
+   <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen, open" data-target="#nav,html"></a>
+
+4: improvement bjax function
+   js/app.js
+
+
+v.1.2.1
+
+1: update Fontawesome to 4.1
+   "css/font-awesome.min.css"   "fonts/FontAwesome*"
+2: include glyphicons
+   "fonts/glyphicons*"
+3: fix email.html, note.html on ie11
+   "mail.html"  "note.html"
+4: remove the focus outline on ie and firefox
+   "less/app.reset.less" and regenerated "css/app.css"
+
+v.2.0
+
+1: Upgrade to Bootstrap v3.3.5
+   css/bootstrap.css
+   js/bootstrap.js
+   css/app.css

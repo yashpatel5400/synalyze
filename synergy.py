@@ -62,6 +62,23 @@ def personalize(text_array):
 
 	return personality_array
 
+def write_to_discovery(text_array):
+	env_id = '56eed52e-0538-4e43-92a8-a7223844e431'
+	col_id = 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29'
+
+	discovery = DiscoveryV1(
+	  username = API['CS']['KEY'],
+	  password = API['CS']['PWD'],
+	  version='2016-12-01'
+	)
+
+	for i, text in enumerate(text_array):
+		f = open('transcript' + str(i) + '.json', 'w+')
+		f.write(text)
+		add_doc = discovery.add_document(env_id, col_id, file_info=f)
+	
+	print(json.dumps(add_doc, indent=2))
+
 def cognitive_search(query_options):
 
 	discovery = DiscoveryV1(
@@ -88,22 +105,50 @@ def cognitive_search(query_options):
 	default_config = discovery.get_configuration(
 	    environment_id=my_environment_id, configuration_id=default_config_id)
 
-	query_options = {}
 	query_results = discovery.query(my_environment_id,
-	                                my_collections[1]['collection_id'],
+	                                my_collections[0]['collection_id'],
 	                                query_options)
 	
 	return json.dumps(query_results, indent=2)
 
 # ------------- Test Space ------------------
+
 # a = open('./audio.flac', 'r')
-f = open('./transcript.txt', 'r')
-lines = f.readlines()
-text = ''
-for line in lines:
-	text += line
+# f = open('./transcript.txt', 'r')
+# lines = f.readlines()
+# text = ''
+# for line in lines:
+# 	text += line
 # audio_array = [a]
 # text_array = transcribe(audio_array)
 # tone_array = analyze_tone(['several tornadoes touch down as a line of severe thunderstorms swept through Colorado on Sunday '])
-personality_array = personalize([text])
+# personality_array = personalize([text])
+
+# print(json.dumps(personality_array[0], indent=2))
+write_to_discovery(['several tornadoes touch down as a line of severe thunderstorms swept through Colorado on Sunday '])
+print cognitive_search({})
+
+# ------------ Main Script ------------------
+
+# audio_array = []
+# i = 0
+
+# while True:
+# 	try:
+# 		with open(str(i) + ".json") as f:
+#     		data = f.read()
+#     		audio_filename = data['audio_filename.wav']
+
+#     		a = open(audio_filename, 'r')
+#     		audio_array.append(a)
+#     		i += 1
+
+#     except:
+#     	break
+
+# text_array = transcribe(audio_array)
+# tone_array = analyze_tone(text_array)
+# personality_array = personalize(text_array)
+
+
 

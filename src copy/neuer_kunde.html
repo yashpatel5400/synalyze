@@ -1,0 +1,991 @@
+
+<!DOCTYPE html>
+<html lang="de" class="app">
+<head>  
+  <meta charset="utf-8" />
+  <title>Backend | Awesom Media</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> 
+  <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="css/animate.css" type="text/css" />
+  <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="css/icon.css" type="text/css" />
+  <link rel="stylesheet" href="css/font.css" type="text/css" />
+  <link rel="stylesheet" href="css/app.css" type="text/css" />  
+
+<link rel="stylesheet" href="js/chosen/chosen.css" type="text/css" />
+<link rel="stylesheet" href="js/slider/slider.css" type="text/css" />  
+
+  <link rel="stylesheet" href="css/custom.css" type="text/css" /> 
+     <link rel="stylesheet" href="js/jvectormap/jquery-jvectormap-1.2.2.css" type="text/css" />
+</head>
+
+<body>
+  <section class="vbox">
+    <header class="bg-white header header-md navbar navbar-fixed-top-xs box-shadow">
+  
+<!--Logo und Responsive Navi--> 
+
+      <div class="navbar-header aside-md dk">
+        <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
+          <i class="fa fa-bars"></i>
+        </a>
+        <a href="/" class="navbar-brand" style="width:200px">
+          <img src="images/logo.png" class="m-r-sm navbar-brand" alt="Awesom Media">
+        </a>
+  
+      </div>
+<!--Logo und Responsive Navi Ende-->     
+ 
+<!--Suche-->  
+      <form class="navbar-form navbar-left input-s-lg m-t m-l-n-xs hidden-xs" role="search">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-sm bg-white b-white btn-icon"><i class="fa fa-search"></i></button>
+            </span>
+            <input type="text" class="form-control input-sm  custom-nav" placeholder="Schnellsuche...">            
+          </div>
+        </div>
+      </form>
+<!--Suche Ende-->   
+
+<!--Störungsticker-->
+      <ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user user">
+        <li class="hidden-xs">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-warning" style="font-size:18px"></i>
+            <span class="badge badge-sm up bg-danger count">2</span>
+          </a>
+          <section class="dropdown-menu aside-xl animated flipInY">
+            <section class="panel bg-white">
+              <div class="panel-heading b-light bg-light">
+                <strong><span class="count">2</span> Aktuelle Störungen</strong>
+              </div>
+              <div class="list-group list-group-alt">
+               <a href="#" class="media list-group-item">
+                  <span class="pull-left thumb-sm text-center">
+                    <i class="fa fa-building fa-2x text-danger"></i>
+                  </span>
+                  <span class="media-body block m-b-none">
+                    Holiday Inn | Madrid<br>
+                    <small class="text-muted">Vor 2 Stunden </small>
+                  </span>
+                </a>
+                  <a href="#" class="media list-group-item">
+                  <span class="pull-left thumb-sm text-center">
+                    <i class="fa fa-building fa-2x text-danger"></i>
+                  </span>
+                  <span class="media-body block m-b-none">
+                    Marriot Hotel | Singapur<br>
+                    <small class="text-muted">Vor 6 Stunden </small>
+                  </span>
+                </a>
+              </div>
+              <div class="panel-footer text-sm">
+                <a href="#" class="pull-right"><i class="fa fa-arrow-right"></i></a>
+                <a href="#notes" data-toggle="class:show animated fadeInRight">Alle Störungen anzeigen</a>
+              </div>
+            </section>
+          </section>
+        </li> 
+      </ul> 
+<!--Störungsticker Ende-->
+    </header>
+  
+  
+    <section>
+      <section class="hbox stretch">
+        <!-- .aside -->
+<!--Navi Left-->
+        <aside class="bg-black aside-md hidden-print hidden-xs" id="nav">          
+          <section class="vbox">
+            <section class="w-f scrollable">
+              <div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0" data-size="10px" data-railOpacity="0.2">
+        
+<!--Profil Bild - User Name -->  
+                <div class="clearfix wrapper dk nav-user hidden-xs">
+                 
+                  
+                      <span class="thumb avatar pull-left m-r">                        
+                        <img src="images/werner.jpg" class="dker" >
+                        <i class="on md b-black"></i>
+                      </span>
+                      <span class="hidden-nav-xs clear">
+                        <span class="block m-t-xs">
+                          <strong class="font-bold text-lt">Werner Müscher</strong> 
+                        </span>
+                        <span class="text-muted text-xs block">CEO </span>
+                      </span>                 
+                </div>                
+<!--Profil Bild - User Name Ende-->  
+
+                <!-- nav -->                 
+                <nav class="nav-primary hidden-xs">
+                 
+                  <ul class="nav nav-main" data-ride="collapse">
+                    <li >
+                      <a href="#" class="auto">
+                        <i class="i i-statistics icon">
+                        </i>
+                        <span class="font-bold">Dashboard</span>
+                      </a>
+                    </li>
+              <li >
+                      <a href="standalone.html" class="auto">
+                        <i class="fa  fa-calendar icon">
+                        </i>
+                        <span class="font-bold">Standalone</span>
+                      </a>
+                    </li>
+                    <li >
+                      <a href="#" class="auto">
+                        <span class="pull-right text-muted">
+                          <i class="i i-circle-sm-o text"></i>
+                          <i class="i i-circle-sm text-active"></i>
+                        </span>
+                      
+                        <i class="i i-book">
+                        </i>
+                        <span class="font-bold">Kunden</span>
+                      </a>
+                      <ul class="nav dk">
+                        <li >
+                          <a href="kundenpool.html" class="auto">                                                        
+                            <i class="i i-dot"></i>
+
+                            <span>Kundenpool</span>
+                          </a>
+                        </li>
+                        <li >
+                          <a href="kontakte.html" class="auto">                                                        
+                            <i class="i i-dot"></i>
+
+                            <span>Kontakte</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+           <div class="line dk hidden-nav-xs"></div>
+
+          <li>
+                      <a href="mailing.html" class="auto">
+                        <i class="i i-mail2">
+                        </i>
+                        <span class="font-bold">Mailing</span>
+                      </a>
+                    </li>
+          
+          <li>
+                      <a href="webdesign.html" class="auto">
+                        <i class="fa fa-desktop">
+                        </i>
+                        <span class="font-bold">Webdesign</span>
+                      </a>
+                    </li>
+          
+          <li>
+                      <a href="cloud.html" class="auto">
+                        <i class="fa fa-cloud">
+                        </i>
+                        <span class="font-bold">Cloud</span>
+                      </a>
+                    </li>
+          <div class="line dk hidden-nav-xs"></div>
+           
+                    <li >
+                      <a href="#" class="auto">
+                        <span class="pull-right text-muted">
+                          <i class="i i-circle-sm-o text"></i>
+                          <i class="i i-circle-sm text-active"></i>
+                        </span>
+                        <i class="fa fa-eur">
+                        </i>
+                        <span class="font-bold">Finanzen</span>
+                      </a>
+                      <ul class="nav dk">
+                        <li >
+                          <a href="#" class="auto">                                                        
+                            <i class="i i-dot"></i>
+
+                            <span>Umsätze</span>
+                          </a>
+                        </li>
+                         <li >
+                          <a href="#" class="auto">                            
+                            <b class="badge bg-danger lt pull-right">2</b>                                                        
+                            <i class="i i-dot"></i>
+                            <span>Verzug</span>
+                          </a>
+                        </li>
+            
+                        <li >
+                          <a href="#" class="auto">                                                        
+                            <i class="i i-dot"></i>
+
+                            <span>Ein & Ausgaben</span>
+                          </a>
+                        </li>
+            
+                        <li >
+                          <a href="#" class="auto">                                                        
+                            <i class="i i-dot"></i>
+                            <span>Gehälter & Provision</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+           <li>
+                      <a href="#" class="auto">
+                        <i class="fa fa-male">
+                        </i>
+                        <span class="font-bold">Mitarbeiter</span>
+                      </a>
+                    </li>
+          
+                  </ul>                 
+                </nav>
+              </div>
+            </section>
+            
+            <footer class="footer hidden-xs no-padder text-center-nav-xs">
+              <a href="modal.lockme.html" data-toggle="ajaxModal" class="btn btn-icon icon-muted btn-inactive pull-right m-l-xs m-r-xs hidden-nav-xs">
+                <i class="i i-logout"></i>
+              </a>
+              <a href="#nav" data-toggle="class:nav-xs" class="btn btn-icon icon-muted btn-inactive m-l-xs m-r-xs">
+                <i class="i i-circleleft text"></i>
+                <i class="i i-circleright text-active"></i>
+              </a>
+            </footer>
+      
+          </section>
+        </aside>
+<!-- Navi Left Ende-->
+
+
+<!--CONTENT PAGE-->
+
+        <!-- /.aside -->
+        <section id="content">
+          <section class="vbox">    
+      
+            <section class="scrollable wrapper">
+      
+          <section class="panel panel-default">
+                    <header class="panel-heading text-right bg-light">
+                      <ul class="nav nav-tabs pull-left">
+                        <li class="active"><a href="#details-1" data-toggle="tab"><i class="fa fa-male text-muted"></i> Details</a></li>
+                        <li><a href="#concierge-2" data-toggle="tab"><i class="fa fa-building text-muted"></i> Concierge</a></li>
+            <li><a href="#concierge-partner-2" data-toggle="tab"><i class="i i-like text-muted"></i> Concierge Partner</a></li>
+            <li><a href="#notizen-3" data-toggle="tab"><i class="fa fa-file-text-o text-muted"></i> Notizen</a></li>
+            <li><a href="#angebot-4" data-toggle="tab"><i class="fa fa-shopping-cart text-muted"></i> Angebot / Auftrag</a></li>
+                      </ul>
+                   
+                      <span class="hidden-sm"> &nbsp;</span>
+                    </header>
+                    <div class="panel-body">
+                      <div class="tab-content">              
+                 
+         <!--TAB 1--><div class="tab-pane fade  active in" id="details-1"> 
+                       <div class="col-sm-6 ">
+                  <form class="form-horizontal" data-validate="parsley" action="#">
+                    <section class="panel panel-default">
+                      <header class="panel-heading">
+                        <strong>Kunden ID: 356</strong>
+                      </header>
+                      <div class="panel-body">                    
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Firma</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" data-required="true" placeholder="Pflichtfeld">
+                           <br />
+
+              <a href="#"  data-toggle="class"><i class="fa fa-gear text-success text-active"></i><i class="fa fa-gear text-danger text"></i>  </a> &nbsp;&nbsp;<a href="#" class="active" data-toggle="class"><i class="fa fa-desktop text-success text-active"></i><i class="fa fa-desktop text-danger text"></i>  </a> &nbsp;&nbsp;
+               <a href="#" class="active" data-toggle="class"><i class="fa fa-building text-success text-active"></i><i class="fa fa-building text-danger text"></i>  </a> &nbsp;&nbsp;<a href="#"  data-toggle="class"><i class="i i-like text-success text-active"></i><i class="i i-like text-danger text"></i></a>  &nbsp;&nbsp;<a href="#" class="active" data-toggle="class"><i class="i i-world text-success text-active"></i><i class="i i-world text-danger text"></i>  </a> 
+                          </div>
+                        </div>
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+              <div class="form-group">
+                          <label class="col-sm-3 control-label">Mitarbeiter </label>
+                          <div class="col-sm-9">
+                             <select data-required="true" class="form-control m-t" style="margin-top:0px">
+                                
+                                <option value="foo">Werner Müscher</option>
+                                <option value="bar">Peyman Etedali</option>
+                <option value="foo">Thomas Fischell </option>
+                                <option value="bar">Olga Maier </option>
+                            </select> <br />
+              
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Anrede</label>
+                          <div class="col-sm-9" >
+                             <label class="checkbox-inline i-checks">
+                          <input type="checkbox" id="inlineCheckbox1" value="option1"><i></i> Herr
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                          <input type="checkbox" id="inlineCheckbox2" value="option2"><i></i> Frau
+                        </label>
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                         <div class="form-group">
+                          <label class="col-sm-3 control-label">Vorname / Nachname</label>
+                          <div class="col-sm-9">
+                            <div class="row">
+                              <div class="col-sm-6"><input type="text" value="Vorname" id="foo" class="form-control"></div>
+                              <div class="col-sm-6"><input type="text" data-equalto="#foo" placeholder="Nachname" class="form-control"></div>
+                            </div>                            
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Position im Unternehmen</label>
+                          <div class="col-sm-9">
+                            <input type="text" data-rangelength="[5,10]" class="form-control" placeholder="">
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Straße</label>
+                          <div class="col-sm-9">
+                            <input type="text" data-min="6" class="form-control" placeholder="Pflichtfeld">
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Adresszusatz</label>
+                          <div class="col-sm-9">
+                            <input type="text" data-max="100" class="form-control" placeholder="">
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                          <div class="form-group">
+                          <label class="col-sm-3 control-label">PLZ / Ort</label>
+                          <div class="col-sm-9">
+                            <div class="row">
+                              <div class="col-sm-6"><input type="text" value="PLZ" id="foo" class="form-control"></div>
+                              <div class="col-sm-6"><input type="text" data-equalto="#foo" placeholder="Ort" class="form-control"></div>
+                            </div>                            
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+            <div class="form-group">
+                      <label class="col-sm-3 control-label">Land</label>
+                      <div class="col-sm-8">
+                        <select style="width:260px" class="chosen-select">
+                            <optgroup label="Nordamerika">
+                                <option value="AK">Kanada</option>
+                <option value="HI">Mexiko</option>
+                <option value="HI">USA</option>
+                <option value="HI">Bermuda</option>
+                <option value="HI">Grönland</option>
+                </optgroup>
+                            <optgroup label="Südamerika">
+                                <option value="CA">Argentinien</option>
+                                <option value="NV">Aruba</option>
+                                <option value="OR">Bolivien</option>
+                                <option value="WA">Bonaire</option>
+                <option value="WA">Brasilien</option>
+                <option value="WA">Chile</option>
+                <option value="WA">Curacao</option>
+                <option value="WA">Ecuador</option>
+                <option value="WA">Falklandinseln</option>
+                <option value="WA">Französisch-Guyana</option>
+                <option value="WA">Guyana</option>
+                <option value="WA">Kolumbien</option>
+                <option value="WA">Paraguay</option>
+                <option value="WA">Peru</option>
+                <option value="WA">Trinidad</option>
+                <option value="WA">Uruguay</option>
+                <option value="WA">Venezuela</option>
+                
+                            </optgroup>
+                            <optgroup label="Europa">
+              <option value="WA">Belgien</option>
+                <option value="WA">Bulgarien</option>
+                <option value="WA">Dänemark</option>
+                <option value="WA">Deutschland</option>
+                <option value="WA">Estland</option>
+                <option value="WA">Finnland</option>
+                <option value="WA">Frankreich</option>
+                <option value="WA">Griechenland</option>
+                <option value="WA">Irland</option>
+                <option value="WA">Italien</option>
+                <option value="WA">Kroatien</option>
+                <option value="WA">Lettland</option>
+                <option value="WA">Litauen</option>
+                <option value="WA">Luxenburg</option>
+                <option value="WA">Malta</option>
+                <option value="WA">Niederlande</option>
+                <option value="WA">Österreich</option>
+                <option value="WA">Polen</option>
+                <option value="WA">Portugal</option>
+                <option value="WA">Rumänien</option>
+                <option value="WA">Schweden</option>
+                <option value="WA">Slowakei</option>
+                <option value="WA">Slowenien</option>
+                <option value="WA">Spanien</option>
+                <option value="WA">Tschechien</option>
+                <option value="WA">Ungarn</option>
+                <option value="WA">Vereinigtes Königreich</option>
+                <option value="WA">Zypern</option>
+                          <option value="AZ">Albanien</option>
+                                <option value="CO">Andora </option>
+                                <option value="ID">Armenien</option>
+                                <option value="MT">Aserbaidschan</option>
+                                <option value="NM">Bosnien</option>
+                                <option value="ND">Georgien </option>
+                                <option value="UT">Island</option>
+                                <option value="WY">Kasachstan</option>
+                <option value="WA">Lichtenstein</option>
+                <option value="WA">Mazedonien</option>
+                <option value="WA">Moldavien</option>
+                <option value="WA">Monaco</option>
+                <option value="WA">Montenegro</option>
+                <option value="WA">Norwegen</option>
+                <option value="WA">San Marino</option>
+                <option value="WA">Schweiz</option>
+                <option value="WA">Serbien</option>
+                <option value="WA">Türkei</option>
+                <option value="WA">Ukraine</option>
+                <option value="WA">Vatikanstadt</option>
+                
+                            </optgroup>
+                            <optgroup label="Asien">
+                                <option value="AL">Mogolei</option>
+                                <option value="AR">Russland</option>
+                                <option value="IL">China</option>
+                                <option value="IA">Japan</option>
+                                <option value="KS">Südkorea</option>
+                                <option value="KY">Bangladesch</option>
+                                <option value="LA">Buthan</option>
+                                <option value="MN">Indien</option>
+                                <option value="MS">Malediven</option>
+                                <option value="MO">Sri Lanka</option>
+                                <option value="OK">Nepal</option>
+                                <option value="SD">Pakistan</option>
+                                <option value="TX">Brunei</option>
+                                <option value="TN">Indonesien</option>
+                                <option value="WI">Kambodscha</option>
+                <option value="WI">Laos</option>
+                <option value="WI">Malaysia</option>
+                <option value="WI">Philippinen</option>
+                <option value="WI">Singapur</option>
+                <option value="WI">Thailand</option>
+                <option value="WI">Vietnam</option>
+                <option value="WI">Bahrain</option>
+                <option value="WI">Georgien</option>
+                <option value="WI">Iran</option>
+                <option value="WI">Irak</option>
+                <option value="WI">Afghanistan</option>
+                <option value="WI">Katar</option>
+                <option value="WI">Saudi Arabien</option>
+                <option value="WI">VAE</option>
+                
+                            </optgroup>
+                            <optgroup label="Australien">
+                                <option value="CT">Australien</option>
+                                <option value="DE">Neuseland</option>
+                                
+                            </optgroup>
+               <optgroup label="Afrika">
+                                <option value="CT">Ägypten</option>
+                                <option value="DE">Algerien</option>
+                                <option value="DE">Ghana</option>
+                <option value="DE">Kamerun</option>
+                  <option value="DE">Kenia</option>
+                <option value="DE">Marokko</option>
+                <option value="DE">Südafrika</option>
+                            </optgroup>
+                        </select>
+                      </div>
+                    </div>
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+              <div class="form-group">
+                          <label class="col-sm-3 control-label">Telefon</label>
+                          <div class="col-sm-9">
+                            <input type="text" data-max="100" class="form-control" placeholder="Pflichtfeld">
+                          </div>
+                        </div>
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+              <div class="form-group">
+                          <label class="col-sm-3 control-label">Telefon 2</label>
+                          <div class="col-sm-9">
+                            <input type="text" data-max="100" class="form-control" placeholder="">
+                          </div>
+                        </div>
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+              <div class="form-group">
+                          <label class="col-sm-3 control-label">Fax</label>
+                          <div class="col-sm-9">
+                            <input type="text" data-max="100" class="form-control" placeholder="">
+                          </div>
+                        </div>
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+              <div class="form-group">
+                          <label class="col-sm-3 control-label">Email</label>
+                          <div class="col-sm-9">
+                            <input type="text" data-max="100" class="form-control" placeholder="Pflichtfeld">
+                          </div>
+                        </div>
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+              <div class="form-group">
+                          <label class="col-sm-3 control-label">URL</label>
+                          <div class="col-sm-9">
+                            <input type="text" data-max="100" class="form-control" placeholder="Pflichtfeld">
+                          </div>
+              
+                        </div>
+          
+                   
+                      </div>
+            
+                      <footer class="panel-footer text-right bg-light lter">
+                        <button type="submit" class="btn btn-success btn-s-xs">Speichern</button>
+                      </footer>
+                    </section>
+                  </form>
+                </div>
+        
+         <div class="col-sm-6">
+                  <form class="form-horizontal" data-validate="parsley" action="#">
+                    <section class="panel panel-default">
+                      <header class="panel-heading">
+                        <strong>Weitere Kontakte</strong>
+                      </header>
+                      <div class="panel-body clearfix">                    
+                       <div class="form-group">
+                          <label class="col-sm-3 control-label">Anrede</label>
+                          <div class="col-sm-9" >
+                             <label class="checkbox-inline i-checks">
+                          <input type="checkbox" id="inlineCheckbox1" value="option1"><i></i> Herr
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                          <input type="checkbox" id="inlineCheckbox2" value="option2"><i></i> Frau
+                        </label>
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                           <div class="form-group">
+                          <label class="col-sm-3 control-label">Vorname / Nachname</label>
+                          <div class="col-sm-9">
+                            <div class="row">
+                              <div class="col-sm-6"><input type="text" value="Vorname" id="foo" class="form-control"></div>
+                              <div class="col-sm-6"><input type="text" data-equalto="#foo" placeholder="Nachname" class="form-control"></div>
+                            </div>                            
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                    
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Position im Unternehmen</label>
+                          <div class="col-sm-9">
+                            <input type="text" data-type="digits" class="form-control" placeholder="">
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                              <div class="form-group">
+                          <label class="col-sm-3 control-label">Telefon / Email</label>
+                          <div class="col-sm-9">
+                            <div class="row">
+                              <div class="col-sm-6"><input type="text" value="Telefon" id="foo" class="form-control"></div>
+                              <div class="col-sm-6"><input type="text" data-equalto="#foo" placeholder="Email" class="form-control"></div>
+                            </div>                            
+                          </div>
+                        </div>
+            
+                       
+                     
+                      </div>
+                      <footer class="panel-footer text-right bg-light lter">
+                        <button type="submit" class="btn btn-success btn-s-xs">Speichern</button>
+                      </footer>
+                    </section>
+                  </form>
+                </div>
+         <div class="col-sm-6">
+         <section class="panel panel-default pos-rlt clearfix">
+                    <header class="panel-heading">
+                      <ul class="nav nav-pills pull-right">
+                        <li>
+                          <a href="#" class="panel-toggle text-muted"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a>
+                        </li>
+                      </ul>
+                      <strong>Infos</strong>
+                    </header>
+                    <div class="panel-body clearfix">
+                   
+                   
+                 
+                 
+                    <div class="panel-body">
+                      <form class="bs-example form-horizontal">
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Erstellt </label>
+                          <div class="col-sm-9" >
+                             <label class="checkbox-inline i-checks">
+                           10.05.2014 | 18:23:51
+                        </label>
+                       
+                          </div>
+               <label class="col-sm-3 control-label">Änderung</label>
+                          <div class="col-sm-9" >
+                             <label class="checkbox-inline i-checks">
+                           19.07.2014 | 16:19:22
+                        </label>
+                       
+                          </div>
+                        </div> 
+                   
+                   
+                   
+                      </form>
+                    </div>
+                
+
+             
+                    </div>
+                  </section>
+          </div>
+
+
+
+
+        
+          
+          
+          
+          
+          
+          
+          </div><!--TAB 1-->
+                        <div class="tab-pane fade" id="concierge-2">
+            
+          <div class="row"> 
+                    <div class="col-sm-6">
+                  <form class="form-horizontal" data-validate="parsley" action="#">
+                    <section class="panel panel-default">
+                      <header class="panel-heading">
+                        <strong>Hotel Infos </strong>
+                      </header>
+                      <div class="panel-body">                    
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Name</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" data-required="true" placeholder="Pflichtfeld">
+                                                    
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                              <div class="form-group">
+                          <label class="col-sm-3 control-label">Hotel Kette</label>
+                          <div class="col-sm-9" >
+                             <label class="checkbox-inline i-checks">
+                          <input type="checkbox" id="inlineCheckbox1" value="option1"><i></i> Ja
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                          <input type="checkbox" id="inlineCheckbox2" value="option2"><i></i> Nein
+                        </label>
+            
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                     <div class="form-group">
+                          <label class="col-sm-3 control-label">Ketten Anzahl </label>
+                          <div class="col-sm-9">
+                           <input class="slider slider-horizontal form-control" type="text" value="" data-slider-min="0" data-slider-max="250" data-slider-step="1" data-slider-value="0" data-slider-orientation="horizontal" >
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Zimmer Anzahl </label>
+                          <div class="col-sm-9">
+                           <input class="slider slider-horizontal form-control" type="text" value="" data-slider-min="0" data-slider-max="500" data-slider-step="1" data-slider-value="0" data-slider-orientation="horizontal" >
+                          </div>
+                        </div>
+            <div class="form-group">
+                          <label class="col-sm-3 control-label">Gäste (Jährlich)  </label>
+                          <div class="col-sm-9">
+                           <input type="text" class="slider form-control" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="10" data-slider-value="[250,750]" id="sl2" >
+                          </div>
+                        </div>
+                        <div class="form-group"> <header class="panel-heading" style="color:#333">
+                        <strong>Ansprechpartner</strong>
+                      </header>
+                          
+                        </div>
+                     <div class="form-group">
+                          <label class="col-sm-3 control-label">Anrede</label>
+                          <div class="col-sm-9" >
+                             <label class="checkbox-inline i-checks">
+                          <input type="checkbox" id="inlineCheckbox1" value="option1"><i></i> Herr
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                          <input type="checkbox" id="inlineCheckbox2" value="option2"><i></i> Frau
+                        </label>
+                          </div>
+                        </div>
+                 <div class="line line-dashed b-b line-lg pull-in"></div>
+                           <div class="form-group">
+                          <label class="col-sm-3 control-label">Vorname / Nachname</label>
+                          <div class="col-sm-9">
+                            <div class="row">
+                              <div class="col-sm-6"><input type="text" value="Vorname" id="foo" class="form-control"></div>
+                              <div class="col-sm-6"><input type="text" data-equalto="#foo" placeholder="Nachname" class="form-control"></div>
+                            </div>                            
+                          </div>
+                        </div>
+                           <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                          <label class="col-sm-3 control-label">Position</label>
+                          <div class="col-sm-9">
+                            <input type="text" data-min="6" class="form-control" placeholder="">
+                          </div>
+                        </div>
+                        
+                      </div>
+                      <footer class="panel-footer text-right bg-light lter">
+                        <button type="submit" class="btn btn-success btn-s-xs">Speichern</button>
+                      </footer>
+                    </section>
+                  </form>
+                </div>
+              <div class="col-sm-6">
+                  <form class="form-horizontal" data-validate="parsley" action="#">
+                    <section class="panel panel-default">
+                      <header class="panel-heading">
+                        <strong>Produktinfos </strong>
+                      </header>
+                      <div class="panel-body">                    
+                          <div class="form-group">
+                          <label class="col-sm-3 control-label">Produkt </label>
+                          <div class="col-sm-9">
+                             <select data-required="true" class="form-control m-t" style="margin-top:0px">
+                                
+                                <option value="foo">Concierge S</option>
+                                <option value="bar">Concierge M</option>
+                <option value="foo">Concierge L </option>
+                                
+                            </select> 
+              
+                          </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                         <div class="form-group">
+                          <label class="col-sm-3 control-label">Bundle</label>
+                          <div class="col-sm-9" >
+                             <label class="checkbox-inline i-checks">
+                          <input type="checkbox" id="inlineCheckbox1" value="option1"><i></i> 1
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                          <input type="checkbox" id="inlineCheckbox2" value="option2"><i></i> 2
+                        </label>
+             <label class="checkbox-inline i-checks">
+                          <input type="checkbox" id="inlineCheckbox2" value="option2"><i></i> 3
+                        </label>
+            
+                          </div> 
+             <br> <div class="line line-dashed b-b line-lg pull-in"></div>
+                   <div class="form-group">
+                      <label class="col-sm-3 control-label">Switch</label>
+                      <div class="col-sm-9">
+                        <label class="switch">
+                          <input type="checkbox">
+                          <span></span>
+                        </label>
+                      </div>
+                    </div>
+                        </div>
+                   
+                       
+                       
+                     
+                      </div>
+                      <footer class="panel-footer text-right bg-light lter">
+                        <button type="submit" class="btn btn-success btn-s-xs">Speichern</button>
+                      </footer>
+                    </section>
+                  </form>
+                </div>
+        
+        
+         <div class="col-sm-6">
+                  <form class="form-horizontal" data-validate="parsley" action="#">
+                    <section class="panel panel-default">
+                      <header class="panel-heading">
+                        <strong>Standort </strong>
+                      </header>
+                    <div id="world_map" style="height:240px;">                        
+
+                      </div>
+                      <div class="m-t-xl m-b clearfix">
+                        <i class="i i-local i-2x text-info pull-left m-r m-l m-t-xs"></i>
+                        <div class="clear text-sm">
+                          Standort von Concierge, für den aktuellen Kunden.
+                        </div>
+                      </div>
+                      
+                    </section>
+                  </form>
+                </div>
+            </div>
+            
+            
+            <div class="row">     <div class="col-md-6">
+                  <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Multiple</header>
+                    <div class="panel-body">
+                      <div id="flot-chart"  style="height:240px;width:240px"></div>
+                    </div>
+                  </section>
+                </div>
+                <div class="col-md-6">
+                  <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Donut pie</header>
+                    <div class="panel-body">
+                      <div id="flot-pie-donut"  style="height:240px;width:240px"></div>
+                    </div>
+                  </section>
+                </div></div>
+            
+            
+            </div>
+            
+            
+            
+            
+            
+            
+                        <div class="tab-pane fade" id="concierge-partner-2">Partner</div>
+                          <div class="tab-pane fade" id="notizen-3">
+            
+                     <section class="hbox stretch">
+              <!-- .aside -->
+              <aside class="aside-xl b-l b-r" id="note-list">
+                <section class="vbox flex" style="min-height:500px">
+                  <header class="header clearfix">
+                    <span class="pull-right m-t"><button class="btn btn-success btn-sm btn-icon" id="new-note" data-toggle="tooltip" data-placement="right" title="New"><i class="fa fa-plus"></i></button></span>
+                    <p class="h3">Notes</p>
+                    <div class="input-group m-t m-b">
+                      <span class="input-group-addon input-sm"><i class="fa fa-search"></i></span>
+                      <input type="text" class="form-control input-sm" id="search-note" placeholder="search">
+                    </div>
+                  </header>
+                  <section>
+                    <section>
+                      <section>
+                        <div class="padder">
+                          <!-- note list -->
+                          <ul id="note-items" class="list-group"></ul>
+                            <!-- templates -->
+                            <script type="text/template" id="item-template">
+                              <div class="view" id="note-<%- id %>">
+                                <button class="destroy close hover-action">&times;</button>
+                                <div class="note-name text-ellipsis">
+                                  <strong>
+                                  <%- (name && name.length) ? name : 'New note' %>
+                                  </strong>
+                                </div>
+                                <div class="note-desc text-ellipsis">
+                                  <%- description.replace(name,'').length ? description.replace(name,'') : 'empty note' %>
+                                </div>
+                                <span class="text-xs text-muted"><%- moment(parseInt(date)).format('MMM Do, h:mm a') %></span>
+                              </div>
+                            </script>
+                            <!-- / template  -->
+                          <!-- note list -->
+                          <p class="text-center">&nbsp;</p>
+                        </div>
+                      </section>
+                    </section>
+                  </section>
+                </section>
+              </aside>
+              <!-- /.aside -->
+              <aside>
+                <section class="vbox" id="note-detail">
+                  <script type="text/template" id="note-template">
+                  
+                    <header class="header bg-light lter">
+                      <p id="note-date">Created on <%- moment(parseInt(date)).format('MMM Do, h:mm a') %></p>
+                    </header>
+                    <section class="scrollable bg-light lter paper">
+                      <textarea type="text" class="form-control scrollable" placeholder="Type your note here"><%- description %></textarea>
+                    </section>
+                  
+                  </script>
+                </section>
+              </aside>
+          </section>
+            
+            
+            
+            
+            </div>
+            
+            
+            
+            
+            
+            <div class="tab-pane fade" id="angebot-4">Angebot</div>
+                      </div>
+                    </div>
+                  </section>
+            </section>
+          </section>
+          <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open" data-target="#nav,html"></a>
+        </section>
+<!--CONTENT PAGE Ende-->    
+    
+      </section>
+    </section>
+  </section>
+  
+<!--Scripte-->
+  <script src="js/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="js/bootstrap.js"></script>
+  <!-- App -->
+  
+  <!-- Flot -->
+  <script src="js/charts/flot/jquery.flot.min.js"></script>
+  <script src="js/charts/flot/jquery.flot.tooltip.min.js"></script>
+  <script src="js/charts/flot/jquery.flot.resize.js"></script>
+  <script src="js/charts/flot/jquery.flot.orderBars.js"></script>
+  <script src="js/charts/flot/jquery.flot.pie.min.js"></script>
+  <script src="js/charts/flot/jquery.flot.grow.js"></script>
+  <script src="js/charts/flot/demo.js"></script>
+  
+  
+  <script src="js/app.js"></script>  
+  <script src="js/slimscroll/jquery.slimscroll.min.js"></script>
+  
+  <script src="js/charts/easypiechart/jquery.easy-pie-chart.js"></script>
+  <script src="js/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+  <script src="js/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+  <script src="js/jvectormap/jquery-jvectormap-us-aea-en.js"></script>
+  <script src="js/jvectormap/demo.js"></script>
+   <script src="js/libs/underscore-min.js"></script>
+  <script src="js/libs/backbone-min.js"></script>
+  <script src="js/libs/backbone.localStorage-min.js"></script>  
+  <script src="js/libs/moment.min.js"></script>
+  <!-- Notes -->
+  <script src="js/apps/notes.js"></script>
+
+  <script src="js/slider/bootstrap-slider.js"></script>
+  <script src="js/chosen/chosen.jquery.min.js"></script>
+
+  <script src="js/app.plugin.js"></script>
+
+  <script type="text/javascript">
+    $( document ).ready(function() {
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $('#flot-pie-donut').width('100%');
+        $('#flot-chart').width('100%');
+      });
+    });
+  </script>
+</body>
+</html>
