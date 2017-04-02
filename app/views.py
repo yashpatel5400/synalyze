@@ -5,7 +5,7 @@ __description__ = Views of pages
 
 from flask import render_template
 from app import app, mic
-from app.segment.analyze import synergy
+from app.analyze import synergy
 from app.segment.get_speaker import get_speaker
 from app.report.generate_page import generate_page
 
@@ -29,10 +29,11 @@ def index():
         # if child, perform analysis on the recording and store in segmentation
         # newpid = os.fork()
         # if newpid == 0:
-        get_speaker(filename)        
-        synergy.analyze(filename)
-        
-        report = generate_page(filename.split(".")[0])
+        get_speaker(filename)
+
+        dirname = filename.split(".")[0]
+        synergy.analyze(dirname)
+        report = generate_page(dirname)
         recorder = None
         return render_template(report)
     else:

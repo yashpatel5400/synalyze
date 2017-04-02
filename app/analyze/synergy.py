@@ -1,8 +1,17 @@
+"""
+__authors__     = Yash, Will, Peter
+__description__ = Uses IBM Watson API to do analysis on text/speech
+for concept, tone, etc... extraction
+"""
+
+from . import settings as s
+
 import requests
 import json
-from watson_developer_cloud import ToneAnalyzerV3, SpeechToTextV1, \
-									PersonalityInsightsV3, DiscoveryV1
 import os
+from watson_developer_cloud import ToneAnalyzerV3, SpeechToTextV1, \
+        PersonalityInsightsV3, DiscoveryV1
+
 from docx import Document
 
 API = {'S2T' : {'KEY':'6e38287f-f949-4389-a5bb-5fff4d30374e', 'PWD':'ZZfb1YQ8k7cl'}, 
@@ -86,7 +95,7 @@ def clear_documents():
 
 	while result['matching_results']:
 		result = cognitive_search({'return':'id'})
-		print "Deleting Old Records"
+		print("Deleting Old Records")
 		for doc_id in result['results']:
 			doc_id = doc_id['id']
 			delete_doc = discovery.delete_document('56eed52e-0538-4e43-92a8-a7223844e431', 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29', doc_id)
@@ -96,7 +105,7 @@ def write_to_discovery(text_array):
 	col_id = 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29'
 
 	clear_documents()
-
+	add_doc = ""
 	for i, text in enumerate(text_array):
 		if text:
 			document = Document()
@@ -109,8 +118,7 @@ def write_to_discovery(text_array):
 			document.save(fname)
 			
 			with open(fname, 'r') as outfile:	
-				add_doc = discovery.add_document(env_id, col_id, file_info=outfile)
-	
+				add_doc += discovery.add_document(env_id, col_id, file_info=outfile)                                
 	return json.dumps(add_doc, indent=2)
 
 def cognitive_search(query_options):
@@ -187,57 +195,47 @@ def find_parties():
 # with open('parties.json', 'w') as party:
 # 	party.write(json.dumps(p))
 
-# ------------ Main Script ------------------
+# ------------ Main --------------------------------
+def analyze(filename):
+        input_dir = "{}/{}".format(s.INPUT_DIR, filename)
+        audio_files = os.listdir(input_dir)
+        audio_array = [open("{}/{}".format(input_dir, audio_name), 'r')
+                for audio_name in audio_files]
 
-def analyze():
-	audio_array = []
-	i = 1
+        print(audio_array)
+        print("Transcribing Audio...")
+        text_array = transcribe(audio_array)
 
-	while True:
-		audio_filename = './testmeeting/' + str(i) + '.wav'
-		try:
-			a = open(audio_filename, 'r')
-			audio_array.append(a)
-			i += 1
-		except:
-			break
+        print("Analysing Tone...")
+        tone_array = analyze_tone(text_array)
 
-	print("Transcribing Audio...")
-	text_array = transcribe(audio_array)
+        print("Building Personas...")
+        personality_array = personalize(text_array)
 
-	print("Analysing Tone...")
-	tone_array = analyze_tone(text_array)
+        print("Writing to Discovery")
+        write_to_discovery(text_array)
 
-	print("Building Personas...")
-	personality_array = personalize(text_array)
+        print("Performing Cognitive Search")
+        entities = cognitive_search({'aggregation':'term(enriched_text.entities.text%2Ccount%3A5)'})
+        concepts = cognitive_search({'aggregation':'term(enriched_text.concepts.text%2Ccount%3A5)'})
 
-	print("Writing to Discovery")
-	write_to_discovery(text_array)
+        concepts = concepts['aggregations'][0]['results']
+        entities = entities['aggregations'][0]['results']
 
-	print("Performing Cognitive Search")
-	entities = cognitive_search({'aggregation':'term(enriched_text.entities.text%2Ccount%3A5)'})
-	concepts = cognitive_search({'aggregation':'term(enriched_text.concepts.text%2Ccount%3A5)'})
+        keys = []
+        for entity in entities:
+                keys.append(entity['key'])
 
-	concepts = concepts['aggregations'][0]['results']
-	entities = entities['aggregations'][0]['results']
+        parties = find_parties()
+        print("Writing Results...")
 
-	keys = []
-	for entity in entities:
-		keys.append(entity['key'])
+        data = {}
+        data['transcript'] = text_array
+        data['tone'] = tone_array
+        data['personality'] = personality_array
+        data['keys'] = keys
+        data['concepts'] = concepts
+        data['parties'] = parties
 
-	parties = find_parties()
-
-	print("Writing Results...")
-
-	data = {}
-	data['transcript'] = text_array
-	data['tone'] = tone_array
-	data['personality'] = personality_array
-	data['keys'] = keys
-	data['concepts'] = concepts
-	data['parties'] = parties
-
-	with open('results.txt', 'w') as f:
-		f.write(json.dumps(data))
-
-
+        with open('{}/{}.txt'.format(s.OUTPUT_DIR, filename), 'w') as f:
+                f.write(json.dumps(data))
