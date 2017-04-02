@@ -6,8 +6,8 @@ that can be read directly into Python
 require 'diarize'
 require 'json'
 
-AUDIO_INPUT = "audio"
-JSON_OUTPUT = "output"
+AUDIO_INPUT = "app/segment/audio"
+JSON_OUTPUT = "app/segment/output"
 
 def segment_audio(filename)
   base_dir = Dir.getwd

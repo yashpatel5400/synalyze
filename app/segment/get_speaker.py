@@ -5,8 +5,9 @@ using external Ruby hook -- i.e. API of specifying input file and doing
 processing w/ Ruby package for diarization with cleaned outputs
 """
 
+from . import settings as s
+
 from pydub import AudioSegment
-import settings as s
 import json
 import os
 

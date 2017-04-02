@@ -5,6 +5,9 @@ __description__ = Views of pages
 
 from flask import render_template
 from app import app, mic
+from app.segment.get_speaker import get_speaker
+
+import os
 
 recorder = None
 
@@ -19,9 +22,18 @@ def record():
 @app.route('/stop')
 def stop():
     global recorder
-    
     filename = recorder.stoprecording()
-    return index()
+    get_speaker(filename)
+    
+    # if child, perform analysis on the recording and store in segmentation
+    newpid = os.fork()
+    if newpid == 0:
+        print("Analyzing...")
+        get_speaker(filename)
+        os._exit(0)
+    else:
+        # otherwise, simply return to serving the original page
+        return index()
 
 @app.route('/')
 def index():
