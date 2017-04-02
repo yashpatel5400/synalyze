@@ -80,11 +80,11 @@ def personalize(text_array):
 
 	for profile_text in text_array:
 		try:
-		    profile = personality_insights.profile(
-		        profile_text, content_type='text/plain',
-		        raw_scores=True, consumption_preferences=True)
+			profile = personality_insights.profile(
+				profile_text, content_type='text/plain',
+				raw_scores=True, consumption_preferences=True)
 
-		    personality_array.append(profile)
+			personality_array.append(profile)
 		except:
 			personality_array.append('')
 
@@ -149,19 +149,11 @@ def cognitive_search(query_options):
 	
 	return query_results
 
-def find_parties():
-	parties = []
-	i = 1
-
-	while True:
-		party_json = './testmeeting/' + str(i) + '.json'
-		try:
-			a = open(party_json, 'r')
-			parties.append(json.load(a))
-			i += 1
-		except:
-			break
-
+def find_parties(filename):
+	input_dir = "{}/{}".format(s.INPUT_DIR, filename)
+	json_files = [f for f in os.listdir(input_dir) if f.split(".")[-1] == "json"]
+	parties = [json.load(open("{}/{}".format(input_dir, json_name), 'rb'))
+		for json_name in json_files]
 	return parties
 
 # ------------- Test Space ------------------
@@ -231,7 +223,7 @@ def analyze(filename):
         for entity in entities:
                 keys.append(entity['key'])
 
-        parties = find_parties()
+        parties = find_parties(filename)
         print("Writing Results...")
 
         data = {}
@@ -241,6 +233,6 @@ def analyze(filename):
         data['keys'] = keys
         data['concepts'] = concepts
         data['parties'] = parties
-
+        
         with open('{}/{}.txt'.format(s.OUTPUT_DIR, filename), 'w') as f:
                 f.write(json.dumps(data))
