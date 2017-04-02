@@ -4,15 +4,24 @@ __description__ = Views of pages
 """
 
 from flask import render_template
-from app import app
+from app import app, mic
 
-@app.route('/mic')
-def mic():
-    return render_template('index.html')
+recorder = None
+
+@app.route('/record')
+def record():
+    global recorder
+    
+    recorder = mic.Mic()
+    recorder.startrecording()
+    return render_template('record.html')
 
 @app.route('/stop')
 def stop():
-    return render_template('index.html')
+    global recorder
+    
+    filename = recorder.stoprecording()
+    return index()
 
 @app.route('/')
 def index():
