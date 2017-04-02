@@ -5,7 +5,11 @@ doing organization)
 """
 
 # ------------------------------ Directory variables -----------------------------
-INPUT_DIR = "audio"
+INPUT_DIR  = "audio"
+OUTPUT_DIR = "output"
+
+# ------------------------------ Ruby diarizer ---=-----------------------------
+INPUT_FILE   = "input_filename"
 
 # ------------------------------ Ruby diarizer ---=-----------------------------
 DIARIZER  = "diarize.rb"
