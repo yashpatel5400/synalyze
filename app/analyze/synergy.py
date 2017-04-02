@@ -188,9 +188,15 @@ with open('parties.json', 'w') as party:
 	party.write(json.dumps(p))
 
 # ------------ Main Script ------------------
+<<<<<<< HEAD
 # def main():
 # 	audio_array = []
 # 	i = 1
+=======
+def analyze():
+	audio_array = []
+	i = 1
+>>>>>>> 98187188fc217d22df8e7dd7c05d039effca1dfb
 
 # 	while True:
 # 		audio_filename = './testmeeting/' + str(i) + '.wav'
@@ -201,6 +207,7 @@ with open('parties.json', 'w') as party:
 # 		except:
 # 			break
 
+<<<<<<< HEAD
 # 	print "Transcribing Audio..."
 	# text_array = transcribe(audio_array)
 
@@ -216,6 +223,23 @@ with open('parties.json', 'w') as party:
 	# print "Performing Cognitive Search"
 	# entities = cognitive_search({'aggregation':'term(enriched_text.entities.text%2Ccount%3A5)'})
 	# concepts = cognitive_search({'aggregation':'term(enriched_text.concepts.text%2Ccount%3A5)'})
+=======
+	print("Transcribing Audio...")
+	text_array = transcribe(audio_array)
+
+	print("Analysing Tone...")
+	tone_array = analyze_tone(text_array)
+
+	print("Building Personas...")
+	personality_array = personalize(text_array)
+
+	print("Writing to Discovery")
+	write_to_discovery(text_array)
+
+	print("Performing Cognitive Search")
+	entities = cognitive_search({'aggregation':'term(enriched_text.entities.text%2Ccount%3A5)'})
+	concepts = cognitive_search({'aggregation':'term(enriched_text.concepts.text%2Ccount%3A5)'})
+>>>>>>> 98187188fc217d22df8e7dd7c05d039effca1dfb
 
 	# concepts = concepts['aggregations'][0]['results']
 	# entities = entities['aggregations'][0]['results']
@@ -226,7 +250,11 @@ with open('parties.json', 'w') as party:
 
 	# parties = find_parties()
 
+<<<<<<< HEAD
 	# print "Writing Results..."
+=======
+	print("Writing Results...")
+>>>>>>> 98187188fc217d22df8e7dd7c05d039effca1dfb
 
 	# data = {}
 	# data['transcript'] = text_array

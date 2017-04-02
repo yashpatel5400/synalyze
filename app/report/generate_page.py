@@ -13,14 +13,17 @@ import json
 def generate_page(filename):
     print("Generating output...")
     templatefile = "{}/template.html".format(s.REPORT_DIR)
-    template = ""
+    resultsfile  = "{}/results.txt".format(s.ANALYZE_DIR)
+
     with open(templatefile, 'r') as f:
         template = f.read().strip()
         
-    parsed = json.load(sys.stdin)
+    with open(resultsfile, 'r') as f:
+        parsed = json.load(f)
 
-    munged = []
-    for segment in parsed:
+    tones = parsed["tone"]
+    munged_tones = []
+    for segment in tones:
         temp = [0, 0, 0]
         if segment != "":
             for tone in segment:
@@ -36,14 +39,14 @@ def generate_page(filename):
                     temp[2] += tone["score"]
                     temp[0] /= 2
                     temp[1] /= 2
-                    munged.append(temp)
+                    munged_tones.append(temp)
 
-    series1 = ", ".join(['{x: ' + str(ind) + ', y: ' + str(data[0]) +
-                         '}' for ind, data in enumerate(munged)])
-    series2 = ", ".join(['{x: ' + str(ind) + ', y: ' + str(data[1]) +
-                         '}' for ind, data in enumerate(munged)])
-    series3 = ", ".join(['{x: ' + str(ind) + ', y: ' + str(data[2]) +
-                         '}' for ind, data in enumerate(munged)])
+    series1 = ", ".join(['{x: ' + str(ind) + ', y: ' + str(data[0]) + '}'
+                         for ind, data in enumerate(munged_tones)])
+    series2 = ", ".join(['{x: ' + str(ind) + ', y: ' + str(data[1]) + '}'
+                         for ind, data in enumerate(munged_tones)])
+    series3 = ", ".join(['{x: ' + str(ind) + ', y: ' + str(data[2]) + '}'
+                         for ind, data in enumerate(munged_tones)])
 
     data = {
         'title': 'Report from Meeting',
