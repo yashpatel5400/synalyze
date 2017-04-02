@@ -11,15 +11,25 @@
 			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
-		<title>FUCK SOME SHIT</title>
+		<title>Placeholder Title</title>
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.6.0/rickshaw.min.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.6.0/rickshaw.min.js"></script>
+
 		<style type="text/css">
 .circle_green { 
 	width:1%;
@@ -29,11 +39,12 @@
 	background-color:green;
 }
 		</style>
+
 	</head>
 	<body>
 		<div class="container">
 			<div class="page-header">
-				<h1>FUCK SOME SHIT</h1>
+				<h1>More Placeholder</h1>
 				<p class="lead">From a meeting on some day that ran for some time</p>
 			</div>
 
@@ -44,23 +55,49 @@
 				<li>Main Idea 3</li>
 			</ul>
 
-			<h2>People</h2>
+			<br>
+			<br>
+			<br>
+			<div id="chart"></div>
 
-			<h2>Transcript</h2>
-			<table style="border-collapse: separate;border-spacing: 10px;">
-				<tr style="vertical-align:top;">
-					<td>0:00</td>
-					<td><div class="circle_green"></td>
-					<td><span class="glyphicon glyphicon-check" aria-hidden="true"></span></td>
-					<td><p>Person 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></td>
-				</tr>
-				<tr style="vertical-align:top;">
-					<td>0:00</td>
-					<td><div class="circle_green"></td>
-					<td><span class="glyphicon glyphicon-check" aria-hidden="true"></span></td>
-					<td><p>Person 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></td>
-				</tr>
-			</table>
-						</div>
+				<h2>People</h2>
+
+				<h2>Transcript</h2>
+				<table style="border-collapse: separate;border-spacing: 10px;">
+					<tr style="vertical-align:top;">
+						<td>0:00</td>
+						<td><div class="circle_green"></td>
+						<td><span class="glyphicon glyphicon-check" aria-hidden="true"></span></td>
+						<td><p>Person 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></td>
+					</tr>
+					<tr style="vertical-align:top;">
+						<td>0:00</td>
+						<td><div class="circle_green"></td>
+						<td><span class="glyphicon glyphicon-check" aria-hidden="true"></span></td>
+						<td><p>Person 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></td>
+					</tr>
+				</table>
+							</div>
+		<script>
+var graph = new Rickshaw.Graph( {
+	element: document.getElementById("chart"),
+	width: 235,
+	height: 85,
+	renderer: 'line',
+	series: [
+		{
+		data: [ { x: 0, y: 40 }, { x: 1, y: 49 }, { x: 2, y: 38 }, { x: 3, y: 30 }, { x: 4, y: 32 } ],
+		color: '#ff0000'
+		}, {
+		data: [ { x: 0, y: 49 }, { x: 1, y: 38 }, { x: 2, y: 30 }, { x: 3, y: 32 }, { x: 4, y: 40 } ],
+		color: '#00ff00'
+		}, {
+		data: [ { x: 0, y: 38 }, { x: 1, y: 30 }, { x: 2, y: 32 }, { x: 3, y: 40 }, { x: 4, y: 49 } ],
+		color: '#0000ff'
+		}
+		]
+} );
+graph.render();
+		</script>
 	</body>
 </html>
