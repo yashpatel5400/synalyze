@@ -26,13 +26,11 @@ def index():
     if recorder is not None:
         filename = recorder.stoprecording()
         # if child, perform analysis on the recording and store in segmentation
-        newpid = os.fork()
-        if newpid == 0:
-            print("Analyzing...")
-            get_speaker(filename)
-            os._exit(0)
-            
+        # newpid = os.fork()
+        # if newpid == 0:
+        get_speaker(filename)        
         synergy.analyze()
+        
         report = generate_page(filename.split(".")[0])
         recorder = None
         return render_template(report)

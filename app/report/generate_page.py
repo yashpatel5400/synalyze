@@ -4,14 +4,15 @@ __description__ = Generates report HTML pages given analysis performed using
 the Watson API
 """
 
-from app import settings as s
+from . import settings as s
 
 import pystache
 import sys
 import json
 
 def generate_page(filename):
-    templatefile = "./template.html"
+    print("Generating output...")
+    templatefile = "{}/template.html".format(s.REPORT_DIR)
     template = ""
     with open(templatefile, 'r') as f:
         template = f.read().strip()
