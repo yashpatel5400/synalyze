@@ -125,8 +125,8 @@ def cognitive_search(query_options):
 # personality_array = personalize([text])
 
 # print(json.dumps(personality_array[0], indent=2))
-# write_to_discovery(['several tornadoes touch down as a line of severe thunderstorms swept through Colorado on Sunday '])
-# print cognitive_search({})
+write_to_discovery(['several tornadoes touch down as a line of severe thunderstorms swept through Colorado on Sunday '])
+print cognitive_search({})
 
 # ------------ Main Script ------------------
 
