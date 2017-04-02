@@ -55,8 +55,11 @@ def generate_page(filename):
         total_dur += segment["duration"]
         comb[segment["speaker_id"]] = val
 
+    speakers = []
+    durations = []
     for k in comb:
-        comb[k] /= total_dur
+        speakers.append(k)
+        durations.append(comb[k] / total_dur)
 
     data = {
         'title': 'Report from Meeting',
@@ -67,6 +70,8 @@ def generate_page(filename):
         'series1_str': series1,
         'series2_str': series2,
         'series3_str': series3,
+        'speakers': speakers,
+        'durations': durations,
     }
 
     final_report = "{}/report_{}.html".format(
