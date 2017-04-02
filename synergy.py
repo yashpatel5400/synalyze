@@ -88,7 +88,6 @@ def cognitive_search(query_options):
 	default_config = discovery.get_configuration(
 	    environment_id=my_environment_id, configuration_id=default_config_id)
 
-	query_options = {}
 	query_results = discovery.query(my_environment_id,
 	                                my_collections[1]['collection_id'],
 	                                query_options)
@@ -97,13 +96,15 @@ def cognitive_search(query_options):
 
 # ------------- Test Space ------------------
 # a = open('./audio.flac', 'r')
-f = open('./transcript.txt', 'r')
-lines = f.readlines()
-text = ''
-for line in lines:
-	text += line
+# f = open('./transcript.txt', 'r')
+# lines = f.readlines()
+# text = ''
+# for line in lines:
+# 	text += line
 # audio_array = [a]
 # text_array = transcribe(audio_array)
 # tone_array = analyze_tone(['several tornadoes touch down as a line of severe thunderstorms swept through Colorado on Sunday '])
-personality_array = personalize([text])
+# personality_array = personalize([text])
+
+print cognitive_search({})
 
