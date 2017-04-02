@@ -90,7 +90,7 @@ def clear_documents():
 		for doc_id in result['results']:
 			doc_id = doc_id['id']
 			delete_doc = discovery.delete_document('56eed52e-0538-4e43-92a8-a7223844e431', 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29', doc_id)
-			
+
 def write_to_discovery(text_array):
 	env_id = '56eed52e-0538-4e43-92a8-a7223844e431'
 	col_id = 'b5b60b1b-4e2b-4840-8bdc-da30a00f3e29'
@@ -139,6 +139,21 @@ def cognitive_search(query_options):
 	
 	return query_results
 
+def find_parties():
+	parties = []
+	i = 1
+
+	while True:
+		party_json = './testmeeting/' + str(i) + '.json'
+		try:
+			a = open(party_json, 'r')
+			parties.append(a.read())
+			i += 1
+		except:
+			break
+
+	return parties
+
 # ------------- Test Space ------------------
 
 # a = open('./testmeeting/9.flac', 'r')
@@ -166,54 +181,62 @@ def cognitive_search(query_options):
 # write_to_discovery(text_array)
 # print result
 
+r = find_parties()
+print json.dumps(r)
+
 
 # ------------ Main Script ------------------
 
-audio_array = []
-i = 1
+# audio_array = []
+# i = 1
 
-while True:
-	audio_filename = './testmeeting/' + str(i) + '.wav'
-	try:
-		a = open(audio_filename, 'r')
-		audio_array.append(a)
-		i += 1
-	except:
-		break
+# while True:
+# 	audio_filename = './testmeeting/' + str(i) + '.wav'
+# 	try:
+# 		a = open(audio_filename, 'r')
+# 		audio_array.append(a)
+# 		i += 1
+# 	except:
+# 		break
 
-print "Transcribing Audio..."
-text_array = transcribe(audio_array)
+# print "Transcribing Audio..."
+# text_array = transcribe(audio_array)
 
-print "Analysing Tone..."
-tone_array = analyze_tone(text_array)
+# print "Analysing Tone..."
+# tone_array = analyze_tone(text_array)
 
-print "Building Personas..."
-personality_array = personalize(text_array)
+# print "Building Personas..."
+# personality_array = personalize(text_array)
 
-print "Writing to Discovery"
-write_to_discovery(text_array)
+# print "Writing to Discovery"
+# write_to_discovery(text_array)
 
-print "Performing Cognitive Search"
-entities = cognitive_search({'aggregation':'term(enriched_text.entities.text%2Ccount%3A5)'})
-concepts = cognitive_search({'aggregation':'term(enriched_text.concepts.text%2Ccount%3A5)'})
+# print "Performing Cognitive Search"
+# entities = cognitive_search({'aggregation':'term(enriched_text.entities.text%2Ccount%3A5)'})
+# concepts = cognitive_search({'aggregation':'term(enriched_text.concepts.text%2Ccount%3A5)'})
 
-concepts = concepts['aggregations'][0]['results']
+# concepts = concepts['aggregations'][0]['results']
+# entities = entities['aggregations'][0]['results']
 
-entities = entities['aggregations'][0]['results']
-keys = []
-for entity in entities:
-	keys.append(entity['key'])
+# keys = []
+# for entity in entities:
+# 	keys.append(entity['key'])
 
-print "Writing Results..."
-with open('results.txt', 'w') as f:
-	f.write(json.dumps(text_array))
+# parties = find_parties()
+
+# print "Writing Results..."
+
+# with open('results.txt', 'w') as f:
+# 	f.write(json.dumps(text_array))
 	
-	f.write(json.dumps(tone_array))
+# 	f.write(json.dumps(tone_array))
 
-	f.write(json.dumps(personality_array))
+# 	f.write(json.dumps(personality_array))
 
-	f.write(str(keys) + '\n')
+# 	f.write(str(keys) + '\n')
 
-	f.write(str(concepts))
+# 	f.write(str(concepts) + '\n')
+
+# 	f.write(json.dumps(parties))
 
 
