@@ -26,8 +26,6 @@
         <link rel="stylesheet" href="../static/css/magnific-popup.css">
         <link rel="stylesheet" href="../static/css/bootsnav.css">
 
-
-
         <!--For Plugins external css-->
         <link rel="stylesheet" href="../static/css/plugins.css" />
 
@@ -38,6 +36,10 @@
         <link rel="stylesheet" href="../static/css/responsive.css" />
 
         <script src="../static/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+
+        <script src="../static/js/audiodisplay.js"></script>
+        <script src="../static/js/recorderjs/recorder.js"></script>
+        <script src="../static/js/mic.js"></script>
     </head>
 
     <body data-spy="scroll" data-target=".navbar-collapse" data-offset="100">
@@ -56,39 +58,37 @@
         </div><!--End off Preloader -->
 		
         <!--Home Sections-->
-
         <section id="home" class="home bg-black fix">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row">
-                     <div class="main_home text-center">
+                    <div class="main_home text-center">
                         <div class="col-md-12">
                             <div class="hello">
                                 <div class="slid_item">
                                    <div class="home_text ">
                                         <h1 class="text-yellow">Welcome to Synergy</h1>
                                             <h3 class="text-white text-uppercase">We Perform Analysis on Business Meetings </h3>
-                                        </div>
-                                    </div><!-- End off slid item -->
-
-                                </div>
+                                    </div>
+                                </div><!-- End off slid item -->
                             </div>
-
                         </div>
 
-
-                        <a class="mouse-scroll" href="/record"> 
-                            <span class="mouse">
-                                <span class="mouse-movement"></span>
-                            </span>
-                            <span class="mouse-message fadeIn">Record</span> <br />
-                            <!--<i class="fa fa-angle-down m-top-10 fadeIn mouse-message"></i>--> 
-                        </a>
-                    </div><!--End off row-->
-                </div><!--End off container -->
-            </section> <!--End off Home Sections-->
-        </div>
-
+                        <div class="col-md-12">
+                            <div class="col-md-6" id="viz">
+                                <canvas id="analyser"></canvas>
+                                <canvas id="wavedisplay" hidden></canvas>
+                            </div>
+                            <div class="col-md-6" id="controls">
+                                <img class="col-md-3" id="record" src="../static/images/mic.png" onclick="toggleRecording(this);">
+                                <a class="col-md-9" id="save" href="#"><img src="../static/images/save.svg"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--End off row-->
+            </div><!--End off container -->
+        </section> <!--End off Home Sections-->
+        
         <!-- JS includes -->
 
         <script src="../static/js/vendor/jquery-1.11.2.min.js"></script>

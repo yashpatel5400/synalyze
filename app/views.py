@@ -13,6 +13,10 @@ import os
 
 recorder = None
 
+@app.route('/mic')
+def mic():
+    return render_template('mic.html')
+
 @app.route('/record')
 def record():
     global recorder
