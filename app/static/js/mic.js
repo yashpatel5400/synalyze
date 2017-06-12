@@ -13,6 +13,7 @@
    limitations under the License.
 */
 
+console.log("FUUUCK");
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var audioContext = new AudioContext();

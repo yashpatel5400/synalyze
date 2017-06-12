@@ -34,12 +34,6 @@
 
         <!--Theme Responsive css-->
         <link rel="stylesheet" href="../static/css/responsive.css" />
-
-        <script src="../static/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-
-        <script src="../static/js/audiodisplay.js"></script>
-        <script src="../static/js/recorderjs/recorder.js"></script>
-        <script src="../static/js/mic.js"></script>
     </head>
 
     <body data-spy="scroll" data-target=".navbar-collapse" data-offset="100">
@@ -75,10 +69,6 @@
                         </div>
 
                         <div class="col-md-12">
-                            <div class="col-md-6" id="viz">
-                                <canvas id="analyser"></canvas>
-                                <canvas id="wavedisplay" hidden></canvas>
-                            </div>
                             <div class="col-md-6" id="controls">
                                 <img class="col-md-3" id="record" src="../static/images/mic.png" onclick="toggleRecording(this);">
                                 <a class="col-md-9" id="save" href="#"><img src="../static/images/save.svg"></a>
@@ -90,6 +80,158 @@
         </section> <!--End off Home Sections-->
         
         <!-- JS includes -->
+        <script src="../static/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+
+        <script src="../static/js/audiodisplay.js"></script>
+        <script src="../static/js/recorderjs/recorder.js"></script>
+        <script>
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+
+            var audioContext = new AudioContext();
+            var audioInput = null,
+                realAudioInput = null,
+                inputPoint = null,
+                audioRecorder = null;
+            var rafID = null;
+            var analyserContext = null;
+            var canvasWidth, canvasHeight;
+            var recIndex = 0;
+
+            function gotBuffers( buffers ) {
+                var canvas = document.getElementById( "wavedisplay" );
+                audioRecorder.exportWAV( doneEncoding );
+            }
+
+            function doneEncoding( blob ) {
+                Recorder.setupDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
+                recIndex++;
+            }
+
+            function toggleRecording( e ) {
+                if (e.classList.contains("recording")) {
+                    // stop recording
+                    audioRecorder.stop();
+                    e.classList.remove("recording");
+                    audioRecorder.getBuffers( gotBuffers );
+                } else {
+                    // start recording
+                    if (!audioRecorder)
+                        return;
+                    e.classList.add("recording");
+                    audioRecorder.clear();
+                    audioRecorder.record();
+                }
+            }
+
+            function convertToMono( input ) {
+                var splitter = audioContext.createChannelSplitter(2);
+                var merger = audioContext.createChannelMerger(2);
+
+                input.connect( splitter );
+                splitter.connect( merger, 0, 0 );
+                splitter.connect( merger, 0, 1 );
+                return merger;
+            }
+
+            function cancelAnalyserUpdates() {
+                window.cancelAnimationFrame( rafID );
+                rafID = null;
+            }
+
+            function toggleMono() {
+                if (audioInput != realAudioInput) {
+                    audioInput.disconnect();
+                    realAudioInput.disconnect();
+                    audioInput = realAudioInput;
+                } else {
+                    realAudioInput.disconnect();
+                    audioInput = convertToMono( realAudioInput );
+                }
+
+                audioInput.connect(inputPoint);
+            }
+
+            function gotStream(stream) {
+                inputPoint = audioContext.createGain();
+
+                // Create an AudioNode from the stream.
+                realAudioInput = audioContext.createMediaStreamSource(stream);
+                audioInput = realAudioInput;
+                audioInput.connect(inputPoint);
+
+                analyserNode = audioContext.createAnalyser();
+                analyserNode.fftSize = 2048;
+                inputPoint.connect( analyserNode );
+
+                audioRecorder = new Recorder( inputPoint );
+
+                zeroGain = audioContext.createGain();
+                zeroGain.gain.value = 0.0;
+                inputPoint.connect( zeroGain );
+                zeroGain.connect( audioContext.destination );
+            }
+
+            function initializeRecorder(stream) {
+                audio_context = new AudioContext;
+                sampleRate = audio_context.sampleRate;
+                var audioInput = audio_context.createMediaStreamSource(stream);
+
+                console.log("Created media stream.");
+
+                var bufferSize = 4096;
+                // record only 1 channel
+                var recorder = audio_context.createScriptProcessor(bufferSize, 1, 1);
+                // specify the processing function
+                recorder.onaudioprocess = recorderProcess;
+                // connect stream to our recorder
+                audioInput.connect(recorder);
+                // connect our recorder to the previous destination
+                recorder.connect(audio_context.destination);
+            }
+
+            function initAudio() {
+                    if (!navigator.getUserMedia)
+                        navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+                    if (!navigator.cancelAnimationFrame)
+                        navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
+                    if (!navigator.requestAnimationFrame)
+                        navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
+
+                navigator.getUserMedia(
+                    {
+                        "audio": {
+                            "mandatory": {
+                                "googEchoCancellation": "false",
+                                "googAutoGainControl": "false",
+                                "googNoiseSuppression": "false",
+                                "googHighpassFilter": "false"
+                            },
+                            "optional": []
+                        },
+                    }, initializeRecorder, errorCallback);
+
+                var ws = new WebSocket('ws://127.0.0.1:5000/websocket');
+
+                ws.onopen = function(evt) {
+                    console.log('Connected to websocket.');
+
+                    // First message: send the sample rate
+                    ws.send("sample rate:" + sampleRate);
+
+                    navigator.getUserMedia({audio: true, video: false}, initializeRecorder, function(e) 
+                        { console.log('No live audio input: ' + e); });
+                }
+            }
+
+            function recorderProcess(e) {
+                if (recording){
+                  var left = e.inputBuffer.getChannelData(0);
+                  ws.send(left);
+                }
+            }
+
+            window.addEventListener('load', initAudio );
+        </script>
 
         <script src="../static/js/vendor/jquery-1.11.2.min.js"></script>
         <script src="../static/js/vendor/bootstrap.min.js"></script>
@@ -107,8 +249,5 @@
 
         <script src="../static/js/plugins.js"></script>
         <script src="../static/js/main.js"></script>
-
-
-
     </body>
 </html>

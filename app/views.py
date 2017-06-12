@@ -4,6 +4,8 @@ __description__ = Views of pages
 """
 
 from flask import render_template
+from flask_uwsgi_websocket import GeventWebSocket
+
 from app import app, mic
 from app.analyze import synergy
 from app.segment.get_speaker import get_speaker
@@ -11,28 +13,13 @@ from app.report.generate_page import generate_page
 
 import os
 
-recorder = None
-
-@app.route('/mic')
-def mic():
-    return render_template('mic.html')
-
-@app.route('/record')
-def record():
-    global recorder
-    
-    recorder = mic.Mic()
-    recorder.startrecording()
-    return render_template('record.html')
+ws = GeventWebSocket(app)
 
 @app.route('/')
 def index():
-    global recorder
+    recorder = None
     if recorder is not None:
         filename = recorder.stoprecording()
-        # if child, perform analysis on the recording and store in segmentation
-        # newpid = os.fork()
-        # if newpid == 0:
         get_speaker(filename)
 
         dirname = filename.split(".")[0]
@@ -42,3 +29,22 @@ def index():
         return render_template(report)
     else:
         return render_template('index.html')
+
+@ws.route('/websocket')
+def audio(ws):
+    first_message = True
+    total_msg = ""
+    sample_rate = 0
+
+    while True:
+       msg = ws.receive()
+
+       if first_message and msg is not None: # the first message should be the sample rate
+          sample_rate = getSampleRate(msg)
+          first_message = False
+          continue
+       elif msg is not None:
+          audio_as_int_array = numpy.frombuffer(msg, 'i2')
+          doSomething(audio_as_int_array)
+       else:
+          break

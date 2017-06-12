@@ -7,3 +7,5 @@ python-docx
 watson_developer_cloud
 requests
 pystache
+gevent
+flask_uwsgi_websocket
