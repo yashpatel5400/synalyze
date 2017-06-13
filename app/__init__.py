@@ -4,6 +4,9 @@ __description__ = Default app directory initialization
 """
 
 from flask import Flask
+from flask_socketio import SocketIO
 
 app = Flask(__name__)
-from app import views, mic, settings
+socketio = SocketIO(app)
+
+from app import views, settings

@@ -108,29 +108,29 @@ function initializeRecorder(stream) {
 }
 
 function initAudio() {
-        if (!navigator.getUserMedia)
-            navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        if (!navigator.cancelAnimationFrame)
-            navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
-        if (!navigator.requestAnimationFrame)
-            navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
+    if (!navigator.getUserMedia)
+        navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    if (!navigator.cancelAnimationFrame)
+        navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
+    if (!navigator.requestAnimationFrame)
+        navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
 
     navigator.getUserMedia(
-        {
-            "audio": {
-                "mandatory": {
-                    "googEchoCancellation": "false",
-                    "googAutoGainControl": "false",
-                    "googNoiseSuppression": "false",
-                    "googHighpassFilter": "false"
-                },
-                "optional": []
+    {
+        "audio": {
+            "mandatory": {
+                "googEchoCancellation": "false",
+                "googAutoGainControl": "false",
+                "googNoiseSuppression": "false",
+                "googHighpassFilter": "false"
             },
-        }, 
-        gotStream, function(e) {
-            alert('Error getting audio');
-            console.log(e);
-        });
+            "optional": []
+        },
+    }, 
+    gotStream, function(e) {
+        alert('Error getting audio');
+        console.log(e);
+    });
 }
 
 function recorderProcess(e) {
@@ -139,10 +139,8 @@ function recorderProcess(e) {
         ws.send(left);
     }
 }
-
 /*
 var ws = new WebSocket('ws://127.0.0.1:5000/websocket');
-
 ws.onopen = function(evt) {
     console.log('Connected to websocket.');
     navigator.getUserMedia({audio: true, video: false}, initializeRecorder, function(e) 

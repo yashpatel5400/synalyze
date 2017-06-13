@@ -4,18 +4,16 @@ __description__ = Views of pages
 """
 
 from flask import render_template
-from flask_uwsgi_websocket import GeventWebSocket
+from flask_socketio import emit
 
 import numpy as np
 
-from app import app, mic
+from app import app, socketio
 from app.analyze import synergy
 from app.segment.get_speaker import get_speaker
 from app.report.generate_page import generate_page
 
 import os
-
-ws = GeventWebSocket(app)
 
 @app.route('/')
 def index():
@@ -30,3 +28,7 @@ def index():
         recorder = None
         return render_template(report)
     return render_template('index.html')
+
+@socketio.on('test', namespace='/test')
+def test_message(message):
+    print(message['data'])
