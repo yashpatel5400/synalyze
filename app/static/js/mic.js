@@ -127,9 +127,9 @@ function initAudio() {
                 "optional": []
             },
         }, 
-        initializeRecorder, 
-        function(e) {
-            console.log('Error!', e);
+        gotStream, function(e) {
+            alert('Error getting audio');
+            console.log(e);
         });
 }
 
@@ -140,12 +140,13 @@ function recorderProcess(e) {
     }
 }
 
-var ws = new WebSocket('ws://localhost:5000/websocket');
+/*
+var ws = new WebSocket('ws://127.0.0.1:5000/websocket');
 
 ws.onopen = function(evt) {
     console.log('Connected to websocket.');
     navigator.getUserMedia({audio: true, video: false}, initializeRecorder, function(e) 
         { console.log('No live audio input: ' + e); });
 }
-
+*/
 window.addEventListener('load', initAudio );

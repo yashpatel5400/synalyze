@@ -30,13 +30,3 @@ def index():
         recorder = None
         return render_template(report)
     return render_template('index.html')
-
-@ws.route('/websocket')
-def audio(ws):
-    while True:
-       msg = ws.receive()
-       if len(msg) != 0:
-          audio_as_int_array = np.frombuffer(msg, 'i2')
-          print(audio_as_int_array)
-       else:
-          break
