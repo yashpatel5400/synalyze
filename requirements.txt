@@ -2,6 +2,7 @@ os
 json
 pydub
 flask
+numpy
 pyaudio
 python-docx
 watson_developer_cloud

@@ -80,10 +80,19 @@
         </section> <!--End off Home Sections-->
         
         <!-- JS includes -->
-        <script src="../static/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-
+        <script src="../static/js/vendor/jquery-1.11.2.min.js"></script>
+        <script src="../static/js/vendor/bootstrap.min.js"></script>
         <script src="../static/js/audiodisplay.js"></script>
         <script src="../static/js/recorderjs/recorder.js"></script>
+
+        <script>
+            jQuery( document ).ready( function ( $ ) {
+                //for Preloader
+                $( window ).load( function () {
+                    $( "#loading" ).fadeOut( 500 );
+                }); 
+            });
+        </script>
         <script>
             window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
@@ -96,6 +105,8 @@
             var analyserContext = null;
             var canvasWidth, canvasHeight;
             var recIndex = 0;
+
+            var recording = false;
 
             function gotBuffers( buffers ) {
                 var canvas = document.getElementById( "wavedisplay" );
@@ -110,6 +121,7 @@
             function toggleRecording( e ) {
                 if (e.classList.contains("recording")) {
                     // stop recording
+                    var recording = false;
                     audioRecorder.stop();
                     e.classList.remove("recording");
                     audioRecorder.getBuffers( gotBuffers );
@@ -117,6 +129,8 @@
                     // start recording
                     if (!audioRecorder)
                         return;
+
+                    var recording = true;
                     e.classList.add("recording");
                     audioRecorder.clear();
                     audioRecorder.record();
@@ -208,46 +222,30 @@
                             },
                             "optional": []
                         },
-                    }, initializeRecorder, errorCallback);
-
-                var ws = new WebSocket('ws://127.0.0.1:5000/websocket');
-
-                ws.onopen = function(evt) {
-                    console.log('Connected to websocket.');
-
-                    // First message: send the sample rate
-                    ws.send("sample rate:" + sampleRate);
-
-                    navigator.getUserMedia({audio: true, video: false}, initializeRecorder, function(e) 
-                        { console.log('No live audio input: ' + e); });
-                }
+                    }, 
+                    initializeRecorder, 
+                    function(e) {
+                        console.log('Error!', e);
+                    });
             }
 
             function recorderProcess(e) {
                 if (recording){
-                  var left = e.inputBuffer.getChannelData(0);
-                  ws.send(left);
+                    var left = e.inputBuffer.getChannelData(0);
+                    ws.send(left);
                 }
+            }
+
+            var ws = new WebSocket('ws://localhost:5000/websocket');
+
+            ws.onopen = function(evt) {
+                console.log('Connected to websocket.');
+                navigator.getUserMedia({audio: true, video: false}, initializeRecorder, function(e) 
+                    { console.log('No live audio input: ' + e); });
             }
 
             window.addEventListener('load', initAudio );
         </script>
-
-        <script src="../static/js/vendor/jquery-1.11.2.min.js"></script>
-        <script src="../static/js/vendor/bootstrap.min.js"></script>
-
-        <script src="../static/js/jquery.magnific-popup.js"></script>
-        <!--<script src="assets/js/jquery.easypiechart.min.js"></script>-->
-        <script src="../static/js/jquery.easing.1.3.js"></script>
-        <!--<script src="assets/js/slick.js"></script>-->
-        <script src="../static/js/slick.min.js"></script>
-        <script src="../static/js/js.isotope.js"></script>
-        <script src="../static/js/jquery.collapse.js"></script>
-        <script src="../static/js/bootsnav.js"></script>
-
-        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-
         <script src="../static/js/plugins.js"></script>
-        <script src="../static/js/main.js"></script>
     </body>
 </html>
