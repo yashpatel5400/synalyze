@@ -1,19 +1,3 @@
-/* Copyright 2013 Chris Wilson
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-*/
-
-console.log("FUUUCK");
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var audioContext = new AudioContext();
@@ -26,25 +10,10 @@ var analyserContext = null;
 var canvasWidth, canvasHeight;
 var recIndex = 0;
 
-/* TODO:
-
-- offer mono option
-- "Monitor input" switch
-*/
-
-function saveAudio() {
-    audioRecorder.exportWAV( doneEncoding );
-    // could get mono instead by saying
-    // audioRecorder.exportMonoWAV( doneEncoding );
-}
+var recording = false;
 
 function gotBuffers( buffers ) {
     var canvas = document.getElementById( "wavedisplay" );
-
-    drawBuffer( canvas.width, canvas.height, canvas.getContext('2d'), buffers[0] );
-
-    // the ONLY time gotBuffers is called is right after a new recording is completed - 
-    // so here's where we should set up the download.
     audioRecorder.exportWAV( doneEncoding );
 }
 
@@ -56,6 +25,7 @@ function doneEncoding( blob ) {
 function toggleRecording( e ) {
     if (e.classList.contains("recording")) {
         // stop recording
+        var recording = false;
         audioRecorder.stop();
         e.classList.remove("recording");
         audioRecorder.getBuffers( gotBuffers );
@@ -63,6 +33,8 @@ function toggleRecording( e ) {
         // start recording
         if (!audioRecorder)
             return;
+
+        var recording = true;
         e.classList.add("recording");
         audioRecorder.clear();
         audioRecorder.record();
@@ -82,45 +54,6 @@ function convertToMono( input ) {
 function cancelAnalyserUpdates() {
     window.cancelAnimationFrame( rafID );
     rafID = null;
-}
-
-function updateAnalysers(time) {
-    if (!analyserContext) {
-        var canvas = document.getElementById("analyser");
-        canvasWidth = canvas.width;
-        canvasHeight = canvas.height;
-        analyserContext = canvas.getContext('2d');
-    }
-
-    // analyzer draw code here
-    {
-        var SPACING = 3;
-        var BAR_WIDTH = 1;
-        var numBars = Math.round(canvasWidth / SPACING);
-        var freqByteData = new Uint8Array(analyserNode.frequencyBinCount);
-
-        analyserNode.getByteFrequencyData(freqByteData); 
-
-        analyserContext.clearRect(0, 0, canvasWidth, canvasHeight);
-        analyserContext.fillStyle = '#F6D565';
-        analyserContext.lineCap = 'round';
-        var multiplier = analyserNode.frequencyBinCount / numBars;
-
-        // Draw rectangle for each frequency bin.
-        for (var i = 0; i < numBars; ++i) {
-            var magnitude = 0;
-            var offset = Math.floor( i * multiplier );
-            // gotta sum/average the block, or we miss narrow-bandwidth spikes
-            for (var j = 0; j< multiplier; j++)
-                magnitude += freqByteData[offset + j];
-            magnitude = magnitude / multiplier;
-            var magnitude2 = freqByteData[i * multiplier];
-            analyserContext.fillStyle = "hsl( " + Math.round((i*360)/numBars) + ", 100%, 50%)";
-            analyserContext.fillRect(i * SPACING, canvasHeight, BAR_WIDTH, -magnitude);
-        }
-    }
-    
-    rafID = window.requestAnimationFrame( updateAnalysers );
 }
 
 function toggleMono() {
@@ -144,8 +77,6 @@ function gotStream(stream) {
     audioInput = realAudioInput;
     audioInput.connect(inputPoint);
 
-//    audioInput = convertToMono( input );
-
     analyserNode = audioContext.createAnalyser();
     analyserNode.fftSize = 2048;
     inputPoint.connect( analyserNode );
@@ -156,7 +87,24 @@ function gotStream(stream) {
     zeroGain.gain.value = 0.0;
     inputPoint.connect( zeroGain );
     zeroGain.connect( audioContext.destination );
-    updateAnalysers();
+}
+
+function initializeRecorder(stream) {
+    audio_context = new AudioContext;
+    sampleRate = audio_context.sampleRate;
+    var audioInput = audio_context.createMediaStreamSource(stream);
+
+    console.log("Created media stream.");
+
+    var bufferSize = 4096;
+    // record only 1 channel
+    var recorder = audio_context.createScriptProcessor(bufferSize, 1, 1);
+    // specify the processing function
+    recorder.onaudioprocess = recorderProcess;
+    // connect stream to our recorder
+    audioInput.connect(recorder);
+    // connect our recorder to the previous destination
+    recorder.connect(audio_context.destination);
 }
 
 function initAudio() {
@@ -178,10 +126,26 @@ function initAudio() {
                 },
                 "optional": []
             },
-        }, gotStream, function(e) {
-            alert('Error getting audio');
-            console.log(e);
+        }, 
+        initializeRecorder, 
+        function(e) {
+            console.log('Error!', e);
         });
+}
+
+function recorderProcess(e) {
+    if (recording){
+        var left = e.inputBuffer.getChannelData(0);
+        ws.send(left);
+    }
+}
+
+var ws = new WebSocket('ws://localhost:5000/websocket');
+
+ws.onopen = function(evt) {
+    console.log('Connected to websocket.');
+    navigator.getUserMedia({audio: true, video: false}, initializeRecorder, function(e) 
+        { console.log('No live audio input: ' + e); });
 }
 
 window.addEventListener('load', initAudio );

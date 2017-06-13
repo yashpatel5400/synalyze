@@ -29,8 +29,7 @@ def index():
         report = generate_page(dirname)
         recorder = None
         return render_template(report)
-    else:
-        return render_template('index.html')
+    return render_template('index.html')
 
 @ws.route('/websocket')
 def audio(ws):

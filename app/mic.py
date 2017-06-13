@@ -2,6 +2,8 @@
 __authors__     = Yash, Will, Peter
 __description__ = Python microphone interface (i.e for recording the business
 meetings after interacting with the web page)
+
+__DEPRECATED__  = Replaced by client-side microphone/recorder handling
 """
 
 from app import settings as s
