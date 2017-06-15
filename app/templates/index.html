@@ -48,8 +48,8 @@
 
                         <div class="col-md-12">
                             <div class="col-md-6" id="controls">
-                                <img class="col-md-3" id="record" src="../static/images/mic.png" onclick="toggleRecording(this);">
-                                <a class="col-md-9" id="save" href="#"><img src="../static/images/save.svg"></a>
+                                <img class="col-md-3" id="stop" src="../static/images/mic.png" onclick="toggleRecording(this);">
+                                <a class="col-md-9" id="download" href="#"><img src="../static/images/save.svg"></a>
                             </div>
                         </div>
                     </div>
@@ -69,12 +69,9 @@
                 $(window).load(function() {
                     $("#loading").fadeOut( 500 );
                 });
-
-                var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
-                socket.emit('test', {data: 'emit_data'}); 
             });
         </script>
-        <script src="../static/js/mic.js"></script>
+        <script src="../static/js/recorder.js"></script>
         <script src="../static/js/plugins.js"></script>
     </body>
 </html>

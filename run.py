@@ -7,4 +7,5 @@ runs on localhost by default. Use for debugging (wsgi.py for prod)
 from app import app, socketio
 
 if __name__ == "__main__":
-    socketio.run(app)
+	app.run(debug=True)
+    # socketio.run(app)
