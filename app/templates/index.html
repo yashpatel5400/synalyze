@@ -48,8 +48,8 @@
 
                         <div class="col-md-12">
                             <div class="col-md-6" id="controls">
-                                <img class="col-md-3" id="stop" src="../static/images/mic.png" onclick="toggleRecording(this);">
-                                <a class="col-md-9" id="download" href="#"><img src="../static/images/save.svg"></a>
+                                <img class="col-md-3" id="stop" src="../static/images/mic.png">
+                                <a class="col-md-9" id="download"><img src="../static/images/save.svg"></a>
                             </div>
                         </div>
                     </div>
@@ -58,11 +58,11 @@
         </section> <!--End off Home Sections-->
         
         <!-- JS includes -->
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
         <script src="../static/js/jquery-1.11.2.min.js"></script>
         <script src="../static/js/bootstrap.min.js"></script>
-        <script src="../static/js/audiodisplay.js"></script>
-        <script src="../static/js/recorderjs/recorder.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+        <script src="../static/js/recorder.js"></script>
+        <script src="../static/js/plugins.js"></script>
 
         <script>
             jQuery(document).ready(function($) {
@@ -71,7 +71,5 @@
                 });
             });
         </script>
-        <script src="../static/js/recorder.js"></script>
-        <script src="../static/js/plugins.js"></script>
     </body>
 </html>

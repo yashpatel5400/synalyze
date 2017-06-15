@@ -29,6 +29,7 @@ def index():
         return render_template(report)
     return render_template('index.html')
 
-@socketio.on('test', namespace='/test')
-def test_message(message):
-    print(message['data'])
+@socketio.on('process')
+def process(audio):
+    with open("audio.wav", 'wb') as f:
+        f.write(audio['data'])

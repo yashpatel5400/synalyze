@@ -1,6 +1,8 @@
 let shouldStop = false;
 let stopped = false;
 mediaRecorder = null;
+var socket = io.connect('http://' + document.domain + ':' + location.port);
+
 const downloadLink = document.getElementById('download');
 const stopButton = document.getElementById('stop');
 
@@ -21,8 +23,7 @@ var handleSuccess = function(stream) {
   });
 
   mediaRecorder.addEventListener('stop', function() {
-    downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
-    downloadLink.download = 'acetest.wav';
+    socket.emit('process', {data: new Blob(recordedChunks)});
   });
 
   mediaRecorder.start();
