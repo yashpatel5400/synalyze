@@ -7,4 +7,4 @@ for deployment version. Use run.py instead for Debug mode execution
 from app import app
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True, host="0.0.0.0")
