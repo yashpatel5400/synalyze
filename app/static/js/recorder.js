@@ -24,6 +24,7 @@ var handleSuccess = function(stream) {
 
   mediaRecorder.addEventListener('stop', function() {
     socket.emit('process', {data: new Blob(recordedChunks)});
+    window.location.href = '../report';
   });
 
   mediaRecorder.start();

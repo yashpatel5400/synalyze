@@ -4,9 +4,6 @@ __description__ = Views of pages
 """
 
 from flask import render_template
-from flask_socketio import emit
-
-import numpy as np
 
 from app import app, socketio
 from app.analyze import synergy
@@ -17,17 +14,18 @@ import os
 
 @app.route('/')
 def index():
-    recorder = None
-    if recorder is not None:
-        filename = recorder.stoprecording()
-        get_speaker(filename)
-
-        dirname = filename.split(".")[0]
-        synergy.analyze(dirname)
-        report = generate_page(dirname)
-        recorder = None
-        return render_template(report)
     return render_template('index.html')
+
+@app.route('/record/', methods=['GET', 'POST'])
+def record():
+    return render_template('record.html')
+
+@app.route('/report/')
+def report():
+    # get_speaker(filename)
+    # synergy.analyze(dirname)
+    # report = generate_page(dirname)
+    return render_template('report.html')
 
 @socketio.on('process')
 def process(audio):
