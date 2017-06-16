@@ -12,8 +12,10 @@ JSON_OUTPUT = "app/segment/output"
 def segment_audio(filename)
 	base_dir = Dir.getwd
 	base_output = filename.split(".")[0]
-	audio = Diarize::Audio.new URI(
-			"file:#{base_dir}/#{AUDIO_INPUT}/#{filename}")
+	uri = URI.join('file:///', File.join(File.expand_path(File.dirname(__FILE__)), 
+		"audio/#{filename}.wav"))
+	print(uri)
+	audio = Diarize::Audio.new(uri)
 	audio.analyze!
 	segments = audio.segments
 
@@ -30,8 +32,8 @@ def segment_audio(filename)
 		segments_data[i] = segment_data
 		i += 1
 
-		File.open("file:#{base_dir}/#{JSON_OUTPUT}/#{base_output}/#{i}.json",
-                    "w") do |f|
+		File.open(File.join(File.expand_path(File.dirname(__FILE__)), 
+			"output/#{filename}/#{i}.json"), "w") do |f|
 			f.write(segment_data.to_json)
 		end
 	end
@@ -39,4 +41,4 @@ def segment_audio(filename)
 	return segments_data
 end
 
-segment_audio(gets.chomp)
+segment_audio(ARGV[0])

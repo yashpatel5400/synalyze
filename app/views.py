@@ -13,6 +13,7 @@ from app.analyze import synergy
 from app.report.generate_page import generate_page
 
 import os
+import time
 
 @app.route('/')
 def index():
@@ -34,7 +35,8 @@ def report(filename):
 
     Returns: Rendered template of the analytics file
     """
-    # get_speaker(filename)
+    time.sleep(2) # gives time to complete writing file before analyzing
+    get_speaker(filename)
     # synergy.analyze(dirname)
     # report = generate_page(dirname)
     return render_template('report.html')

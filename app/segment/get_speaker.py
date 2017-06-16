@@ -45,8 +45,8 @@ def get_speaker(filename):
 	# complete diarizataion of the input audio -- run through external
 	# Ruby script and dumps result analyses into output/ JSON files
 	print("Diarizing {}".format(filename))
-	os.system('echo "{}" | jruby ./{}'.format(filename, s.DIARIZER))
-	
+	os.system('jruby ./{} {}'.format(s.DIARIZER, filename))
+
 	# extracts the audio clips that correspond to the metadata identified
 	# in Ruby script
 	print("Splitting audio {}".format(filename))

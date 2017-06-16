@@ -5,7 +5,7 @@ doing organization) for segmentation
 """
 
 # ------------------------------ Directory variables -----------------------------
-INPUT_DIR  = "app/segment/audio"
+INPUT_DIR  = "segment/audio"
 OUTPUT_DIR = "app/segment/output"
 
 # ------------------------------ Ruby diarizer ---=-----------------------------
