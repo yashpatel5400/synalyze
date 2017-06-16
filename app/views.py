@@ -5,9 +5,11 @@ __description__ = Views of pages
 
 from flask import render_template
 
+import app.settings as s
+
 from app import app, socketio
-from app.analyze import synergy
 from app.segment.get_speaker import get_speaker
+from app.analyze import synergy
 from app.report.generate_page import generate_page
 
 import os
@@ -20,8 +22,18 @@ def index():
 def record():
     return render_template('record.html')
 
-@app.route('/report/')
-def report():
+@app.route('/report/<filename>/')
+def report(filename):
+    """Route that performs the analytics on the filename 
+    specified. Note that only the root of the filename (i.e.
+    without extension) should be provided to the function, as
+    that is what is later processed and used for naming
+
+    Args:
+    filename (str): root of the filename that is to be processed
+
+    Returns: Rendered template of the analytics file
+    """
     # get_speaker(filename)
     # synergy.analyze(dirname)
     # report = generate_page(dirname)
@@ -29,5 +41,5 @@ def report():
 
 @socketio.on('process')
 def process(audio):
-    with open("audio.wav", 'wb') as f:
+    with open("{}/{}.wav".format(s.OUTPUT_DIR, audio['filename']), 'wb') as f:
         f.write(audio['data'])

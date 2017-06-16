@@ -3,6 +3,18 @@ let stopped = false;
 mediaRecorder = null;
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 
+function dec2hex (dec) {
+  return ('0' + dec.toString(16)).substr(-2)
+}
+
+function generateId (len) {
+  var arr = new Uint8Array((len || 40) / 2)
+  window.crypto.getRandomValues(arr)
+  return Array.from(arr, dec2hex).join('')
+}
+
+var name = generateId()
+
 const downloadLink = document.getElementById('download');
 const stopButton = document.getElementById('stop');
 
@@ -23,8 +35,11 @@ var handleSuccess = function(stream) {
   });
 
   mediaRecorder.addEventListener('stop', function() {
-    socket.emit('process', {data: new Blob(recordedChunks)});
-    window.location.href = '../report';
+    socket.emit('process', {
+      data: new Blob(recordedChunks),
+      filename: name
+    });
+    window.location.href = '../report/' + name;
   });
 
   mediaRecorder.start();
