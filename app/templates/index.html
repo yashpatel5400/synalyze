@@ -1,32 +1,60 @@
-{% extends "base.html" %}
-{% block header %}
-<link rel="stylesheet" href="../static/css/style.css">
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-{% block content %}
-<section id="home" class="home bg-black fix">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="main_home text-center">
-                <div class="col-md-12">
-                    <div class="hello">
-                        <div class="slid_item">
-                           <div class="home_text ">
-                                <h1 class="text-yellow">Welcome to Synalyze</h1>
-                                    <h3 class="text-white text-uppercase">We Perform Analysis on Business Meetings </h3>
-                            </div>
-                        </div><!-- End off slid item -->
-                    </div>
-                </div>
+        <title>Agency - Start Bootstrap Theme</title>
 
-                <div class="col-md-12">
-                    <div class="col-md-6" id="controls">
-                        <a type="button" class="btn btn-warning" href="{{ url_for('record') }}">Record</a>
-                    </div>
+        <!-- Bootstrap Core CSS -->
+        <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+        <!-- Theme CSS -->
+        <link href="../static/css/agency.min.css" rel="stylesheet">
+    </head>
+
+    <body id="page-top" class="index">
+        <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <a class="navbar-brand page-scroll" href="{{ url_for('record') }}">Start Analysis</a>
                 </div>
             </div>
-        </div><!--End off row-->
-    </div><!--End off container -->
-</section> <!--End off Home Sections-->      
-{% endblock %}
+        </nav>
+
+        <!-- Header -->
+        <header>
+            <div class="container">
+                <div class="intro-text">
+                    <div class="intro-lead-in">We Perform Analysis on Business Meetings</div>
+                    <div class="intro-heading">Welcome To Synalyze!</div>
+                    <a href="{{ url_for('record') }}" class="page-scroll btn btn-xl">Record</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- jQuery -->
+        <script src="../static/js/jquery.min.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../static/js/bootstrap.min.js"></script>
+
+        <!-- Plugin JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js" integrity="sha384-mE6eXfrb8jxl0rzJDBRanYqgBxtJ6Unn4/1F7q4xRRyIw7Vdg9jP4ycT7x1iVsgb" crossorigin="anonymous"></script>
+
+        <!-- Theme JavaScript -->
+        <script src="../static/js/agency.min.js"></script>
+
+    </body>
+
+</html>
