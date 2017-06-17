@@ -1,48 +1,42 @@
-<!doctype html>
-<html class="no-js" lang="en">
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Synalyze</title>
-        <meta name="description" content="">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-		
-        <!--Google Font link-->
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-        <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../static/css/plugins.css" />
-        <link rel="stylesheet" href="../static/css/responsive.css" />
+        <title>Synalyze</title>
 
-        {% block header %}{% endblock %}
+        <!-- Bootstrap Core CSS -->
+        <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+        
+        {% block header %} {% endblock %}
     </head>
 
-    <body data-spy="scroll" data-target=".navbar-collapse" data-offset="100">
-        <!-- Preloader -->
-        <div id="loading">
-            <div id="loading-center">
-                <div id="loading-center-absolute">
-                    <div class="object" id="object_one"></div>
-                    <div class="object" id="object_two"></div>
-                    <div class="object" id="object_three"></div>
-                    <div class="object" id="object_four"></div>
-                </div>
-            </div>
-        </div><!--End off Preloader -->
+    <body id="page-top" class="index">
+        {% block content %} {% endblock %}
 
-        {% block content %}{% endblock %}
+        <!-- jQuery -->
+        <script src="../static/js/jquery.min.js"></script>
 
-    <!-- JS includes -->
-        <script src="../static/js/jquery-1.11.2.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
         <script src="../static/js/bootstrap.min.js"></script>
-        <script src="../static/js/plugins.js"></script>
 
-        <script>
-            jQuery(document).ready(function($) {
-                $(window).load(function() {
-                    $("#loading").fadeOut( 500 );
-                });
-            });
-        </script>
+        <!-- Plugin JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js" integrity="sha384-mE6eXfrb8jxl0rzJDBRanYqgBxtJ6Unn4/1F7q4xRRyIw7Vdg9jP4ycT7x1iVsgb" crossorigin="anonymous"></script>
+
+        <!-- Theme JavaScript -->
+        <script src="../static/js/agency.min.js"></script>
+
     </body>
+
 </html>

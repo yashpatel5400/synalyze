@@ -1,9 +1,9 @@
-"""
+'''
 __authors__     = Yash, Will, Peter
 __description__ = Uses IBM Watson API to do analysis on text/speech
 for concept, tone, etc... extraction
 __name__ = synalyze.py
-"""
+'''
 
 from . import settings as s
 
@@ -11,7 +11,8 @@ import requests
 import json
 import os
 from watson_developer_cloud import ToneAnalyzerV3, SpeechToTextV1, \
-    PersonalityInsightsV3, DiscoveryV1
+    PersonalityInsightsV3, DiscoveryV1, NaturalLanguageUnderstandingV1
+import watson_developer_cloud.natural_language_understanding.features.v1 as features
 
 from docx import Document
 
@@ -19,7 +20,8 @@ API = {
     'S2T': {'KEY':'62a56f0f-7cef-498f-a5e6-ba83cc22bbf8', 'PWD':'SjlpcX70cY60'}, 
     'TA' : {'KEY':'ade69017-4581-4f52-a108-17f5955f0bef', 'PWD':'wrXmWscUqpmj'},
     'PI' : {'KEY':'4671c4a1-62f2-40ff-8cf4-e2791667a67b', 'PWD':'RinAFA18Jpmj'},
-    'CS' : {'KEY':'07173885-f33f-4535-93dc-2b4965f256e8', 'PWD':'mo17ptJlJi2x'}
+    'CS' : {'KEY':'07173885-f33f-4535-93dc-2b4965f256e8', 'PWD':'mo17ptJlJi2x'},
+    'NLU': {'KEY': '71a9a1ea-09eb-4e15-b61e-5de9c761b060','PWD': 'gYLOmrZVQYYR'}
 }
 
 discovery = DiscoveryV1(
@@ -71,7 +73,6 @@ def personalize(text_array):
         version = '2016-10-20',
         username = API['PI']['KEY'],
         password = API['PI']['PWD'])
-
     personality_array = []
     for profile_text in text_array:
         try:
@@ -85,12 +86,32 @@ def personalize(text_array):
 
     return personality_array
 
+
+def nlu(text_array):
+    nlu_insights = NaturalLanguageUnderstandingV1(
+        version = '2016-10-20',
+        username = API['NLU']['KEY'],
+        password = API['NLU']['PWD']) 
+
+    extracting = [
+        features.Concepts(),
+        features.Categories(),
+        features.Emotion(),
+        features.Entities(),
+        features.Keywords(),
+        features.Sentiment()
+    ]
+    nlu_array = []
+    for text in text_array:
+        nlu_array.append(nlu_insights.analyze(extracting, text=text))
+    return nlu_array
+
 def clear_documents():
     result = cognitive_search({'return':'id'})
 
     while result['matching_results']:
         result = cognitive_search({'return':'id'})
-        print("Deleting Old Records")
+        print('Deleting Old Records')
         for doc_id in result['results']:
             doc_id = doc_id['id']
             delete_doc = discovery.delete_document(
@@ -117,7 +138,7 @@ def write_to_discovery(text_array):
                 add_doc = discovery.add_document(env_id, col_id,
                                         file_info=outfile)
     if add_doc is None:
-        return json.dumps("", indent=2)
+        return json.dumps('', indent=2)
     return json.dumps(add_doc, indent=2)
 
 def cognitive_search(query_options):
@@ -146,56 +167,54 @@ def cognitive_search(query_options):
     return query_results
 
 def find_parties(filename):
-    input_dir = "{}/{}".format(s.INPUT_DIR, filename)
-    json_files = [f for f in os.listdir(input_dir) if f.split(".")[-1] == "json"]
-    parties = [json.load(open("{}/{}".format(input_dir, json_name), 'rb'))
+    input_dir = '{}/{}'.format(s.INPUT_DIR, filename)
+    json_files = [f for f in os.listdir(input_dir) if f.split('.')[-1] == 'json']
+    parties = [json.load(open('{}/{}'.format(input_dir, json_name), 'rb'))
         for json_name in json_files]
     return parties
 
 def analyze(filename):
-    input_dir = "{}/{}".format(s.INPUT_DIR, filename)
+    input_dir = '{}/{}'.format(s.INPUT_DIR, filename)
     audio_files = os.listdir(input_dir)
-    audio_array = [open("{}/{}".format(input_dir, audio_name), 'rb')
-        for audio_name in audio_files if "wav" in audio_name]
+    audio_array = [open('{}/{}'.format(input_dir, audio_name), 'rb')
+        for audio_name in audio_files if 'wav' in audio_name]
     print(audio_array)
 
-    print("Transcribing Audio...")
+    print('Transcribing Audio...')
     text_array = transcribe(audio_array)
     print(text_array)
-    
-    print(text_array)    
-    print("Analysing Tone...")
+    """    
+    print('Analysing Tone...')
     tone_array = analyze_tone(text_array)
     print(tone_array)
     
-    print("Building Personas...")
+    print('Building Personas...')
     personality_array = personalize(text_array)
     print(personality_array)
     
-    print("Writing to Discovery")
+    print('Writing to Discovery')
     write_to_discovery(text_array)
 
-    print("Performing Cognitive Search")
+    print('Performing Cognitive Search')
     entities = cognitive_search({'aggregation':'term(enriched_text.entities.text%2Ccount%3A5)'})
     concepts = cognitive_search({'aggregation':'term(enriched_text.concepts.text%2Ccount%3A5)'})
 
     concepts = concepts['aggregations'][0]['results']
     entities = entities['aggregations'][0]['results']
 
-    keys = []
-    for entity in entities:
-        keys.append(entity['key'])
+    keys = [entity['key'] for entity in entities]
 
     parties = find_parties(filename)
-    print("Writing Results...")
+    print('Writing Results...')
 
     data = {}
     data['transcript'] = text_array
     data['tone'] = tone_array
     data['personality'] = personality_array
     data['keys'] = keys
-    data['concepts'] = concepts
-    data['parties'] = parties
-    
+    data['concepts']   = nlu_array["concepts"]
+    data['parties']    = parties
+    """
+    nlu_array = nlu(text_array)
     with open('{}/{}.txt'.format(s.OUTPUT_DIR, filename), 'w') as f:
-        f.write(json.dumps(data))
+        f.write(json.dumps(nlu_array))
