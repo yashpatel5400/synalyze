@@ -187,9 +187,14 @@ def analyze(filename):
     print(text_array)
     
     print('Analyze Text...')
-    nlu_array = nlu(text_array)
+    results = nlu(text_array)
+    parties = find_parties(filename)
+    for i, party in enumerate(parties):
+        results[i].update({'parties': party})
+
+    print('Writing Results...')
     with open('{}/{}.txt'.format(s.OUTPUT_DIR, filename), 'w') as f:
-        f.write(json.dumps(nlu_array))
+        f.write(json.dumps(results))
 
 def deprecated_analyze(text_array):
     # DEPRECATED - use regular analyze function

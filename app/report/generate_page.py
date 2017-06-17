@@ -50,10 +50,10 @@ def generate_page(filename):
 
     comb = {}
     total_dur = 0
-    for segment in parsed["parties"]:
-        val = comb.get(segment["speaker_id"], 0.0) + segment["duration"]
-        total_dur += segment["duration"]
-        comb[segment["speaker_id"]] = val
+    for analysis in analyzed["parties"]:
+        val = comb.get(analysis["speaker_id"], 0.0) + analysis["duration"]
+        total_dur += analysis["duration"]
+        comb[analysis["speaker_id"]] = val
 
     speakers = []
     durations = []
@@ -61,7 +61,7 @@ def generate_page(filename):
         speakers.append(k)
         durations.append(comb[k] / total_dur)
 
-    concepts = [concept["key"] for concept in parsed["concepts"]]
+    concepts = [concept["key"] for concept in analyzed["concepts"]]
 
     data = {
         'title': 'Meeting Report',
