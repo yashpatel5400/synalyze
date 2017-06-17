@@ -40,12 +40,7 @@ def generate_page(filename):
 
     # ======================== NLU Analytics ============================= #
     print("Generating output...")
-    templatefile = "{}/template.html".format(s.REPORT_DIR)
     resultsfile  = "{}/{}.txt".format(s.ANALYZE_DIR, filename)
-
-    with open(templatefile, 'r') as f:
-        template = f.read().strip()
-        
     with open(resultsfile, 'r') as f:
         analyzed = json.load(f)
 
