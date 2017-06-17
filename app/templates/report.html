@@ -15,7 +15,6 @@
 
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.6.0/rickshaw.min.css" />
-	<link href="../static/css/agency.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -29,37 +28,41 @@
 		<ul style="list-style: none;">
 			{% for idea in data["ideas"] %}
 			<li>
-				<h3>{{ idea }}</h3>
+				<h3><a href="{{ idea['dbpedia_resource'] }}">
+					{{ idea["text"] }}
+				</a></h3>
 			</li>
 			{% endfor %}
 		</ul>
 
 		<div id="chart"></div>
-			<h2>People</h2>
-			<table style="border-collapse: separate;border-spacing: 10px;">
-				<tr>
-					<td>Speaker</td>
-					<td>Duration (% Overall)</td>
-				</tr>
-				{% for i in range(data["overall_speaker"]|length) %}
-				<tr>
-					<td>{{  data["overall_speaker"][i]  }}</td>
-					<td>{{ data["overall_durations"][i] }}</td>
-				</tr>
-				{% endfor %}
-			</table>
+		<h2>People</h2>
+		<table style="border-collapse: separate;border-spacing: 10px;">
+			<tr>
+				<td>Speaker</td>
+				<td>Duration (% Overall)</td>
+			</tr>
+			{% for i in range(data["overall_speaker"]|length) %}
+			<tr>
+				<td>{{  data["overall_speaker"][i]  }}</td>
+				<td>{{ data["overall_durations"][i] }}</td>
+			</tr>
+			{% endfor %}
+		</table>
 	
-			<h2>Transcript</h2>
-			<table style="border-collapse: separate;border-spacing: 10px;">
-				{% for i in range(data["speakers"]|length) %}
-				<tr style="vertical-align:top;">
-					<td>{{ data["speakers"][i] }}</td>
-					<td>{{ data["start_times"][i] }}</td>
-					<td><div class="circle_green"></td>
-					<td><p>({{ '%.02f' % data["durations"][i] }} s): {{ data["text"][i] }} </p></td>
-				</tr>
-				{% endfor %}
-			</table>
+		<h2>Transcript</h2>
+		<table style="border-collapse: separate;border-spacing: 10px;">
+			{% for i in range(data["speakers"]|length) %}
+			<tr style="vertical-align:top;">
+				<td>{{ data["speakers"][i] }}</td>
+				<td>{{ data["start_times"][i] }}</td>
+				<td><div class="circle_green"></td>
+				<td><p>({{ '%.02f' % data["durations"][i] }} s): {{ data["text"][i] }} </p></td>
+			</tr>
+			{% endfor %}
+		</table>
+
+
 	</div>
 	
 	<script>
