@@ -1,6 +1,7 @@
 """
 __authors__     = Yash, Will, Peter
-__description__ = Views of pages
+__description__ = Flask routes of site pages
+__name__        = views.py
 """
 
 from flask import render_template
@@ -8,7 +9,7 @@ from flask import render_template
 import app.settings as s
 
 from app import app, socketio
-from app.segment.get_speaker import get_speaker
+from app.segment.segment import get_speaker
 from app.analyze import synergy
 from app.report.generate_page import generate_page
 
@@ -36,8 +37,8 @@ def report(filename):
 
     Returns: Rendered template of the analytics file
     """
-    get_speaker(filename)
-    # synergy.analyze(dirname)
+    # get_speaker(filename)
+    synergy.analyze(dirname)
     # report = generate_page(dirname)
     return render_template('report.html')
 
