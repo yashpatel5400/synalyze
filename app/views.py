@@ -39,8 +39,8 @@ def report(filename):
     """
     #get_speaker(filename)
     #synalyze.analyze(filename)
-    report_name = generate_page(filename)
-    return render_template("{}.html".format(filename))
+    data = generate_page(filename)
+    return render_template("report.html", data=data)
 
 @socketio.on('process')
 def process(audio):

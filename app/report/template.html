@@ -68,7 +68,7 @@
 
 					<tr>
 						<td>Time Spoken</td>
-						{{#durations}}
+						{{ #durations }}
 						<td>{{.}}</td>
 						{{/durations}}
 					</tr>
@@ -82,36 +82,30 @@
 						<td><span class="glyphicon glyphicon-check" aria-hidden="true"></span></td>
 						<td><p>Person 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></td>
 					</tr>
-					<tr style="vertical-align:top;">
-						<td>0:00</td>
-						<td><div class="circle_green"></td>
-						<td><span class="glyphicon glyphicon-check" aria-hidden="true"></span></td>
-						<td><p>Person 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></td>
-					</tr>
 				</table>
 							</div>
 		<script>
-var graph = new Rickshaw.Graph( {
-	element: document.getElementById("chart"),
-	width: document.getElementById('container').offsetWidth,
-	height: 200,
-	renderer: 'line',
-	min: -.01,
-	interpolation: 'basis',
-	series: [
-		{
-		data: [ {{{series1_str}}} ],
-		color: '#ff0000'
-		}, {
-		data: [ {{{series2_str}}} ],
-		color: '#0000ff'
-		}, {
-		data: [ {{{series3_str}}} ],
-		color: '#00ff00'
-		}
-		]
-} );
-graph.render();
+			var graph = new Rickshaw.Graph( {
+				element: document.getElementById("chart"),
+				width: document.getElementById('container').offsetWidth,
+				height: 200,
+				renderer: 'line',
+				min: -.01,
+				interpolation: 'basis',
+				series: [
+					{
+					data: [ {{{series1_str}}} ],
+					color: '#ff0000'
+					}, {
+					data: [ {{{series2_str}}} ],
+					color: '#0000ff'
+					}, {
+					data: [ {{{series3_str}}} ],
+					color: '#00ff00'
+					}
+					]
+			} );
+			graph.render();
 		</script>
 	</body>
 </html>
