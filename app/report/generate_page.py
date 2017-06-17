@@ -22,27 +22,24 @@ def generate_page(filename):
         template = f.read().strip()
         
     with open(resultsfile, 'r') as f:
-        parsed = json.load(f)
+        analyzed = json.load(f)
 
-    tones = parsed["tone"]
     munged_tones = []
-    for segment in tones:
+    for analysis in analyzed:
         temp = [0, 0, 0]
-        if segment != "":
-            for tone in segment:
-                if tone["tone_name"] == "Anger":
-                    temp[0] += tone["score"]
-                elif tone["tone_name"] == "Disgust":
-                    temp[0] += tone["score"]
-                elif tone["tone_name"] == "Fear":
-                    temp[1] += tone["score"]
-                elif tone["tone_name"] == "Sadness":
-                    temp[1] += tone["score"]
-                elif tone["tone_name"] == "Joy":
-                    temp[2] += tone["score"]
-                    temp[0] /= 2
-                    temp[1] /= 2
-                    munged_tones.append(temp)
+        if analysis != {}: # account for empty response case
+            tone_scores = analysis["emotion"]["document"]["emotion"]
+            
+            temp[0] += tone_scores["disgust"]
+            temp[0] += tone_scores["anger"]
+            temp[1] += tone_scores["sadness"]
+            temp[1] += tone_scores["fear"]
+            temp[2] += tone_scores["joy"]
+            
+            # normalize the scores for graphing
+            temp[0] /= 2
+            temp[1] /= 2
+            munged_tones.append(temp)
     print(munged_tones)
     series1 = ", ".join(['{x: ' + str(ind) + ', y: ' + str(data[0]) + '}'
                          for ind, data in enumerate(munged_tones)])

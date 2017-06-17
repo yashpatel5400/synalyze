@@ -103,7 +103,10 @@ def nlu(text_array):
     ]
     nlu_array = []
     for text in text_array:
-        nlu_array.append(nlu_insights.analyze(extracting, text=text))
+        try:
+            nlu_array.append(nlu_insights.analyze(extracting, text=text))
+        except:
+            nlu.append({}) # error in the request likely due to empty content
     return nlu_array
 
 def clear_documents():
@@ -178,12 +181,18 @@ def analyze(filename):
     audio_files = os.listdir(input_dir)
     audio_array = [open('{}/{}'.format(input_dir, audio_name), 'rb')
         for audio_name in audio_files if 'wav' in audio_name]
-    print(audio_array)
-
+    
     print('Transcribing Audio...')
     text_array = transcribe(audio_array)
     print(text_array)
-    """    
+    
+    print('Analyze Text...')
+    nlu_array = nlu(text_array)
+    with open('{}/{}.txt'.format(s.OUTPUT_DIR, filename), 'w') as f:
+        f.write(json.dumps(nlu_array))
+
+def deprecated_analyze(text_array):
+    # DEPRECATED - use regular analyze function
     print('Analysing Tone...')
     tone_array = analyze_tone(text_array)
     print(tone_array)
@@ -214,7 +223,3 @@ def analyze(filename):
     data['keys'] = keys
     data['concepts']   = nlu_array["concepts"]
     data['parties']    = parties
-    """
-    nlu_array = nlu(text_array)
-    with open('{}/{}.txt'.format(s.OUTPUT_DIR, filename), 'w') as f:
-        f.write(json.dumps(nlu_array))
