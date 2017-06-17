@@ -17,11 +17,10 @@ def split_audio(filename):
 	the diarization analysis (MUST be called after diarization) and splits
 	audio according to the times specified in JSONs
 	"""
-	base_name = filename.split(".")[0]
-	input_audio = "{}/{}".format(s.INPUT_DIR, filename)
+	input_audio = "{}/{}.wav".format(s.INPUT_DIR, filename)
 
 	sound = AudioSegment.from_wav(input_audio) 
-	json_folder = "{}/{}".format(s.OUTPUT_DIR, base_name)
+	json_folder = "{}/{}".format(s.OUTPUT_DIR, filename)
 	json_files  = os.listdir(json_folder)
 
 	for json_file in json_files:

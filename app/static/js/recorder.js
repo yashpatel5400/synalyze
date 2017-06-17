@@ -39,7 +39,9 @@ var handleSuccess = function(stream) {
       data: new Blob(recordedChunks),
       filename: name
     });
-    window.location.href = '../report/' + name;
+    setTimeout(function() {
+      window.location.href = '../report/' + name;
+    }, 3000);
   });
 
   mediaRecorder.start();

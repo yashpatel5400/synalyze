@@ -14,6 +14,7 @@ from app.report.generate_page import generate_page
 
 import os
 import time
+import soundfile as sf
 
 @app.route('/')
 def index():
@@ -35,7 +36,6 @@ def report(filename):
 
     Returns: Rendered template of the analytics file
     """
-    time.sleep(2) # gives time to complete writing file before analyzing
     get_speaker(filename)
     # synergy.analyze(dirname)
     # report = generate_page(dirname)
@@ -43,5 +43,21 @@ def report(filename):
 
 @socketio.on('process')
 def process(audio):
-    with open("{}/{}.wav".format(s.OUTPUT_DIR, audio['filename']), 'wb') as f:
+    # EXTREMELY JANK implementation: clean up if possible
+
+    # write raw audio binary stream to disk
+    fn = "{}/{}".format(s.OUTPUT_DIR, audio['filename'])
+    with open("{}.raw".format(fn), 'wb') as f:
         f.write(audio['data'])
+
+    # converts RAW file to intermediary MP3 since could not directly convert
+    mp3_command = "ffmpeg -i {}.raw -acodec libmp3lame {}.mp3".format(fn, fn) 
+
+    # converts the MP3 intermediary to the desired WAV to be analyzed
+    wav_command = "mpg123 -w {}.wav {}.mp3".format(fn, fn)
+
+    print("Converting to MP3...")
+    os.system(mp3_command)
+
+    print("Converting to WAV...")
+    os.system(wav_command)
