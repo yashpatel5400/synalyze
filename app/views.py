@@ -37,10 +37,10 @@ def report(filename):
 
     Returns: Rendered template of the analytics file
     """
-    # get_speaker(filename)
-    # synalyze.analyze(filename)
+    #get_speaker(filename)
+    #synalyze.analyze(filename)
     report_name = generate_page(filename)
-    return render_template(report_name)
+    return render_template("{}.html".format(filename))
 
 @socketio.on('process')
 def process(audio):

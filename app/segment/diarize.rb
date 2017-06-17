@@ -27,15 +27,16 @@ def segment_audio(filename)
 		speaker = segment.speaker
 		segment_data["speaker_id"] = speaker.uri.to_s.split("#")[-1]
 		segment_data["start_time"] = segment.start
-		segment_data["duration"]	 = segment.duration
+		segment_data["duration"]   = segment.duration
 
 		segments_data[i] = segment_data
-		i += 1
 
 		File.open(File.join(File.expand_path(File.dirname(__FILE__)), 
 			"output/#{filename}/#{i}.json"), "w") do |f|
 			f.write(segment_data.to_json)
 		end
+
+		i += 1
 	end
 	
 	return segments_data

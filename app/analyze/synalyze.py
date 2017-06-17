@@ -64,12 +64,15 @@ def nlu(text_array):
             nlu.append({}) # error in the request likely due to empty content
     return nlu_array
 
-def find_parties(filename):
+def update_segments(filename, text_array):
     input_dir = '{}/{}'.format(s.INPUT_DIR, filename)
     json_files = [f for f in os.listdir(input_dir) if f.split('.')[-1] == 'json']
-    parties = [json.load(open('{}/{}'.format(input_dir, json_name), 'rb'))
-        for json_name in json_files]
-    return parties
+    for json_id in range(len(json_files)):
+        json_path = '{}/{}.json'.format(input_dir, json_id)
+        segment = json.load(open(json_path, 'rb'))
+        segment.update({"text": text_array[json_id]})
+        with open(json_path, 'w') as jf:
+            jf.write(json.dumps(segment))
 
 def analyze(filename):
     input_dir = '{}/{}'.format(s.INPUT_DIR, filename)
@@ -80,13 +83,11 @@ def analyze(filename):
     print('Transcribing Audio...')
     text_array = transcribe(audio_array)
     print(text_array)
-    
+    update_segments(filename, text_array)
+
     print('Analyze Text...')
     results = nlu(text_array)
-    parties = find_parties(filename)
-    for i, party in enumerate(parties):
-        results[i].update({'parties': party})
-
-    print('Writing Results...')
+    
+    print('Writing Results...')    
     with open('{}/{}.txt'.format(s.OUTPUT_DIR, filename), 'w') as f:
         f.write(json.dumps(results))

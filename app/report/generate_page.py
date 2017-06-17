@@ -13,7 +13,15 @@ import json
 import time
 import datetime
 
+def find_segments(filename):
+    input_dir = '{}/{}'.format(s.SEGMENTED_DIR, filename)
+    json_files = [f for f in os.listdir(input_dir) if f.split('.')[-1] == 'json']
+    segments = [json.load(open('{}/{}'.format(input_dir, json_name), 'rb'))
+        for json_name in json_files]
+    return segments
+
 def generate_page(filename):
+    # ======================== NLU Analytics ============================= #
     print("Generating output...")
     templatefile = "{}/template.html".format(s.REPORT_DIR)
     resultsfile  = "{}/{}.txt".format(s.ANALYZE_DIR, filename)
@@ -47,23 +55,25 @@ def generate_page(filename):
                          for ind, data in enumerate(munged_tones)])
     series3 = ", ".join(['{x: ' + str(ind) + ', y: ' + str(data[2]) + '}'
                          for ind, data in enumerate(munged_tones)])
-
+    concepts = flatten([analysis["concepts"] for analysis in analyzed])
+    
+    # ====================== Metadata Analytics =========================== #
+    segments = find_segments(filename)
     comb = {}
     total_dur = 0
-    for analysis in analyzed:
-        segment = analysis["parties"]
+    for segment in segments:
         val = comb.get(segment["speaker_id"], 0.0) + segment["duration"]
         total_dur += segment["duration"]
         comb[segment["speaker_id"]] = val
 
-    speakers = []
+    speakers  = []
     durations = []
     for k in comb:
         speakers.append(k)
         durations.append(comb[k] / total_dur)
 
+    # ========================= Produce Report ============================ #
     flatten = lambda l: [item for sublist in l for item in sublist]
-    concepts = flatten([analysis["concepts"] for analysis in analyzed])
     data = {
         'title': 'Meeting Report',
         'topic': 'The Topic of the Meeting',
@@ -77,9 +87,6 @@ def generate_page(filename):
         'durations': durations,
     }
 
-    report_name  = "report_{}.html".format(filename) 
-    final_report = "{}/{}".format(s.OUTPUT_DIR, report_name)
+    final_report = "{}/{}.html".format(s.OUTPUT_DIR, filename)
     with open(final_report, "w") as f:
         f.write(pystache.render(template, data))
-
-    return report_name
