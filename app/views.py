@@ -37,8 +37,8 @@ def report(filename):
 
     Returns: Rendered template of the analytics file
     """
-    #get_speaker(filename)
-    #synalyze.analyze(filename)
+    get_speaker(filename)
+    synalyze.analyze(filename)
     data = generate_page(filename)
     return render_template("report.html", data=data)
 

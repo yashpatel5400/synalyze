@@ -11,6 +11,9 @@ sudo apt-get install -y libffi-dev
 sudo apt-get install -y portaudio19-dev
 sudo apt-get install -y libssl-dev
 
+sudo apt-get install -y mpg321
+sudo apt-get install -y ffmpeg
+
 git clone https://github.com/yashpatel5400/synalyze.git
 cd synalyze
 virtualenv synalyze
