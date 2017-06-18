@@ -45,7 +45,6 @@ def report(filename):
 @socketio.on('process')
 def process(audio):
     # EXTREMELY JANK implementation: clean up if possible
-
     # write raw audio binary stream to disk
     fn = "{}/{}".format(s.OUTPUT_DIR, audio['filename'])
     with open("{}.raw".format(fn), 'wb') as f:
