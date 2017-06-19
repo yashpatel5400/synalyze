@@ -4,7 +4,8 @@ __description__ = Flask routes of site pages
 __name__        = views.py
 """
 
-from flask import render_template
+from flask import render_template, request
+from flask_socketio import emit
 
 import app.settings as s
 
@@ -39,9 +40,6 @@ def report(filename):
     """
     # waits for the file to be asynchronously written to disk before
     # performing any analytics
-    while not os.path.exists("{}/{}".format(s.OUTPUT_DIR, filename)):
-        time.sleep(1)
-
     get_speaker(filename)
     synalyze.analyze(filename)
     data = generate_page(filename)
@@ -51,6 +49,7 @@ def report(filename):
 def process(audio):
     # EXTREMELY JANK implementation: clean up if possible
     # write raw audio binary stream to disk
+    print("Reading raw audio stream...")
     fn = "{}/{}".format(s.OUTPUT_DIR, audio['filename'])
     with open("{}.raw".format(fn), 'wb') as f:
         f.write(audio['data'])
@@ -66,3 +65,4 @@ def process(audio):
 
     print("Converting to WAV...")
     os.system(wav_command)
+    emit('completedwrite')

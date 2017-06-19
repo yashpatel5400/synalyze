@@ -1,7 +1,7 @@
 let shouldStop = false;
 let stopped = false;
 mediaRecorder = null;
-var socket = io.connect('https://' + document.domain + ':' + location.port);
+var socket = io.connect('http://' + document.domain + ':' + location.port);
 
 function dec2hex (dec) {
   return ('0' + dec.toString(16)).substr(-2)
@@ -39,13 +39,15 @@ var handleSuccess = function(stream) {
       data: new Blob(recordedChunks),
       filename: name
     });
-    setTimeout(function() {
-      window.location.href = '../report/' + name;
-    }, 3000);
   });
 
   mediaRecorder.start();
 };
+
+socket.on('completedwrite', function() {
+  window.location.href = '../report/' + name;
+});
+
 
 navigator.mediaDevices.getUserMedia({ audio: true, video: false })
 .then(handleSuccess);
