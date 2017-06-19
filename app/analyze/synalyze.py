@@ -69,7 +69,7 @@ def update_segments(filename, text_array):
     json_files = [f for f in os.listdir(input_dir) if f.split('.')[-1] == 'json']
     for json_id in range(len(json_files)):
         json_path = '{}/{}.json'.format(input_dir, json_id)
-        segment = json.load(open(json_path, 'rb'))
+        segment = json.load(open(json_path, 'r'))
         segment.update({"text": text_array[json_id]})
         with open(json_path, 'w') as jf:
             jf.write(json.dumps(segment))

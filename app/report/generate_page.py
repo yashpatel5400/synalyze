@@ -16,7 +16,7 @@ import datetime
 def find_segments(filename):
     input_dir = '{}/{}'.format(s.SEGMENTED_DIR, filename)
     json_files = [f for f in os.listdir(input_dir) if f.split('.')[-1] == 'json']
-    segments = [json.load(open('{}/{}'.format(input_dir, json_name), 'rb'))
+    segments = [json.load(open('{}/{}'.format(input_dir, json_name), 'r'))
         for json_name in json_files]
     return segments
 
