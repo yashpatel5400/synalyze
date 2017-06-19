@@ -19,8 +19,8 @@ const downloadLink = document.getElementById('download');
 const stopButton = document.getElementById('stop');
 
 stopButton.addEventListener('click', function() {
-shouldStop = true;
-mediaRecorder.stop();
+  shouldStop = true;
+  mediaRecorder.stop();
 })
 
 var handleSuccess = function(stream) {

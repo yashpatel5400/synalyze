@@ -37,6 +37,11 @@ def report(filename):
 
     Returns: Rendered template of the analytics file
     """
+    # waits for the file to be asynchronously written to disk before
+    # performing any analytics
+    while not os.path.exists("{}/{}".format(s.OUTPUT_DIR, filename)):
+        time.sleep(1)
+
     get_speaker(filename)
     synalyze.analyze(filename)
     data = generate_page(filename)
