@@ -9,4 +9,4 @@ INPUT_DIR  = "app/segment/audio"
 OUTPUT_DIR = "app/segment/output"
 
 # ------------------------------ Ruby diarizer ---=-----------------------------
-DIARIZER  = "app/segment/diarize.rb"
+DIARIZER  = "app/segment/segment.rb"

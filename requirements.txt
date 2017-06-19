@@ -10,3 +10,4 @@ gevent
 flask_uwsgi_websocket
 flask-socketio
 soundfile
+eventlet

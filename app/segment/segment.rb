@@ -3,8 +3,9 @@ File used for speech diarization that can be outputted to a format
 that can be read directly into Python
 =end
 
-require 'diarize'
 require 'json'
+require 'uri'
+require 'diarize'
 
 AUDIO_INPUT = "app/segment/audio"
 JSON_OUTPUT = "app/segment/output"

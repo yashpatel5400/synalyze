@@ -14,6 +14,13 @@ sudo apt-get install -y libssl-dev
 sudo apt-get install -y mpg321
 sudo apt-get install -y ffmpeg
 
+sudo apt-get install ruby-dev
+sudo apt-get install haveged
+update-rc.d haveged defaults
+
+sudo jruby -S gem install json
+sudo jruby -S gem install diarize-jruby
+
 git clone https://github.com/yashpatel5400/synalyze.git
 cd synalyze
 virtualenv synalyze
