@@ -6,13 +6,12 @@ __name__        = views.py
 
 from flask import render_template, request
 from flask_socketio import emit
-from flask_login import LoginManager, UserMixin, login_user, logout_user,\
-    current_user
-from oauth import OAuthSignIn
+from flask_login import login_user, logout_user, current_user
 
 import app.settings as s
 
 from app import app, socketio
+from app.oauth import OAuthSignIn
 from app.segment.get_speaker import get_speaker
 from app.analyze import synalyze
 from app.report.generate_page import generate_page
@@ -46,6 +45,8 @@ def callback(provider):
     if social_id is None:
         flash('Authentication failed.')
         return redirect(url_for('index'))
+
+    print(social_id)
     user = User.query.filter_by(social_id=social_id).first()
     if not user:
         user = User(social_id=social_id, nickname=username, email=email)
