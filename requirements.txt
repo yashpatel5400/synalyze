@@ -15,3 +15,4 @@ watson_developer_cloud
 flask_uwsgi_websocket
 flask-socketio
 Flask-Login
+rauth

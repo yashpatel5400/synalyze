@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <link href="../static/css/agency.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <a class="navbar-brand page-scroll" href="{{ url_for('record') }}">Start Analysis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-lead-in">We Perform Analysis on Business Meetings</div>
+                <div class="intro-heading">Welcome To Synalyze!</div>
+                <a href="{{ url_for('record') }}" class="page-scroll btn btn-xl">Record</a>
+            </div>
+        </div>
+    </header>
+{% endblock %}

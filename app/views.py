@@ -6,6 +6,9 @@ __name__        = views.py
 
 from flask import render_template, request
 from flask_socketio import emit
+from flask_login import LoginManager, UserMixin, login_user, logout_user,\
+    current_user
+from oauth import OAuthSignIn
 
 import app.settings as s
 
@@ -22,9 +25,38 @@ import soundfile as sf
 def index():
     return render_template('index.html')
 
-@app.route('/login/')
-def login():
-    return render_template('login.html')
+@app.route('/logout/')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+@app.route('/authorize/<provider>/')
+def authorize(provider):
+    if not current_user.is_anonymous:
+        return redirect(url_for('index'))
+    oauth = OAuthSignIn.get_provider(provider)
+    return oauth.authorize()
+
+@app.route('/callback/<provider>/')
+def callback(provider):
+    if not current_user.is_anonymous:
+        return redirect(url_for('index'))
+    oauth = OAuthSignIn.get_provider(provider)
+    social_id, username, email = oauth.callback()
+    if social_id is None:
+        flash('Authentication failed.')
+        return redirect(url_for('index'))
+    user = User.query.filter_by(social_id=social_id).first()
+    if not user:
+        user = User(social_id=social_id, nickname=username, email=email)
+        db.session.add(user)
+        db.session.commit()
+    login_user(user, True)
+    return redirect(url_for('index'))
+
+@app.route('/landing/')
+def landing():
+    return render_template('landing.html')
 
 @app.route('/record/', methods=['GET', 'POST'])
 def record():
