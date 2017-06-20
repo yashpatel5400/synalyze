@@ -22,6 +22,10 @@ import soundfile as sf
 def index():
     return render_template('index.html')
 
+@app.route('/login/')
+def login():
+    return render_template('login.html')
+
 @app.route('/record/', methods=['GET', 'POST'])
 def record():
     return render_template('record.html')
