@@ -27,11 +27,6 @@ class User(UserMixin):
         #return true if annon, actual user return false
         return False
         
-    def get_id():
+    def get_id(id):
         #return unicode id for user, and used to load user from user_loader callback
         return str(self.id)
-
-    def add(self):
-        c = g.db.execute("""INSERT INTO users(userid, name, email) 
-            VALUES(?,?,?)""",[self.userid, self.name, self.email])
-        g.db.commit()

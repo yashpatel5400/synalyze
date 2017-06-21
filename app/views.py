@@ -4,7 +4,7 @@ __description__ = Flask routes of site pages
 __name__        = views.py
 """
 
-from flask import render_template, request, g
+from flask import render_template, redirect, url_for, request, g
 from flask import session as flask_session
 from flask_socketio import emit
 from flask_login import login_user, logout_user, current_user
@@ -25,18 +25,20 @@ import soundfile as sf
 
 # ========================== Login Routes =============================== #
 
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(s.DB_NAME)
+    return db
+
 @login_manager.user_loader
 def load_user(userid):
-    userrow = g.db.execute("""SELECT * FROM users 
+    userrow = get_db().cursor().execute("""SELECT * FROM users 
         WHERE userid = (?)""", [userid]).fetchone()
     return userrow[0]
 
 @app.route('/')
 def index():
-    db = getattr(g, 'db', None)
-    if db is None:
-        cur  = sqlite3.connect(s.DB_NAME)
-        g.db = cur.cursor()
     return render_template('index.html')
 
 @app.route('/logout/')
@@ -47,7 +49,7 @@ def logout():
 @app.route('/authorize/<provider>/')
 def authorize(provider):
     if not current_user.is_anonymous:
-        return redirect(url_for('index'))
+        return redirect(url_for('landing'))
     oauth = OAuthSignIn.get_provider(provider)
     return oauth.authorize()
 
@@ -62,19 +64,22 @@ def callback(provider):
         return redirect(url_for('index'))
 
     flask_session["user_id"] = social_id
-    user = User.query.filter_by(userid=social_id).first()
+    c    = get_db()
+    cur  = c.cursor()
+    user = cur.execute("""SELECT * FROM users 
+        WHERE userid = (?)""", [social_id]).fetchone()
     if not user:
         user = User(
             userid=social_id,
             name=username,
             email=email
         )
-        g.db.execute("""SELECT * FROM users 
-            WHERE userid = (?,?,?)""", [social_id, username, email])
-        g.db.commit()
+        cur.execute("""INSERT INTO users(userid, name, email) 
+            VALUES(?,?,?)""",[user.userid, user.name, user.email])
+        c.commit()
         
     login_user(user, True)
-    return redirect(url_for('index'))
+    return redirect(url_for('landing'))
 
 # ========================== Analytics Routes =============================== #
 
