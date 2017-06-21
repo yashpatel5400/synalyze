@@ -17,3 +17,6 @@ CHANNELS = 2
 RATE = 44100
 
 NAME_LENGTH = 8
+
+# ------------------------------ DB File variables -----------------------------
+DB_NAME    = "app/db/users.db"
