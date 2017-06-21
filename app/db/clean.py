@@ -9,5 +9,7 @@ import settings as s
 import sqlite3
 
 cur = sqlite3.connect(s.DB_NAME)
-cur.execute("DROP TABLE {}".format(s.TABLE_NAME))
+cur.execute("DROP TABLE {}".format(s.USERS_TABLE))
+cur.execute("DROP TABLE {}".format(s.REPORTS_TABLE))
+cur.execute("DROP TABLE {}".format(s.USER_REPORTS_TABLE))
 cur.commit()

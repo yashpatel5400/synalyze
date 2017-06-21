@@ -21,6 +21,14 @@ import os
 import time
 import soundfile as sf
 
+# ========================== Login Routes =============================== #
+
+login_view = 'index'
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -50,6 +58,8 @@ def callback(provider):
     flask_session["user_id"] = social_id
     login_user(user, True)
     return redirect(url_for('index'))
+
+# ========================== Analytics Routes =============================== #
 
 @app.route('/landing/')
 def landing():

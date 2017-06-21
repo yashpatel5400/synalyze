@@ -1,33 +1,32 @@
-SQLite DB files:
+SQLite DB tables:
 
-- Users (users.db)
-- Reports (reports.db)
-- User Reports (userreports.db)
+- Users (users)
+- Reports (reports)
+- User Reports (userreports)
 
 # Users
 "users" (users.db) table organized as follows:
 
-| User ID | Report ID |
+| User ID | Name | Email |
 
-- Session ID: ID associated with the user logged in
-- Report ID: ID associated with the produced report - used in all analytics 
-files as well
+- User ID (userid): ID associated with the account (internally stored)
+- Name (name): Full name of the user
+- Email (email): Email address associated with user account
 
 # Reports
 "reports" (reports.db) table organized as follows:
 
-| User ID | Report ID |
+| Report ID | Root Name | Length |
 
-- Session ID: ID associated with the user logged in
-- Report ID: ID associated with the produced report - used in all analytics 
-files as well
-
+- Report ID (reportid): ID associated with the report (internally stored)
+- Root Name (rootname): Root of the filename, associated with segmentations, 
+transcriptions, and all analytics results
+- Length (length): Duration of the sound file (in seconds)
 
 # User Reports
 "userreports" (userreports.db) table organized as follows:
 
 | User ID | Report ID |
 
-- Session ID: ID associated with the user logged in
-- Report ID: ID associated with the produced report - used in all analytics 
-files as well
+- Session ID: ID associated with the user (from "users" table)
+- Report ID: ID associated with the produced report (from "reports" table)

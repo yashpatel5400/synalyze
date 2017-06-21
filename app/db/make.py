@@ -10,5 +10,11 @@ import sqlite3
 
 cur = sqlite3.connect(s.DB_NAME)
 cur.execute("""CREATE TABLE {}
-	   (userid text, reportid text)""".format(s.TABLE_NAME))
+	(userid text, name text, email text)""".format(s.USERS_TABLE))
+
+cur.execute("""CREATE TABLE {}
+	(reportid text, rootname text, length integer)""".format(s.REPORTS_TABLE))
+
+cur.execute("""CREATE TABLE {}
+	(userid text, reportid text)""".format(s.USER_REPORTS_TABLE))
 cur.commit()
