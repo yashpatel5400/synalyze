@@ -13,6 +13,7 @@ import app.settings as s
 
 from app import app, socketio, login_manager
 from app.oauth import OAuthSignIn
+from app.user import User
 from app.segment.get_speaker import get_speaker
 from app.analyze import synalyze
 from app.report.generate_page import generate_page
@@ -32,7 +33,8 @@ def load_user(userid):
 
 @app.route('/')
 def index():
-    if g.db is None:
+    db = getattr(g, 'db', None)
+    if db is None:
         cur  = sqlite3.connect(s.DB_NAME)
         g.db = cur.cursor()
     return render_template('index.html')
@@ -60,11 +62,17 @@ def callback(provider):
         return redirect(url_for('index'))
 
     flask_session["user_id"] = social_id
-    user = User(
-        userid=social_id,
-        name=username,
-        email=email
-    )
+    user = User.query.filter_by(userid=social_id).first()
+    if not user:
+        user = User(
+            userid=social_id,
+            name=username,
+            email=email
+        )
+        g.db.execute("""SELECT * FROM users 
+            WHERE userid = (?,?,?)""", [social_id, username, email])
+        g.db.commit()
+        
     login_user(user, True)
     return redirect(url_for('index'))
 

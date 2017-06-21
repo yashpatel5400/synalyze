@@ -2,11 +2,13 @@
 __authors__     = Yash, Will, Peter
 __description__ = Class definition of the User object as defined as those
 to be stored in the User DB (users table)
-__name__        = User.py
+__name__        = user.py
 """
-from flask import g
 
-class User():
+from flask import g
+from flask_login import UserMixin
+
+class User(UserMixin):
     def __init__(self, userid, name, email, active=True):
         self.userid = userid
         self.name   = name
