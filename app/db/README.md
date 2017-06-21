@@ -7,7 +7,7 @@ SQLite DB tables:
 # Users
 "users" (users.db) table organized as follows:
 
-| User ID | Name | Email |
+Column Names: | userid | name | email | 
 
 - User ID (userid): ID associated with the account (internally stored)
 - Name (name): Full name of the user
@@ -16,7 +16,7 @@ SQLite DB tables:
 # Reports
 "reports" (reports.db) table organized as follows:
 
-| Report ID | Root Name | Length |
+Column Names: | reportid | rootname | length | 
 
 - Report ID (reportid): ID associated with the report (internally stored)
 - Root Name (rootname): Root of the filename, associated with segmentations, 
@@ -26,7 +26,8 @@ transcriptions, and all analytics results
 # User Reports
 "userreports" (userreports.db) table organized as follows:
 
-| User ID | Report ID |
+Column Names: | userid | reportid |
 
-- Session ID: ID associated with the user (from "users" table)
-- Report ID: ID associated with the produced report (from "reports" table)
+- Session ID (userid): ID associated with the user (from "users" table)
+- Report ID (reportid): ID associated with the produced report 
+(from "reports" table)

@@ -1,8 +1,16 @@
+"""
+__authors__     = Yash, Will, Peter
+__description__ = Class definition of the User object as defined as those
+to be stored in the User DB (users table)
+__name__        = User.py
+"""
+from flask import g
+
 class User():
-    def __init__(self,name,email,password, active = True):
-        self.name = name
-        self.email = email
-        self.password = password
+    def __init__(self, userid, name, email, active=True):
+        self.userid = userid
+        self.name   = name
+        self.email  = email
         self.active = active
 
     def is_authenticated():
@@ -22,6 +30,6 @@ class User():
         return str(self.id)
 
     def add(self):
-        c = g.db.execute("""INSERT INTO users(username,email,password)
-                                    VALUES(?,?,?)""",[self.name,self.email,self.password])
+        c = g.db.execute("""INSERT INTO users(userid, name, email) 
+            VALUES(?,?,?)""",[self.userid, self.name, self.email])
         g.db.commit()

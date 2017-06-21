@@ -4,7 +4,7 @@ __description__ = Flask routes of site pages
 __name__        = views.py
 """
 
-from flask import render_template, request
+from flask import render_template, request, g
 from flask import session as flask_session
 from flask_socketio import emit
 from flask_login import login_user, logout_user, current_user
@@ -17,20 +17,24 @@ from app.segment.get_speaker import get_speaker
 from app.analyze import synalyze
 from app.report.generate_page import generate_page
 
+import sqlite3
 import os
 import time
 import soundfile as sf
 
 # ========================== Login Routes =============================== #
 
-login_view = 'index'
-
 @login_manager.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+def load_user(userid):
+    userrow = g.db.execute("""SELECT * FROM users 
+        WHERE userid = (?)""", [userid]).fetchone()
+    return userrow[0]
 
 @app.route('/')
 def index():
+    if g.db is None:
+        cur  = sqlite3.connect(s.DB_NAME)
+        g.db = cur.cursor()
     return render_template('index.html')
 
 @app.route('/logout/')
@@ -56,6 +60,11 @@ def callback(provider):
         return redirect(url_for('index'))
 
     flask_session["user_id"] = social_id
+    user = User(
+        userid=social_id,
+        name=username,
+        email=email
+    )
     login_user(user, True)
     return redirect(url_for('index'))
 
