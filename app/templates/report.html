@@ -14,101 +14,118 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.6.0/rickshaw.min.css">
 {% endblock %}
 
-{% block content %}
-<header>
-<div id="wrapper">
-	<div id="sidebar-wrapper">
-		<ul class="sidebar-nav">
+{% block sidebar %}
+<!-- Sidebar -->
+<div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+            Cached Recordings
+        </li>
+        {% for recording in recordings %}
             <li class="sidebar-brand">
-                Cached Recordings
+                <a href="{{ url_for('report', recordid=recording) }}" class="page-scroll btn btn-xl">
+                    {{ recording }}
+                </a>
             </li>
-            {% for recording in recordings %}
-                <li class="sidebar-brand">
-                    <a href="{{ url_for('report', recordid=recording) }}" class="page-scroll btn btn-xl">
-                        {{ recording }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block navbar %}
+<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container col-md-12">
+        <div class="navbar-header page-scroll col-md-4 col-sm-4">
+            <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
+                <div class="sandwich"></div>
+                <div class="sandwich"></div>
+                <div class="sandwich"></div>
+            </a>
+        </div>
+
+        <div class="navbar-header page-scroll col-md-4 col-sm-4">
+            <a class="navbar-brand page-scroll" href="{{ url_for('landing') }}">Synalyze</a>
+        </div>
+
+        <div class="navbar-header page-scroll col-md-4 col-sm-4">
+            <a class="navbar-brand page-scroll pull-right" href="{{ url_for('logout') }}">Logout</a>
+        </div>
     </div>
+</nav>
+{% endblock %}
 
-	<div id="page-content-wrapper">
-		<div id="container" class="container-fluid">
-			<div class="page-header">
-				<h1>{{ data["topic"] }}</h1>
-				<p class="lead">From {{ data["date_str"] }} and lasted {{ data["dur_str"] }}</p>
-			</div>
+{% block content %}
+<div class="page-header">
+	<h1>{{ data["topic"] }}</h1>
+	<p class="lead">From {{ data["date_str"] }} and lasted {{ data["dur_str"] }}</p>
+</div>
 
-			<audio controls>
+<audio controls>
 	            <source src="wav" type="audio/wav">
 	        </audio>
 
-			<h2>Main Ideas</h2>
-			<ul style="list-style: none;">
-				{% for idea in data["ideas"] %}
-				<li>
-					<h3><a href="{{ idea['dbpedia_resource'] }}">
-						{{ idea["text"] }}
-					</a></h3>
-				</li>
-				{% endfor %}
-			</ul>
+<h2>Main Ideas</h2>
+<ul style="list-style: none;">
+	{% for idea in data["ideas"] %}
+	<li>
+		<h3>
+			<a href="{{ idea['dbpedia_resource'] }}">{{ idea["text"] }}</a>
+		</h3>
+	</li>
+	{% endfor %}
+</ul>
 
-			<div id="chart"></div>
-			<h2>People</h2>
-			<table style="border-collapse: separate;border-spacing: 10px;">
-				<tr>
-					<td>Speaker</td>
-					<td>Duration (% Overall)</td>
-				</tr>
-				{% for i in range(data["overall_speaker"]|length) %}
-				<tr>
-					<td>{{  data["overall_speaker"][i]  }}</td>
-					<td>{{ data["overall_durations"][i] }}</td>
-				</tr>
-				{% endfor %}
-			</table>
+<div id="chart"></div>
+<h2>People</h2>
+<table style="border-collapse: separate;border-spacing: 10px;">
+	<tr>
+		<td>Speaker</td>
+		<td>Duration (% Overall)</td>
+	</tr>
+	{% for i in range(data["overall_speaker"]|length) %}
+	<tr>
+		<td>{{  data["overall_speaker"][i]  }}</td>
+		<td>{{ data["overall_durations"][i] }}</td>
+	</tr>
+	{% endfor %}
+</table>
 		
-			<h2>Transcript</h2>
-			<table style="border-collapse: separate;border-spacing: 10px;">
-				{% for i in range(data["speakers"]|length) %}
-				<tr style="vertical-align:top;">
-					<td>{{ data["speakers"][i] }}</td>
-					<td>{{ data["start_times"][i] }}</td>
-					<td><div class="circle_green"></td>
-					<td><p>({{ '%.02f' % data["durations"][i] }} s): {{ data["text"][i] }} </p></td>
-				</tr>
-				{% endfor %}
-			</table>
-		</div>
-	</div>
-</div>
-</header>
+<h2>Transcript</h2>
+<table style="border-collapse: separate;border-spacing: 10px;">
+	{% for i in range(data["speakers"]|length) %}
+	<tr style="vertical-align:top;">
+		<td>{{ data["speakers"][i] }}</td>
+		<td>{{ data["start_times"][i] }}</td>
+		<td><div class="circle_green"></td>
+		<td><p>({{ '%.02f' % data["durations"][i] }} s): {{ data["text"][i] }} </p></td>
+	</tr>
+	{% endfor %}
+</table>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.6.0/rickshaw.min.js"></script>
 	
 	<script>
 		var graph = new Rickshaw.Graph( {
-			element: document.getElementById("chart"),
-			width: document.getElementById('container').offsetWidth,
-			height: 200,
-			renderer: 'line',
-			min: -.01,
-			interpolation: 'basis',
-			series: 
-			[{
-				data: [ {{ data["series1_str"] }} ],
-				color: '#ff0000'
-			}, 
-			{
-				data: [ {{ data["series2_str"] }} ],
-				color: '#0000ff'
-			}, 
-			{
-				data: [ {{ data["series3_str"] }} ],
-				color: '#00ff00'
-			}]
+element: document.getElementById("chart"),
+width: document.getElementById('container').offsetWidth,
+height: 200,
+renderer: 'line',
+min: -.01,
+interpolation: 'basis',
+series: 
+[{
+	data: [ {{ data["series1_str"] }} ],
+	color: '#ff0000'
+}, 
+{
+	data: [ {{ data["series2_str"] }} ],
+	color: '#0000ff'
+}, 
+{
+	data: [ {{ data["series3_str"] }} ],
+	color: '#00ff00'
+}]
 		} );
 		graph.render();
 	</script>

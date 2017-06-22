@@ -3,39 +3,50 @@
 {% block header %}
 {% endblock %}
 
-{% block content %}
-    <header>
-    <div id="wrapper">
+{% block sidebar %}
+<!-- Sidebar -->
+<div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+            Cached Recordings
+        </li>
+        {% for recording in recordings %}
+            <li class="sidebar-brand">
+                <a href="{{ url_for('report', recordid=recording) }}" class="page-scroll btn btn-xl">
+                    {{ recording }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
 
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    Cached Recordings
-                </li>
-                {% for recording in recordings %}
-                <li class="sidebar-brand">
-                    <a href="{{ url_for('report', recordid=recording) }}" class="page-scroll btn btn-xl">
-                        {{ recording }}
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
+{% block navbar %}
+<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container col-md-12">
+        <div class="navbar-header page-scroll col-md-4 col-sm-4">
+            <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
+                <div class="sandwich"></div>
+                <div class="sandwich"></div>
+                <div class="sandwich"></div>
+            </a>
         </div>
 
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <div class="container">
-                    <div class="intro-text">
-                        <div class="intro-lead-in">We Perform Analysis on Business Meetings</div>
-                        <div class="intro-heading">Welcome To Synalyze!</div>
-                        <a href="{{ url_for('record') }}" class="page-scroll btn btn-xl">Record</a>
-                    </div>
-                </div>
-            </div>
+        <div class="navbar-header page-scroll col-md-4 col-sm-4">
+            <a class="navbar-brand page-scroll" href="{{ url_for('landing') }}">Synalyze</a>
+        </div>
+
+        <div class="navbar-header page-scroll col-md-4 col-sm-4">
+            <a class="navbar-brand page-scroll pull-right" href="{{ url_for('logout') }}">Logout</a>
         </div>
     </div>
-
-    </header>
+</nav>
 {% endblock %}
+
+{% block content %}
+<div class="intro-text">
+<div class="intro-lead-in">We Perform Analysis on Business Meetings</div>
+<div class="intro-heading">Welcome To Synalyze!</div>
+<a href="{{ url_for('record') }}" class="page-scroll btn btn-xl">Record</a>
+                    </div>
+{% endblock content %}

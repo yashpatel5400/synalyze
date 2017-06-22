@@ -37,7 +37,6 @@ def get_recordings():
     cur  = c.cursor()
     record_rows = cur.execute("""SELECT * FROM userreports 
         WHERE userid = (?)""", [current_user.userid]).fetchall()
-    print(record_rows)
     return [record[1] for record in record_rows]
 
 # ========================== Login Routes =============================== #

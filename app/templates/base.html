@@ -37,27 +37,20 @@
         <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js" integrity="sha384-mE6eXfrb8jxl0rzJDBRanYqgBxtJ6Unn4/1F7q4xRRyIw7Vdg9jP4ycT7x1iVsgb" crossorigin="anonymous"></script>
 
-        <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
-            <div class="container col-md-12">
-                <div class="navbar-header page-scroll col-md-4 col-sm-4">
-                    <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
-                        <div class="sandwich"></div>
-                        <div class="sandwich"></div>
-                        <div class="sandwich"></div>
-                    </a>
-                </div>
 
-                <div class="navbar-header page-scroll col-md-4 col-sm-4">
-                    <a class="navbar-brand page-scroll" href="{{ url_for('landing') }}">Synalyze</a>
-                </div>
-
-                <div class="navbar-header page-scroll col-md-4 col-sm-4">
-                    <a class="navbar-brand page-scroll pull-right" href="{{ url_for('logout') }}">Logout</a>
+        {% block navbar %} {% endblock %}
+        <header>
+            <div id="wrapper">
+                <div id="page-content-wrapper">
+                    <div class="container-fluid">
+                        <div class="container">
+                            {% block sidebar %} {% endblock %}
+                            {% block content %} {% endblock %}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
-
-        {% block content %} {% endblock %}
+        </header>
 
         <script>
         $("#menu-toggle").click(function(e) {
