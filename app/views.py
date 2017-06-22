@@ -85,11 +85,6 @@ def callback(provider):
     
     user_vals = cur.execute("""SELECT * FROM users 
         WHERE userid = (?)""", [social_id]).fetchone()
-    user = User(
-        userid=user_vals[0],
-        name  =user_vals[1],
-        email =user_vals[2]
-    )
 
     if not user:
         user = User(
@@ -100,6 +95,13 @@ def callback(provider):
         cur.execute("""INSERT INTO users(userid, name, email) 
             VALUES(?,?,?)""",[user.userid, user.name, user.email])
         c.commit()
+    else:
+        user = User(
+            userid=user_vals[0],
+            name  =user_vals[1],
+            email =user_vals[2]
+        )
+
     login_user(user, True)
     return redirect(url_for('landing'))
 
