@@ -125,7 +125,6 @@ def report(recordid):
     with open(jsonrecord, 'r') as fp:
         data = json.load(fp)
 
-    print(data)
     return render_template('report.html', data=data, 
         recordings=get_recordings(),
         recordid=recordid)
