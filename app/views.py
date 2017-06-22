@@ -39,7 +39,11 @@ def get_db():
 def load_user(userid):
     userrow = get_db().cursor().execute("""SELECT * FROM users 
         WHERE userid = (?)""", [userid]).fetchone()
-    return userrow[0]
+    return User(
+        userid=userrow[0],
+        name  =userrow[1],
+        email =userrow[2]
+    )
 
 @app.route('/')
 def index():
