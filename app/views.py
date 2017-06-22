@@ -53,7 +53,9 @@ def load_user(userid):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    if current_user.is_anonymous:
+        return render_template('index.html')
+    return redirect(url_for('landing'))
 
 @app.route('/logout/')
 def logout():
@@ -105,14 +107,20 @@ def callback(provider):
 
 @app.route('/landing/')
 def landing():
+    if current_user.is_anonymous:
+        return redirect(url_for('index'))
     return render_template('landing.html', recordings=get_recordings())
 
 @app.route('/record/', methods=['GET', 'POST'])
 def record():
+    if current_user.is_anonymous:
+        return redirect(url_for('index'))
     return render_template('record.html')
 
 @app.route('/report/<recordid>/')
 def report(recordid):
+    if current_user.is_anonymous:
+        return redirect(url_for('index'))
     jsonrecord = '{}/{}.json'.format(s.REPORT_DIR, recordid)
     with open(jsonrecord, 'r') as fp:
         data = json.load(fp)
@@ -122,6 +130,8 @@ def report(recordid):
 
 @app.route('/report/<recordid>/wav/')
 def audio_cache(recordid):
+    if current_user.is_anonymous:
+        return redirect(url_for('index'))
     return open("{}/{}.wav".format(s.OUTPUT_DIR, 
         recordid), 'rb').read()
 
@@ -137,6 +147,8 @@ def analyze(recordid):
 
     Returns: Rendered template of the analytics file
     """
+    if current_user.is_anonymous:
+        return redirect(url_for('index'))
     c    = get_db()
     cur  = c.cursor()
 
