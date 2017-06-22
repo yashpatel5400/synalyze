@@ -37,6 +37,7 @@ def get_recordings():
     cur  = c.cursor()
     record_rows = cur.execute("""SELECT * FROM userreports 
         WHERE userid = (?)""", [current_user.userid]).fetchall()
+    print(record_rows)
     return [record[1] for record in record_rows]
 
 # ========================== Login Routes =============================== #
@@ -86,7 +87,7 @@ def callback(provider):
     user_vals = cur.execute("""SELECT * FROM users 
         WHERE userid = (?)""", [social_id]).fetchone()
 
-    if not user:
+    if not user_vals:
         user = User(
             userid=social_id,
             name=username,
