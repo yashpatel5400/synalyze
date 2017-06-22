@@ -164,6 +164,10 @@ def analyze(recordid):
     generate_page(recordid)
     return redirect(url_for('report', recordid=recordid))
 
+@app.route('/favicon.ico')
+def favicon():
+    return redirect(url_for('static', filename='favicon.ico'))
+
 @socketio.on('process')
 def process(audio):
     # EXTREMELY JANK implementation: clean up if possible
