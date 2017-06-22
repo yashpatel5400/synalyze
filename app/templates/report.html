@@ -81,35 +81,34 @@
 			</tr>
 			{% endfor %}
 		</table>
-
-
 	</div>
 </div>
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.6.0/rickshaw.min.js"></script>
+	
 	<script>
 		var graph = new Rickshaw.Graph( {
 			element: document.getElementById("chart"),
 			width: document.getElementById('container').offsetWidth,
 			height: 200,
-		renderer: 'line',
+			renderer: 'line',
 			min: -.01,
 			interpolation: 'basis',
-			series: [
-				{
-				data: [ {{ series1_str }} ],
+			series: 
+			[{
+				data: [ {{ data["series1_str"] }} ],
 				color: '#ff0000'
-				}, {
-				data: [ {{ series2_str }} ],
-			color: '#0000ff'
-				}, {
-				data: [ {{ series3_str }} ],
+			}, 
+			{
+				data: [ {{ data["series2_str"] }} ],
+				color: '#0000ff'
+			}, 
+			{
+				data: [ {{ data["series3_str"] }} ],
 				color: '#00ff00'
-				}
-				]
+			}]
 		} );
 		graph.render();
 	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.6.0/rickshaw.min.js"></script>
 	
 {% endblock %}
