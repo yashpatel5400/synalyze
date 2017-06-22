@@ -15,71 +15,76 @@
 {% endblock %}
 
 {% block content %}
+<header>
+<div id="wrapper">
 	<div id="sidebar-wrapper">
 		<ul class="sidebar-nav">
             <li class="sidebar-brand">
                 Cached Recordings
             </li>
             {% for recording in recordings %}
-            <li class="sidebar-brand">
-                <a href="{{ url_for('report', recordid=recording) }}" class="page-scroll btn btn-xl">
-                    {{ recording }}
-                </a>
-            </li>
+                <li class="sidebar-brand">
+                    <a href="{{ url_for('report', recordid=recording) }}" class="page-scroll btn btn-xl">
+                        {{ recording }}
+                    </a>
+                </li>
             {% endfor %}
         </ul>
     </div>
 
-<div id="page-content-wrapper">
-	<div id="container" class="container-fluid">
-		<div class="page-header">
-			<h1>{{ data["topic"] }}</h1>
-			<p class="lead">From {{ data["date_str"] }} and lasted {{ data["dur_str"] }}</p>
+	<div id="page-content-wrapper">
+		<div id="container" class="container-fluid">
+			<div class="page-header">
+				<h1>{{ data["topic"] }}</h1>
+				<p class="lead">From {{ data["date_str"] }} and lasted {{ data["dur_str"] }}</p>
+			</div>
+
+			<audio controls>
+	            <source src="wav" type="audio/wav">
+	        </audio>
+
+			<h2>Main Ideas</h2>
+			<ul style="list-style: none;">
+				{% for idea in data["ideas"] %}
+				<li>
+					<h3><a href="{{ idea['dbpedia_resource'] }}">
+						{{ idea["text"] }}
+					</a></h3>
+				</li>
+				{% endfor %}
+			</ul>
+
+			<div id="chart"></div>
+			<h2>People</h2>
+			<table style="border-collapse: separate;border-spacing: 10px;">
+				<tr>
+					<td>Speaker</td>
+					<td>Duration (% Overall)</td>
+				</tr>
+				{% for i in range(data["overall_speaker"]|length) %}
+				<tr>
+					<td>{{  data["overall_speaker"][i]  }}</td>
+					<td>{{ data["overall_durations"][i] }}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		
+			<h2>Transcript</h2>
+			<table style="border-collapse: separate;border-spacing: 10px;">
+				{% for i in range(data["speakers"]|length) %}
+				<tr style="vertical-align:top;">
+					<td>{{ data["speakers"][i] }}</td>
+					<td>{{ data["start_times"][i] }}</td>
+					<td><div class="circle_green"></td>
+					<td><p>({{ '%.02f' % data["durations"][i] }} s): {{ data["text"][i] }} </p></td>
+				</tr>
+				{% endfor %}
+			</table>
 		</div>
-
-		<audio controls>
-            <source src="wav" type="audio/wav">
-        </audio>
-
-		<h2>Main Ideas</h2>
-		<ul style="list-style: none;">
-			{% for idea in data["ideas"] %}
-			<li>
-				<h3><a href="{{ idea['dbpedia_resource'] }}">
-					{{ idea["text"] }}
-				</a></h3>
-			</li>
-			{% endfor %}
-		</ul>
-
-		<div id="chart"></div>
-		<h2>People</h2>
-		<table style="border-collapse: separate;border-spacing: 10px;">
-			<tr>
-				<td>Speaker</td>
-				<td>Duration (% Overall)</td>
-			</tr>
-			{% for i in range(data["overall_speaker"]|length) %}
-			<tr>
-				<td>{{  data["overall_speaker"][i]  }}</td>
-				<td>{{ data["overall_durations"][i] }}</td>
-			</tr>
-			{% endfor %}
-		</table>
-	
-		<h2>Transcript</h2>
-		<table style="border-collapse: separate;border-spacing: 10px;">
-			{% for i in range(data["speakers"]|length) %}
-			<tr style="vertical-align:top;">
-				<td>{{ data["speakers"][i] }}</td>
-				<td>{{ data["start_times"][i] }}</td>
-				<td><div class="circle_green"></td>
-				<td><p>({{ '%.02f' % data["durations"][i] }} s): {{ data["text"][i] }} </p></td>
-			</tr>
-			{% endfor %}
-		</table>
 	</div>
 </div>
+</header>
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.6.0/rickshaw.min.js"></script>
 	

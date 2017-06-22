@@ -24,7 +24,13 @@
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
-    background: #000;
+    
+
+    
+    background: #f00000; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f00000, #dc281e); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f00000, #dc281e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
