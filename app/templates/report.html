@@ -18,11 +18,31 @@
 {% endblock %}
 
 {% block content %}
-	<div id="container" class="container">
+	<div id="sidebar-wrapper">
+		<ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                Cached Recordings
+            </li>
+            {% for recording in recordings %}
+            <li class="sidebar-brand">
+                <a href="{{ url_for('report', recordid=recording) }}" class="page-scroll btn btn-xl">
+                    {{ recording }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+<div id="page-content-wrapper">
+	<div id="container" class="container-fluid">
 		<div class="page-header">
 			<h1>{{ data["topic"] }}</h1>
 			<p class="lead">From {{ data["date_str"] }} and lasted {{ data["dur_str"] }}</p>
 		</div>
+
+		<audio controls>
+            <source src="wav" type="audio/wav">
+        </audio>
 
 		<h2>Main Ideas</h2>
 		<ul style="list-style: none;">
@@ -64,7 +84,8 @@
 
 
 	</div>
-	
+</div>
+
 	<script>
 		var graph = new Rickshaw.Graph( {
 			element: document.getElementById("chart"),

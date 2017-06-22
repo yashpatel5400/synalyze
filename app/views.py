@@ -24,17 +24,22 @@ import os
 import time
 import soundfile as sf
 
-class Test():
-    def __init__(self, test):
-        self.test = test
-
-# ========================== Login Routes =============================== #
+# ======================= DB Helper Functions =========================== #
 
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(s.DB_NAME)
     return db
+
+def get_recordings():
+    c    = get_db()
+    cur  = c.cursor()
+    record_rows = cur.execute("""SELECT * FROM userreports 
+        WHERE userid = (?)""", [current_user.userid]).fetchall()
+    return [record[1] for record in record_rows]
+
+# ========================== Login Routes =============================== #
 
 @login_manager.user_loader
 def load_user(userid):
@@ -100,12 +105,7 @@ def callback(provider):
 
 @app.route('/landing/')
 def landing():
-    c    = get_db()
-    cur  = c.cursor()
-    record_rows = cur.execute("""SELECT * FROM userreports 
-        WHERE userid = (?)""", [current_user.userid]).fetchall()
-    recordings = [record[1] for record in record_rows]
-    return render_template('landing.html', recordings=recordings)
+    return render_template('landing.html', recordings=get_recordings())
 
 @app.route('/record/', methods=['GET', 'POST'])
 def record():
@@ -116,8 +116,14 @@ def report(recordid):
     jsonrecord = '{}/{}.json'.format(s.REPORT_DIR, recordid)
     with open(jsonrecord, 'r') as fp:
         data = json.load(fp)
+    return render_template('report.html', data=data, 
+        recordings=get_recordings(),
+        recordid=recordid)
 
-    return render_template('report.html', data=data)
+@app.route('/report/<recordid>/wav/')
+def audio_cache(recordid):
+    return open("{}/{}.wav".format(s.OUTPUT_DIR, 
+        recordid), 'rb').read()
 
 @app.route('/analyze/<recordid>/')
 def analyze(recordid):
