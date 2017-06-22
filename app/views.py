@@ -23,6 +23,10 @@ import os
 import time
 import soundfile as sf
 
+class Test():
+    def __init__(self, test):
+        self.test = test
+
 # ========================== Login Routes =============================== #
 
 def get_db():
@@ -66,8 +70,15 @@ def callback(provider):
     flask_session["user_id"] = social_id
     c    = get_db()
     cur  = c.cursor()
-    user = cur.execute("""SELECT * FROM users 
+    
+    user_vals = cur.execute("""SELECT * FROM users 
         WHERE userid = (?)""", [social_id]).fetchone()
+    user = User(
+        userid=user_vals[0],
+        name  =user_vals[1],
+        email =user_vals[2]
+    )
+
     if not user:
         user = User(
             userid=social_id,

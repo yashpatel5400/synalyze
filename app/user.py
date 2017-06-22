@@ -15,18 +15,25 @@ class User(UserMixin):
         self.email  = email
         self.active = active
 
-    def is_authenticated():
+    def is_authenticated(self):
         #return true if user is authenticated, provided credentials
         return True
 
-    def is_active():
+    def is_active(self):
         #return true if user is activte and authenticated
         return self.active
 
-    def is_annonymous():
+    def is_annonymous(self):
         #return true if annon, actual user return false
         return False
         
-    def get_id(id):
+    def get_id(self):
         #return unicode id for user, and used to load user from user_loader callback
-        return str(self.id)
+        return self.userid
+
+    def __str__(self):
+        return """
+        self.userid = {}
+        self.name   = {}
+        self.email  = {}
+        """.format(self.userid, self.name, self.email)
