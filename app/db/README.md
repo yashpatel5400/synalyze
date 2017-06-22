@@ -13,16 +13,6 @@ Column Names: | userid | name | email |
 - Name (name): Full name of the user
 - Email (email): Email address associated with user account
 
-# Reports
-"reports" (reports.db) table organized as follows:
-
-Column Names: | reportid | rootname | length | 
-
-- Report ID (reportid): ID associated with the report (internally stored)
-- Root Name (rootname): Root of the filename, associated with segmentations, 
-transcriptions, and all analytics results
-- Length (length): Duration of the sound file (in seconds)
-
 # User Reports
 "userreports" (userreports.db) table organized as follows:
 

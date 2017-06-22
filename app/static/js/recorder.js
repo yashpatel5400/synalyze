@@ -45,7 +45,7 @@ var handleSuccess = function(stream) {
 };
 
 socket.on('completedwrite', function() {
-  window.location.href = '../report/' + name;
+  window.location.href = '../analyze/' + name;
 });
 
 

@@ -18,6 +18,15 @@
         <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
         
+        <style>
+            .sandwich {
+                width: 35px;
+                height: 5px;
+                background-color: black;
+                margin: 6px 0;
+            }
+        </style>
+
         {% block header %} {% endblock %}
     </head>
 
@@ -29,17 +38,33 @@
 
         <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
             <div class="container col-md-12">
-                <div class="navbar-header page-scroll col-md-6">
+                <div class="navbar-header page-scroll col-md-4 col-sm-4">
+                    <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
+                        <div class="sandwich"></div>
+                        <div class="sandwich"></div>
+                        <div class="sandwich"></div>
+                    </a>
+                </div>
+
+                <div class="navbar-header page-scroll col-md-4 col-sm-4">
                     <a class="navbar-brand page-scroll" href="{{ url_for('landing') }}">Synalyze</a>
                 </div>
 
-                <div class="navbar-header page-scroll col-md-6">
+                <div class="navbar-header page-scroll col-md-4 col-sm-4">
                     <a class="navbar-brand page-scroll pull-right" href="{{ url_for('logout') }}">Logout</a>
                 </div>
             </div>
         </nav>
 
         {% block content %} {% endblock %}
+
+        <!-- Menu Toggle Script -->
+        <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+        </script>
     </body>
 
 </html>

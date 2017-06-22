@@ -19,6 +19,7 @@ from app.analyze import synalyze
 from app.report.generate_page import generate_page
 
 import sqlite3
+import json
 import os
 import time
 import soundfile as sf
@@ -92,7 +93,6 @@ def callback(provider):
         cur.execute("""INSERT INTO users(userid, name, email) 
             VALUES(?,?,?)""",[user.userid, user.name, user.email])
         c.commit()
-        
     login_user(user, True)
     return redirect(url_for('landing'))
 
@@ -100,30 +100,50 @@ def callback(provider):
 
 @app.route('/landing/')
 def landing():
-    return render_template('landing.html')
+    c    = get_db()
+    cur  = c.cursor()
+    record_rows = cur.execute("""SELECT * FROM userreports 
+        WHERE userid = (?)""", [current_user.userid]).fetchall()
+    recordings = [record[1] for record in record_rows]
+    return render_template('landing.html', recordings=recordings)
 
 @app.route('/record/', methods=['GET', 'POST'])
 def record():
     return render_template('record.html')
 
-@app.route('/report/<filename>/')
-def report(filename):
+@app.route('/report/<recordid>/')
+def report(recordid):
+    jsonrecord = '{}/{}.json'.format(s.REPORT_DIR, recordid)
+    with open(jsonrecord, 'r') as fp:
+        data = json.load(fp)
+
+    return render_template('report.html', data=data)
+
+@app.route('/analyze/<recordid>/')
+def analyze(recordid):
     """Route that performs the analytics on the filename 
     specified. Note that only the root of the filename (i.e.
     without extension) should be provided to the function, as
     that is what is later processed and used for naming
 
     Args:
-    filename (str): root of the filename that is to be processed
+    recordid (str): root of the filename that is to be processed
 
     Returns: Rendered template of the analytics file
     """
+    c    = get_db()
+    cur  = c.cursor()
+
+    cur.execute("""INSERT INTO userreports(userid, reportid) 
+        VALUES(?,?)""",[current_user.userid, recordid])
+    c.commit()
+
     # waits for the file to be asynchronously written to disk before
     # performing any analytics
-    get_speaker(filename)
-    synalyze.analyze(filename)
-    data = generate_page(filename)
-    return render_template("report.html", data=data)
+    get_speaker(recordid)
+    synalyze.analyze(recordid)
+    generate_page(recordid)
+    return redirect(url_for('report', recordid=recordid))
 
 @socketio.on('process')
 def process(audio):

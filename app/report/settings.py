@@ -6,9 +6,8 @@ __name__ = settings.py
 """
 # ------------------------------  inputs -----------------------------
 SEGMENTED_DIR  = "app/segment/output"
-TRANSCRIPT_DIR  = "app/analyze/transcript"
 
 # ------------------------------  outputs -----------------------------
-OUTPUT_DIR  = "app/templates"
 REPORT_DIR  = "app/report"
-ANALYZE_DIR = "app/report/results"
+ANALYZE_DIR = "app/analyze/transcripts"
+OUTPUT_DIR  = "app/report/results"

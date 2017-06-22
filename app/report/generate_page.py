@@ -22,7 +22,8 @@ def find_segments(filename):
 
 def generate_page(filename):
     """ 
-    Returns data with the following fields:
+    Write JSON with the following fields to disk that can later be read
+    and displayed to end user:
 
         title: HTML page title
         topic: Meeting topic (used for header)
@@ -87,7 +88,7 @@ def generate_page(filename):
     durations   = [segment["duration"] for segment in segments]
 
     # ========================= Produce Report ============================ #
-    data = {
+    analysis = {
         'title': 'Meeting Report',
         'topic': 'The Topic of the Meeting',
         'date_str': datetime.datetime.today().strftime('%Y-%m-%d'),
@@ -107,4 +108,5 @@ def generate_page(filename):
         'text': texts,
     }
 
-    return data
+    with open('{}/{}.json'.format(s.OUTPUT_DIR, filename), 'w') as fp:
+        json.dump(analysis, fp)

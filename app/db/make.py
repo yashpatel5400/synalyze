@@ -14,9 +14,5 @@ cur.execute("""CREATE TABLE {}
 cur.commit()
 
 cur.execute("""CREATE TABLE {}
-	(reportid text, rootname text, length integer)""".format(s.REPORTS_TABLE))
-cur.commit()
-
-cur.execute("""CREATE TABLE {}
 	(userid text, reportid text)""".format(s.USER_REPORTS_TABLE))
 cur.commit()

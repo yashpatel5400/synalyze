@@ -6,30 +6,30 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-  <script id="metamorph-1-start" type="text/x-placeholder"></script><script id="metamorph-21-start" type="text/x-placeholder"></script>
+<header>
+  <div class="container">
 
-    <div class="container text-center">
-        <form class="form-signin" data-ember-action="2">
-            <h2 class="form-signin-heading">Sign in</h2>
-            <br><br>    
-            <p>
-                <a class="btn btn-primary social-login-btn social-facebook" href="/authorize/facebook"><i class="fa fa-facebook"></i></a>
-              <a class="btn btn-primary social-login-btn social-google" href="/authorize/google"><i class="fa fa-google-plus"></i></a>
-            </p>
-            <br><br>
-                
-            <input id="ember360" class="ember-view ember-text-field form-control login-input" placeholder="Email Address" type="text">
-            <input id="ember361" class="ember-view ember-text-field form-control login-input-pass" placeholder="Password" type="password">
+      <div class="container text-center">
+          <form class="form-signin" data-ember-action="2">
+              <h2 class="form-signin-heading">Sign in</h2>
+              <p>
+                  <a class="btn btn-primary social-login-btn social-facebook" href="/authorize/facebook"><i class="fa fa-facebook"></i></a>
+                <a class="btn btn-primary social-login-btn social-google" href="/authorize/google"><i class="fa fa-google-plus"></i></a>
+              </p>
+              <br><br>
+                  
+              <input id="ember360" class="ember-view ember-text-field form-control login-input" placeholder="Email Address" type="text">
+              <input id="ember361" class="ember-view ember-text-field form-control login-input-pass" placeholder="Password" type="password">
 
-            <script id="metamorph-22-start" type="text/x-placeholder"></script><script id="metamorph-22-end" type="text/x-placeholder"></script>
+              <script id="metamorph-22-start" type="text/x-placeholder"></script><script id="metamorph-22-end" type="text/x-placeholder"></script>
 
-            <button class="btn btn-lg btn-primary btn-block btn-center" type="submit" data-bindattr-3="3">Sign in</button>
-          <br>
-          <small class="create-account text-muted">Dont have a social network account? 
-          <br>
-          <button id="ember363" class="ember-view btn btn-sm btn-default"> Sign Up </button> </small>
-        </form>
-    </div>
-</div>
+              <button class="btn btn-lg btn-primary btn-block btn-center" type="submit" data-bindattr-3="3">Sign in</button>
+            <br>
+            <small class="create-account text-muted">Dont have a social network account? 
+            <br>
+            <button id="ember363" class="ember-view btn btn-sm btn-default"> Sign Up </button> </small>
+          </form>
+      </div>
+  </div>
+</header>
 {% endblock content %}
