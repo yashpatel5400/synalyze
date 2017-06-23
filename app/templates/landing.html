@@ -6,10 +6,7 @@
 {% block sidebar %}
 <!-- Sidebar -->
 <div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-        <li class="sidebar-brand">
-            Cached Recordings
-        </li>
+    <ul class="sidebar-nav" id="sidebar-contents">
         {% for recording in recordings %}
             <li class="sidebar-brand">
                 <a href="{{ url_for('report', recordid=recording) }}" class="page-scroll btn btn-xl">
@@ -22,9 +19,13 @@
 {% endblock %}
 
 {% block navbar %}
+
+{% endblock %}
+
+{% block content %}
 <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container col-md-12">
-        <div class="navbar-header page-scroll col-md-4 col-sm-4">
+    <div class="container">
+        <div class="navbar-header page-scroll col-xs-4">
             <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
                 <div class="sandwich"></div>
                 <div class="sandwich"></div>
@@ -32,18 +33,16 @@
             </a>
         </div>
 
-        <div class="navbar-header page-scroll col-md-4 col-sm-4">
+        <div class="navbar-header page-scroll col-xs-4">
             <a class="navbar-brand page-scroll" href="{{ url_for('landing') }}">Synalyze</a>
         </div>
 
-        <div class="navbar-header page-scroll col-md-4 col-sm-4">
+        <div class="navbar-header page-scroll col-xs-4">
             <a class="navbar-brand page-scroll pull-right" href="{{ url_for('logout') }}">Logout</a>
         </div>
     </div>
 </nav>
-{% endblock %}
 
-{% block content %}
 <div class="intro-text">
 <div class="intro-lead-in">We Perform Analysis on Business Meetings</div>
 <div class="intro-heading">Welcome To Synalyze!</div>

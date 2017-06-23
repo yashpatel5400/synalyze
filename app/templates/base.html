@@ -27,6 +27,12 @@
                 background-color: black;
                 margin: 6px 0;
             }
+
+            #sidebar-contents {
+                padding-top: 70px; 
+            }
+
+            body { padding-top: 70px; }
         </style>
 
         {% block header %} {% endblock %}
@@ -41,10 +47,10 @@
         {% block navbar %} {% endblock %}
         <header>
             <div id="wrapper">
-                <div id="page-content-wrapper">
+                {% block sidebar %} {% endblock %}
+                <div class="col-xs-12" id="page-content-wrapper">
                     <div class="container-fluid">
                         <div class="container">
-                            {% block sidebar %} {% endblock %}
                             {% block content %} {% endblock %}
                         </div>
                     </div>
