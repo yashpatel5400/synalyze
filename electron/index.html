@@ -1,19 +1,45 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-  </body>
+{% extends "base.html" %}
 
-  <script>
-    // You can also require other files to run in this process
-    require('./renderer.js')
-  </script>
-</html>
+{% block header %}
+<link href="../static/css/login.css" rel="stylesheet">
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block navbar %}
+<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container col-xs-12">
+        <div class="navbar-header page-scroll col-xs-6">
+            <a class="navbar-brand page-scroll" href="{{ url_for('landing') }}">Synalyze</a>
+        </div>
+
+        <div class="navbar-header page-scroll col-xs-6">
+            <a class="navbar-brand page-scroll pull-right" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="intro-text">
+    <div class="intro-lead-in">Welcome to Synalyze!</div>
+    
+    <form class="form-signin" data-ember-action="2">
+        <p>
+            <a class="btn btn-primary social-login-btn" href="/authorize/facebook">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+            </a>
+          <a class="btn btn-primary social-login-btn social-google" href="/authorize/google"><i class="fa fa-google-plus"></i></a>
+        </p>
+        <br><br>
+            
+        <input id="ember360" class="ember-view ember-text-field form-control login-input" placeholder="Email Address" type="text">
+        <input id="ember361" class="ember-view ember-text-field form-control login-input-pass" placeholder="Password" type="password">
+
+        <script id="metamorph-22-start" type="text/x-placeholder"></script><script id="metamorph-22-end" type="text/x-placeholder"></script>
+
+        <button class="btn btn-lg btn-primary btn-block btn-center" type="submit" data-bindattr-3="3">Sign in</button>
+    </form>
+</div>
+{% endblock content %}
