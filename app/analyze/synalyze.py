@@ -61,7 +61,7 @@ def nlu(text_array):
         try:
             nlu_array.append(nlu_insights.analyze(extracting, text=text))
         except:
-            nlu.append({}) # error in the request likely due to empty content
+            nlu_array.append({}) # error in the request likely due to empty content
     return nlu_array
 
 def update_segments(filename, text_array):
