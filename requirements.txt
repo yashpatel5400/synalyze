@@ -16,6 +16,3 @@ flask_uwsgi_websocket
 flask-socketio
 Flask-Login
 rauth
-
-cython
-spacy
