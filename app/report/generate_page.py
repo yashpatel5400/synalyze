@@ -68,7 +68,9 @@ def generate_page(filename):
     series3 = ", ".join(['{x: ' + str(ind) + ', y: ' + str(data[2]) + '}'
                          for ind, data in enumerate(munged_tones)])
     flatten = lambda l: [item for sublist in l for item in sublist]
-    concepts = flatten([analysis["concepts"] for analysis in analyzed])
+
+    concepts = flatten([analysis["concepts"] for analysis in analyzed 
+        if "concepts" in analysis])
     
     # ====================== Metadata Analytics =========================== #
     segments = find_segments(filename)

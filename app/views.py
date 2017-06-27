@@ -184,8 +184,8 @@ def analyze(recordid):
 
     # waits for the file to be asynchronously written to disk before
     # performing any analytics
-    get_speaker(recordid)
-    synalyze.analyze(recordid)
+    #get_speaker(recordid)
+    #synalyze.analyze(recordid)
     generate_page(recordid)
     return redirect(url_for('report', recordid=recordid))
 

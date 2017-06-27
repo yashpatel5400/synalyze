@@ -59,7 +59,7 @@
 	<h1>{{ data["topic"] }}</h1>
 	<p class="lead">From {{ data["date_str"] }} and lasted {{ data["dur_str"] }}</p>
 
-	<audio controls>
+	<audio id="player" controls>
 		<source src="wav" type="audio/wav">
 	</audio>
 </div>
@@ -68,7 +68,7 @@
 	<tr>
 		<td class="col-xs-4">Speaker ID</td>
 		<td class="col-xs-4">Name</td>
-		<td class="col-xs-4">Reference Clip</td>
+		<td class="col-xs-4">Details</td>
 	</tr>
 	{% for i in range(data["overall_speaker"]|length) %}
 	<tr>
@@ -114,27 +114,12 @@
 </ul>
 
 <div id="chart"></div>
-<h2>People</h2>
-<table class="col-xs-offset-3 col-xs-6">
-	<tr>
-		<td class="col-xs-6">Speaker</td>
-		<td class="col-xs-6">Duration (% Overall)</td>
-	</tr>
-	{% for i in range(data["overall_speaker"]|length) %}
-	<tr>
-		<td class="col-xs-6 user-{{ i }}">{{  data["overall_speaker"][i]  }}</td>
-		<td class="col-xs-6">{{ data["overall_durations"][i] }}</td>
-	</tr>
-	{% endfor %}
-</table>
-<br>
-
 <h2>Transcript</h2>
 <table class="col-xs-12">
 	{% for i in range(data["speakers"]|length) %}
 	<tr style="vertical-align:top;">
 		<td class="col-xs-2 user-{{ i }}">{{ data["speakers"][i] }}</td>
-		<td class="col-xs-1">{{ data["start_times"][i] }}</td>
+		<td class="col-xs-1">{{ '%.02f' % data["start_times"][i] }}</td>
 		<td class="col-xs-9"><p>({{ '%.02f' % data["durations"][i] }} s): {{ data["text"][i] }} </p></td>
 	</tr>
 	{% endfor %}
