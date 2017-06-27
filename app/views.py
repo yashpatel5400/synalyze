@@ -24,6 +24,10 @@ import os
 import time
 import soundfile as sf
 
+import plotly.plotly as py
+import plotly.graph_objs as go
+import plotly.tools as tls
+
 # ======================= DB Helper Functions =========================== #
 
 def get_db():
@@ -127,7 +131,21 @@ def report(recordid):
     with open(jsonrecord, 'r') as fp:
         data = json.load(fp)
 
+    trace = go.Pie(
+        labels=data["overall_speaker"], 
+        values=data["overall_durations"],
+        hoverinfo='label+percent', textinfo='value', 
+        textfont=dict(size=20),
+        marker=dict(
+            line=dict(
+            color='#000000', 
+            width=2)
+        ))
+
+    url = py.plot([trace], filename='styled_pie_chart', auto_open=False)
+    print(url)
     return render_template('report.html', data=data, 
+        url=url,
         recordings=get_recordings(),
         recordid=recordid)
 
