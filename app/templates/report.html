@@ -58,23 +58,23 @@
 <div class="page-header">
 	<h1>{{ data["topic"] }}</h1>
 	<p class="lead">From {{ data["date_str"] }} and lasted {{ data["dur_str"] }}</p>
+
+	<audio controls>
+		<source src="wav" type="audio/wav">
+	</audio>
 </div>
 
-<audio controls>
-	<source src="wav" type="audio/wav">
-</audio>
-
-<table style="border-collapse: separate;border-spacing: 10px;">
+<table class="col-xs-12">
 	<tr>
-		<td>Speaker ID</td>
-		<td>Name</td>
-		<td>Refernce Clip</td>
+		<td class="col-xs-4">Speaker ID</td>
+		<td class="col-xs-4">Name</td>
+		<td class="col-xs-4">Refernce Clip</td>
 	</tr>
 	{% for i in range(data["overall_speaker"]|length) %}
 	<tr>
-		<td>{{  data["overall_speaker"][i]  }}</td>
-		<td><input type="text" id="user-{{ i }}"/></td>
-		<td><audio controls> <source src="wav" type="audio/wav"> </audio></td>
+		<td class="col-xs-4">{{  data["overall_speaker"][i]  }}</td>
+		<td class="col-xs-4"><input type="text" id="user-{{ i }}"/></td>
+		<td class="col-xs-4"><audio controls> <source src="wav" type="audio/wav"> </audio></td>
 	</tr>
 	{% endfor %}
 </table>
@@ -92,27 +92,27 @@
 
 <div id="chart"></div>
 <h2>People</h2>
-<table style="border-collapse: separate;border-spacing: 10px;">
+<table class="col-xs-offset-3 col-xs-6">
 	<tr>
-		<td>Speaker</td>
-		<td>Duration (% Overall)</td>
+		<td class="col-xs-6">Speaker</td>
+		<td class="col-xs-6">Duration (% Overall)</td>
 	</tr>
 	{% for i in range(data["overall_speaker"]|length) %}
 	<tr>
-		<td class="user-{{ i }}">{{  data["overall_speaker"][i]  }}</td>
-		<td>{{ data["overall_durations"][i] }}</td>
+		<td class="col-xs-6 user-{{ i }}">{{  data["overall_speaker"][i]  }}</td>
+		<td class="col-xs-6">{{ data["overall_durations"][i] }}</td>
 	</tr>
 	{% endfor %}
 </table>
-		
+<br>
+
 <h2>Transcript</h2>
-<table style="border-collapse: separate;border-spacing: 10px;">
+<table class="col-xs-12">
 	{% for i in range(data["speakers"]|length) %}
 	<tr style="vertical-align:top;">
-		<td class="user-{{ i }}">{{ data["speakers"][i] }}</td>
-		<td>{{ data["start_times"][i] }}</td>
-		<td><div class="circle_green"></td>
-		<td><p>({{ '%.02f' % data["durations"][i] }} s): {{ data["text"][i] }} </p></td>
+		<td class="col-xs-2 user-{{ i }}">{{ data["speakers"][i] }}</td>
+		<td class="col-xs-1">{{ data["start_times"][i] }}</td>
+		<td class="col-xs-9"><p>({{ '%.02f' % data["durations"][i] }} s): {{ data["text"][i] }} </p></td>
 	</tr>
 	{% endfor %}
 </table>
