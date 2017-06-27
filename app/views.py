@@ -139,10 +139,15 @@ def report(recordid):
         marker=dict(
             line=dict(
             color='#000000', 
-            width=2)
-        ))
+            width=2))
+    )
+    layout = go.Layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
 
-    url = py.plot([trace], filename='styled_pie_chart', auto_open=False)
+    fig = go.Figure(data=[trace], layout=layout)
+    url = py.plot(fig, auto_open=False)
     print(url)
     return render_template('report.html', data=data, 
         url=url,
