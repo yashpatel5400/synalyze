@@ -6,7 +6,7 @@ processing w/ Ruby package for diarization with cleaned outputs
 __name__ = get_speaker.py
 """
 
-from . import settings as s
+from app.segment import settings as s
 
 from pydub import AudioSegment
 import json
@@ -19,7 +19,6 @@ def split_audio(filename):
 	audio according to the times specified in JSONs
 	"""
 	input_audio = "{}/{}.wav".format(s.INPUT_DIR, filename)
-
 	sound = AudioSegment.from_wav(input_audio) 
 	json_folder = "{}/{}".format(s.OUTPUT_DIR, filename)
 	json_files  = os.listdir(json_folder)
@@ -37,8 +36,7 @@ def split_audio(filename):
 def get_speaker(filename):
 	# sets up for output used for diarizer
 	print("Setting {} directories".format(filename))
-	base_name = filename.split(".")[0]
-	out_dir   = "{}/{}".format(s.OUTPUT_DIR, base_name)
+	out_dir   = "{}/{}".format(s.OUTPUT_DIR, filename)
 	if not os.path.exists(out_dir):
 		os.mkdir(out_dir)
 	
@@ -53,7 +51,7 @@ def get_speaker(filename):
 	split_audio(filename)
 	
 if __name__ == "__main__":
-	test_names = ["testmeeting.wav"]
+	test_names = ["meeting.mp3"]
 	for name in test_names:
 		print("Processing {}".format(name))
 		get_speaker(name)

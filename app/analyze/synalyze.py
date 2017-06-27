@@ -27,7 +27,6 @@ def transcribe(audio_array):
         password = API['S2T']['PWD'],
         x_watson_learning_opt_out=False,
     )
-
     text_array = []
     for audio_file in audio_array:
         try:
@@ -86,8 +85,7 @@ def analyze(filename):
     update_segments(filename, text_array)
 
     print('Analyze Text...')
-    results = nlu(text_array)
-    
+    results = nlu(text_array)    
     print('Writing Results...')    
     with open('{}/{}.txt'.format(s.OUTPUT_DIR, filename), 'w') as f:
         f.write(json.dumps(results))
