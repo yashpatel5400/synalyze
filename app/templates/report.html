@@ -102,18 +102,25 @@
 	src="" height="525" width="100%">
 </iframe>
 
-<h2>Main Ideas</h2>
-<ul style="list-style: none;">
-	{% for idea in data["ideas"] %}
-	<li>
-		<h3>
-			<a href="{{ idea['dbpedia_resource'] }}">{{ idea["text"] }}</a>
-		</h3>
-	</li>
-	{% endfor %}
-</ul>
+<div class="col-xs-12">
+	<div id="container" class="col-xs-8">
+		<div id="chart"></div>
+	</div>
 
-<div id="chart"></div>
+	<div class="col-xs-4">
+		<h2>Main Ideas</h2>
+		<ul style="list-style: none;">
+			{% for idea in data["ideas"] %}
+			<li>
+				<h3>
+					<a href="{{ idea['dbpedia_resource'] }}">{{ idea["text"] }}</a>
+				</h3>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+
 <h2>Transcript</h2>
 <table class="col-xs-12">
 	{% for i in range(data["speakers"]|length) %}
