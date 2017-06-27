@@ -24,9 +24,9 @@ import os
 import time
 import soundfile as sf
 
+import plotly
 import plotly.plotly as py
 import plotly.graph_objs as go
-import plotly.tools as tls
 
 # ======================= DB Helper Functions =========================== #
 
@@ -147,10 +147,13 @@ def report(recordid):
     )
 
     fig = go.Figure(data=[trace], layout=layout)
-    url = py.plot(fig, auto_open=False)
-    print(url)
+    # url = py.plot(fig, auto_open=False)
+    div = plotly.offline.plot({
+        "data": [trace], 
+        "layout": layout
+    }, include_plotlyjs=False, output_type='div')
     return render_template('report.html', data=data, 
-        url=url,
+        div=div,
         recordings=get_recordings(),
         recordid=recordid)
 
@@ -184,8 +187,8 @@ def analyze(recordid):
 
     # waits for the file to be asynchronously written to disk before
     # performing any analytics
-    #get_speaker(recordid)
-    #synalyze.analyze(recordid)
+    get_speaker(recordid)
+    synalyze.analyze(recordid)
     generate_page(recordid)
     return redirect(url_for('report', recordid=recordid))
 
