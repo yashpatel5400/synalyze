@@ -4,10 +4,11 @@ __description__ = Flask routes of site pages
 __name__        = views.py
 """
 
-from flask import render_template, redirect, url_for, request, g
+from flask import render_template, redirect, url_for, request, g, send_from_directory
 from flask import session as flask_session
 from flask_socketio import emit
 from flask_login import login_user, logout_user, current_user
+from werkzeug import secure_filename
 
 import app.settings as s
 
@@ -42,6 +43,11 @@ def get_recordings():
     record_rows = cur.execute("""SELECT * FROM userreports 
         WHERE userid = (?)""", [current_user.userid]).fetchall()
     return [record[1] for record in record_rows]
+
+# For a given file, return whether it's an allowed type or not
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
 
 # ========================== Login Routes =============================== #
 
@@ -191,6 +197,16 @@ def analyze(recordid):
     synalyze.analyze(recordid)
     generate_page(recordid)
     return redirect(url_for('report', recordid=recordid))
+
+# Route that will process the file upload
+@app.route('/landing/upload', methods=['POST'])
+def upload():
+    f = request.files['file']
+    if f and allowed_file(f.filename):
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(s.OUTPUT_DIR, filename))
+        return redirect(url_for('analyze', recordid=filename.split(".")[0]))
+    return redirect('landing')
 
 @app.route('/favicon.ico')
 def favicon():

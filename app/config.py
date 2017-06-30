@@ -12,3 +12,4 @@ OAUTH_CREDENTIALS = {
         'secret': 'bccb52b81daa2c64dec3c59207871f1e'
     }
 }
+ALLOWED_EXTENSIONS = set(['mp3'])
