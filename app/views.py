@@ -49,6 +49,12 @@ def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
 
+def mp3_to_wav(fn):
+    # converts the MP3 intermediary to the desired WAV to be analyzed
+    wav_command = "mpg123 -w {}.wav {}.mp3".format(fn, fn)
+    print("Converting to WAV...")
+    os.system(wav_command)
+
 # ========================== Login Routes =============================== #
 
 @login_manager.user_loader
@@ -204,8 +210,12 @@ def upload():
     f = request.files['file']
     if f and allowed_file(f.filename):
         filename = secure_filename(f.filename)
-        f.save(os.path.join(s.OUTPUT_DIR, filename))
-        return redirect(url_for('analyze', recordid=filename.split(".")[0]))
+        recordid = filename.split(".")[0]
+        fn = "{}/{}".format(s.OUTPUT_DIR, recordid)
+        f.save(fn)
+        print(fn)
+        mp3_to_wav(fn)
+        return redirect(url_for('analyze', recordid=recordid))
     return redirect('landing')
 
 @app.route('/favicon.ico')
@@ -223,13 +233,8 @@ def process(audio):
 
     # converts RAW file to intermediary MP3 since could not directly convert
     mp3_command = "ffmpeg -i {}.raw -acodec libmp3lame {}.mp3".format(fn, fn) 
-
-    # converts the MP3 intermediary to the desired WAV to be analyzed
-    wav_command = "mpg123 -w {}.wav {}.mp3".format(fn, fn)
-
     print("Converting to MP3...")
     os.system(mp3_command)
 
-    print("Converting to WAV...")
-    os.system(wav_command)
+    mp3_to_wav(fn)
     emit('completedwrite')
