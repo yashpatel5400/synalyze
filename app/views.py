@@ -193,9 +193,16 @@ def analyze(recordid):
     c    = get_db()
     cur  = c.cursor()
 
-    cur.execute("""INSERT INTO userreports(userid, reportid) 
-        VALUES(?,?)""",[current_user.userid, recordid])
-    c.commit()
+    cur_records = cur.execute("""SELECT * FROM userreports 
+        WHERE userid = (?)
+        AND WHERE reportid = (?)""", 
+        [current_user.userid, recordid]).fetchall()
+
+    # if we are not being asked to analyze a file with the identical name
+    if len(cur_records) == 0:
+        cur.execute("""INSERT INTO userreports(userid, reportid) 
+            VALUES(?,?)""",[current_user.userid, recordid])
+        c.commit()
 
     # waits for the file to be asynchronously written to disk before
     # performing any analytics
@@ -212,8 +219,7 @@ def upload():
         filename = secure_filename(f.filename)
         recordid = filename.split(".")[0]
         fn = "{}/{}".format(s.OUTPUT_DIR, recordid)
-        f.save(fn)
-        print(fn)
+        f.save(os.path.join(s.OUTPUT_DIR, filename))
         mp3_to_wav(fn)
         return redirect(url_for('analyze', recordid=recordid))
     return redirect('landing')

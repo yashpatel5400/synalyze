@@ -21,14 +21,15 @@ def split_audio(filename):
 	input_audio = "{}/{}.wav".format(s.INPUT_DIR, filename)
 	sound = AudioSegment.from_wav(input_audio) 
 	json_folder = "{}/{}".format(s.OUTPUT_DIR, filename)
-	json_files  = os.listdir(json_folder)
+	json_files  = [fn for fn in os.listdir(json_folder) if "json" in fn]
 
 	for json_file in json_files:
 		json_i = json_file.split(".")[0]
 		cur_json_file = "{}/{}".format(json_folder, json_file)
 		output_file   = "{}/{}.wav".format(json_folder, json_i)
+		print(cur_json_file)
 		data = json.load(open(cur_json_file, "r"))
-		
+
 		start_milli = int(data["start_time"] * 1000)
 		end_milli   = int(start_milli + data["duration"] * 1000)
 		sound[start_milli:end_milli].export(output_file, format="wav")
