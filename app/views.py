@@ -195,7 +195,7 @@ def analyze(recordid):
 
     cur_records = cur.execute("""SELECT * FROM userreports 
         WHERE userid = (?)
-        AND WHERE reportid = (?)""", 
+        AND reportid = (?)""", 
         [current_user.userid, recordid]).fetchall()
 
     # if we are not being asked to analyze a file with the identical name
